@@ -1,50 +1,71 @@
 @startuml basket
-left to right direction
-class Equipo{
+top to bottom direction
 
+class Equipo {
+    -String nombre
+    -Jugador jugadores[15]
+    -List<Equipo> equiposJugados
+    +boolean agregarJugador(Jugador j)
+    +boolean verificarPartido(Equipo rival) 
 }
 
-abstract class Jugador{
-
-}
-class Base{
-
-}
-class Escolta{
-
-}
-class Alero{
-
-}
-class AlaPivot{
-
-}
-class Pivot{
-
+abstract class Jugador {
+    -String nombre
+    -int altura
+    -int habilidad
+    +anotarPuntos(int puntos)
+    +hacerFalta()
 }
 
-class Partido{
-
-}
-class PartidoExibicion{
-
-}
-class PartidoOficial{
-
-
-}
-class Local{
-
-}
-class Visitante{
-
+class Base {
 }
 
-class Arbitro{
+class Escolta {
+}
 
+class Alero {
+}
+
+class AlaPivot {
+}
+
+class Pivot {
+}
+
+class Partido {
+    -int MAX_PUNTOS: 150
+    -int MIN_PUNTOS: 35
+    +calcularResultado(): int
+}
+
+class PartidoExibicion {
+}
+
+class PartidoOficial {
+    +verificarSiYaSeJugó(Equipo rival): boolean
+}
+
+class Local {
+    // más porcentaje de ganar
+}
+
+class Visitante {
+    // menos porcentaje de ganar
+}
+
+class Arbitro {
+    -String nombre
+    -boolean enfermo
+    +estarEnfermo(): boolean
+}
+
+interface GestorArchivo {
+    +leerEquipos(): List<Equipo>
+    +guardarResumen(Equipo equipo, String resumen)
 }
 
 Equipo *-- Jugador
+Equipo *-- Partido
 
 Jugador <|-- Base
 Jugador <|-- Escolta
@@ -52,18 +73,15 @@ Jugador <|-- Alero
 Jugador <|-- AlaPivot
 Jugador <|-- Pivot
 
-Partido <|-- PartidoExibicion
-Partido <|-- PartidoOficial
-
-PartidoOficial <|-- Local
-PartidoOficial <|-- Visitante
+Partido *-- Arbitro
+PartidoOficial *-- Local
+PartidoOficial *-- Visitante
 PartidoOficial *-- Equipo : local
 PartidoOficial *-- Equipo : visitante
 
+Partido <|-- PartidoExibicion
+Partido <|-- PartidoOficial
 
-Equipo *-- Partido
-
-Partido *-- Arbitro
-
+GestorArchivo <|.. GestionArchivos
 
 @enduml
