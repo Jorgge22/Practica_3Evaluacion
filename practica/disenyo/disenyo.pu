@@ -74,13 +74,13 @@ Jugador <|-- AlaPivot
 Jugador <|-- Pivot
 
 Partido *-- Arbitro
+Partido <|-- PartidoOficial
+Partido <|-- PartidoExibicion
+
 PartidoOficial *-- Local
 PartidoOficial *-- Visitante
 PartidoOficial *-- Equipo : local
 PartidoOficial *-- Equipo : visitante
-
-Partido <|-- PartidoExibicion
-Partido <|-- PartidoOficial
 
 GestorArchivo <|.. GestionArchivos
 
