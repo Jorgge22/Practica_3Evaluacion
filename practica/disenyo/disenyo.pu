@@ -1,0 +1,69 @@
+@startuml basket
+left to right direction
+class Equipo{
+
+}
+
+abstract class Jugador{
+
+}
+class Base{
+
+}
+class Escolta{
+
+}
+class Alero{
+
+}
+class AlaPivot{
+
+}
+class Pivot{
+
+}
+
+class Partido{
+
+}
+class PartidoExibicion{
+
+}
+class PartidoOficial{
+
+
+}
+class Local{
+
+}
+class Visitante{
+
+}
+
+class Arbitro{
+
+}
+
+Equipo *-- Jugador
+
+Jugador <|-- Base
+Jugador <|-- Escolta
+Jugador <|-- Alero
+Jugador <|-- AlaPivot
+Jugador <|-- Pivot
+
+Partido <|-- PartidoExibicion
+Partido <|-- PartidoOficial
+
+PartidoOficial <|-- Local
+PartidoOficial <|-- Visitante
+PartidoOficial *-- Equipo : local
+PartidoOficial *-- Equipo : visitante
+
+
+Equipo *-- Partido
+
+Partido *-- Arbitro
+
+
+@enduml
