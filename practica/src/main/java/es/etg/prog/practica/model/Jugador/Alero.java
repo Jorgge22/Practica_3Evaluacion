@@ -1,9 +1,9 @@
 package es.etg.prog.practica.model.Jugador;
 
 public class Alero extends Jugador{
-    public Alero(String nombre, int dorsal, int altura, int habilidad) {
-            super(nombre, dorsal, altura, habilidad);
-        }
+    public Alero(String nombre, int dorsal, int altura, int habilidad, int puntos, int faltas) {
+        super(nombre, dorsal, altura, habilidad, puntos, faltas);
+    }
     
         @Override
     public void anotarPuntos(int puntos) {

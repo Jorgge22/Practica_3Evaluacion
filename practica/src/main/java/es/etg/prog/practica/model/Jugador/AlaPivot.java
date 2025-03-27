@@ -2,9 +2,9 @@ package es.etg.prog.practica.model.Jugador;
 
 public class AlaPivot extends Jugador{
 
-    public AlaPivot(String nombre, int dorsal, int altura, int habilidad) {
-            super(nombre, dorsal, altura, habilidad);
-        }
+    public AlaPivot(String nombre, int dorsal, int altura, int habilidad, int puntos, int faltas) {
+        super(nombre, dorsal, altura, habilidad, puntos, faltas);
+    }
     
         @Override
     public void anotarPuntos(int puntos) {

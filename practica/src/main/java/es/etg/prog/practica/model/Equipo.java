@@ -3,6 +3,7 @@ package es.etg.prog.practica.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import es.etg.prog.practica.model.Excepciones.Excepciones;
 import es.etg.prog.practica.model.Jugador.AlaPivot;
 import es.etg.prog.practica.model.Jugador.Alero;
 import es.etg.prog.practica.model.Jugador.Base;
@@ -22,7 +23,7 @@ public class Equipo {
         this.equiposJugados = new ArrayList<>();
     }
 
-    public boolean agregarJugador(Jugador j) {
+    public boolean agregarJugador(Jugador j) throws Excepciones.MaximoJugadoresException{
         int bases = 0, escoltas = 0, aleros = 0, alaPivots = 0, pivots = 0;
         for (Jugador jugador : jugadores) {
             if (jugador instanceof Base) {
@@ -51,7 +52,12 @@ public class Equipo {
     }
 
     public boolean eliminarJugador(Jugador j){
-        
+        for (int i = 0; i < jugadores.length; i++) {
+            if (jugadores[i] != null && jugadores[i].equals(j)) {
+                jugadores[i] = null;
+                return true;
+            }
+        }
         return false;
     }
 
