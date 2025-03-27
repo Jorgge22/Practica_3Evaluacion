@@ -1,15 +1,17 @@
 package es.etg.prog.practica.model.Jugador;
 
 public class Alero extends Jugador{
-    @Override
+    public Alero(String nombre, int dorsal, int altura, int habilidad) {
+            super(nombre, dorsal, altura, habilidad);
+        }
+    
+        @Override
     public void anotarPuntos(int puntos) {
-        // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'anotarPuntos'");
     }
 
     @Override
     public void hacerFalta() {
-        // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'hacerFalta'");
     }
 }

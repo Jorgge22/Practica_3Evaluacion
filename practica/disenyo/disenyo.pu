@@ -6,10 +6,12 @@ class Equipo {
     -Jugador jugadores[15]
     -List<Equipo> equiposJugados
     +boolean agregarJugador(Jugador j)
+    +boolean eliminarJugador(Jugador j)
 }
 
 abstract class Jugador {
     -String: nombre
+    -int: dorsal
     -int: altura
     -int: habilidad
     +anotarPuntos(int puntos)
@@ -32,8 +34,8 @@ class Pivot {
 }
 
 class Partido {
-    -int: MAX_PUNTOS: 150
-    -int: MIN_PUNTOS: 35
+    -int: MAX_PUNTOS = 150
+    -int: MIN_PUNTOS = 35
     +calcularResultado(): int
 }
 
@@ -63,12 +65,16 @@ interface GestorArchivo {
     +guardarResumen(Equipo equipo, String resumen)
 }
 
-class Temporada{
-
+class Temporada {
+    -static Temporada instancia
+    +static getInstancia(): Temporada
+    +jugarPartido(Equipo equipo1, Equipo equipo2, boolean esOficial)
+    +mostrarResumenUltimoPartido()
+    +mostrarHistoricoTemporada()
+    +mostrarResumenJugadoresPorTipo(String tipo)
 }
 
 class Excepciones{
-
 }
 
 Temporada *-- Partido
@@ -92,6 +98,6 @@ PartidoOficial *-- Visitante
 PartidoOficial -- Equipo : local
 PartidoOficial -- Equipo : visitante
 
-GestorArchivo <|.. GestionArchivos
+GestorArchivo <|.. Fichero
 
 @enduml

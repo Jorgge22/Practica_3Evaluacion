@@ -22,6 +22,22 @@ public class Temporada {
         return instancia;
     }
 
+    public void jugarPartido(Equipo equipo1, Equipo equipo2, boolean esOficial){
+
+    }
+
+    public void mostrarResumenUltimoPartido(){
+
+    }
+
+    public void mostrarHistoricoTemporada(){
+
+    }
+
+    public void mostrarResumenJugadores(String tipo){
+        
+    }
+
     public List<Partido> getPartidos() {
         return partidos;
     }
