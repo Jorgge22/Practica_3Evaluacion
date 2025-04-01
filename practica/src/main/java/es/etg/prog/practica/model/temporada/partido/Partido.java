@@ -5,22 +5,63 @@ import java.util.Random;
 import es.etg.prog.practica.model.temporada.Equipo;
 
 public class Partido {
-    final int MAX_PUNTOS = 150;
-    final int MIN_PUNTOS = 35; 
-    protected int resultado;
+    protected final int MAX_PUNTOS = 150;
+    protected final int MIN_PUNTOS = 35;
+    protected int resultadoLocal;
+    protected int resultadoVisitante;
+    protected Equipo ganador;
     protected Equipo equipoLocal;
     protected Equipo equipoVisitante;
 
-    public Partido(Equipo equipoLocal, Equipo equipoVisitante, int resultado) {
+    public Partido(Equipo equipoLocal, Equipo equipoVisitante) {
+        this.resultadoLocal = 0;
+        this.resultadoVisitante = 0;
+        this.ganador = null;
         this.equipoLocal = equipoLocal;
         this.equipoVisitante = equipoVisitante;
-        this.resultado = resultado;
     }
 
-    // Método para calcular el resultado
-    public int calcularResultado() {
-        Random rand = new Random();
-        return rand.nextInt(116) + 35;  // Esto genera un número aleatorio entre 35 y 150
+    public Equipo calcularResultado() {
+        Random random = new Random();
+        
+        this.resultadoLocal = random.nextInt(MAX_PUNTOS - MIN_PUNTOS + 1) + MIN_PUNTOS;
+        this.resultadoVisitante = random.nextInt(MAX_PUNTOS - MIN_PUNTOS +1 ) + MIN_PUNTOS;
+
+        if (random.nextDouble() < 0.6) {
+            this.resultadoLocal += 5;
+        }
+
+        if (resultadoLocal > resultadoVisitante) {
+            this.ganador = equipoLocal;
+        } else {
+            this.ganador = equipoVisitante;
+        }
+
+        return ganador;
+    }
+
+    public int getResultadoLocal() {
+        return resultadoLocal;
+    }
+
+    public void setResultadoLocal(int resultadoLocal) {
+        this.resultadoLocal = resultadoLocal;
+    }
+
+    public int getResultadoVisitante() {
+        return resultadoVisitante;
+    }
+
+    public void setResultadoVisitante(int resultadoVisitante) {
+        this.resultadoVisitante = resultadoVisitante;
+    }
+
+    public Equipo getGanador() {
+        return ganador;
+    }
+
+    public void setGanador(Equipo ganador) {
+        this.ganador = ganador;
     }
 
     public Equipo getEquipoLocal() {
@@ -39,14 +80,6 @@ public class Partido {
         this.equipoVisitante = equipoVisitante;
     }
 
-    public int getResultado() {
-        return resultado;
-    }
-
-    public void setResultado(int resultado) {
-        this.resultado = resultado;
-    }
-
     public int getMAX_PUNTOS() {
         return MAX_PUNTOS;
     }
@@ -54,4 +87,5 @@ public class Partido {
     public int getMIN_PUNTOS() {
         return MIN_PUNTOS;
     }
+
 }

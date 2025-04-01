@@ -37,10 +37,14 @@ package Model{
     }
 
     class Partido {
-        -int: MAX_PUNTOS = 150
-        -int: MIN_PUNTOS = 35
-        -int: resultado
-        +calcularResultado(): int
+        #int: MAX_PUNTOS = 150
+        #int: MIN_PUNTOS = 35
+        #int: resultadoLocal
+        #int: resultadoVisitante
+        #Equipo: ganador
+        #Equipo: equipoLocal
+        #Equipo: equipoVisitante
+        +calcularResultado(): Equipo
     }
 
     class PartidoExibicion {
