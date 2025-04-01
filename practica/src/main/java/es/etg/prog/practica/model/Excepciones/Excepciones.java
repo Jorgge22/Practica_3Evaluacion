@@ -32,4 +32,9 @@ public class Excepciones extends Exception {
             super(Constantes.MSG_ARBITROS_NO_DISPONIBLES);
         }
     }
+    public static class ArchivoNoEncontradoException extends Exception {
+        public ArchivoNoEncontradoException() {
+            super(Constantes.MSG_ARCHIVO_NO_LEIDO);
+        }
+    }
 }

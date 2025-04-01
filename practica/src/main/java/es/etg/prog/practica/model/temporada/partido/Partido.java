@@ -16,7 +16,7 @@ public class Partido {
     public Partido(Equipo equipoLocal, Equipo equipoVisitante) {
         this.resultadoLocal = 0;
         this.resultadoVisitante = 0;
-        this.ganador = null;
+        this.ganador = null; // El ganador se asignará después
         this.equipoLocal = equipoLocal;
         this.equipoVisitante = equipoVisitante;
     }

@@ -4,40 +4,47 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import es.etg.prog.practica.model.excepciones.Excepciones;
 import es.etg.prog.practica.model.excepciones.Excepciones.ArbitrosNoDisponibles;
 
 /**
  * 
- * @Author Jorge
+ * @author Jorge
  */
 public class Arbitro {
     private String nombre;
     private boolean enfermo;
-    private List<Arbitro> arbitros;
+    private static List<Arbitro> arbitros = new ArrayList<>();
 
     public Arbitro(String nombre) {
         this.nombre = nombre;
-        this.arbitros = new ArrayList<>();
 
         Random random = new Random();
         this.enfermo = random.nextBoolean();
+        arbitros.add(this);
     }
 
+    /**
+     * Método para verificar si el árbitro está enfermo.
+     * 
+     * @return true si está enfermo, false en caso contrario
+     */
     public boolean estaEnfermo() {
-        if (enfermo) {
-            return true;
-        }
-        return false;
+        return enfermo;
     }
 
-    public Arbitro elegirArbitro() throws ArbitrosNoDisponibles{
+    /**
+     * Método para elegir un árbitro disponible (no enfermo).
+     * 
+     * @throws ArbitrosNoDisponibles si no hay árbitros disponibles
+     * @return un árbitro que no esté enfermo
+     */
+    public static Arbitro elegirArbitro() throws ArbitrosNoDisponibles {
         for (Arbitro arbitro : arbitros) {
-            if (!estaEnfermo()) {
+            if (!arbitro.estaEnfermo()) { 
                 return arbitro;
             }
         }
-        throw new Excepciones.ArbitrosNoDisponibles();
+        throw new ArbitrosNoDisponibles(); 
     }
 
     public String getNombre() {
@@ -56,4 +63,7 @@ public class Arbitro {
         this.enfermo = enfermo;
     }
 
+    public static List<Arbitro> getArbitros() {
+        return arbitros;
+    }
 }
