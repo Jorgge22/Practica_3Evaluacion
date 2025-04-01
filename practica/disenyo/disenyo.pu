@@ -1,80 +1,93 @@
 @startuml basket
-left to right direction
+top to bottom direction
 
-class Equipo {
-    -String: nombre
-    -Jugador jugadores[15]
-    -List<Equipo> equiposJugados
-    +boolean agregarJugador(Jugador j)
-    +boolean eliminarJugador(Jugador j)
+package Model{
+    class Equipo {
+        -String: nombre
+        -int: numJugadores
+        -Jugador jugadores[15]
+        +boolean agregarJugador(Jugador j)
+        +boolean eliminarJugador(Jugador j)
+    }
+
+    abstract class Jugador {
+        -String: nombre
+        -int: dorsal
+        -int: altura
+        -int: habilidad
+        -int: puntos
+        -int: faltas
+        +anotarPuntos(int puntos)
+        +hacerFalta()
+    }
+
+    class Base {
+    }
+
+    class Escolta {
+    }
+
+    class Alero {
+    }
+
+    class AlaPivot {
+    }
+
+    class Pivot {
+    }
+
+    class Partido {
+        -int: MAX_PUNTOS = 150
+        -int: MIN_PUNTOS = 35
+        -int: resultado
+        +calcularResultado(): int
+    }
+
+    class PartidoExibicion {
+    }
+
+    class PartidoOficial {
+        +verificarPartido(Equipo rival): boolean
+    }
+
+    class Local {
+        // más porcentaje de ganar
+    }
+
+    class Visitante {
+        // menos porcentaje de ganar
+    }
+
+    class Arbitro {
+        -String: nombre
+        -boolean: enfermo
+        +estarEnfermo(): boolean
+    }
+
+    interface GestorArchivo {
+        +leerEquipos(): List<Equipo>
+        +guardarResumen(Equipo equipo, String resumen)
+    }
+
+    class Temporada {
+        -static Temporada instancia
+        +static getInstancia(): Temporada
+        +jugarPartido(Equipo equipo1, Equipo equipo2, boolean esOficial)
+        +mostrarResumenUltimoPartido()
+        +mostrarHistoricoTemporada()
+        +mostrarResumenJugadoresPorTipo(String tipo)
+    }
+
+    class Excepciones{
+    }
 }
 
-abstract class Jugador {
-    -String: nombre
-    -int: dorsal
-    -int: altura
-    -int: habilidad
-    +anotarPuntos(int puntos)
-    +hacerFalta()
+package View{
+    class Main{}
 }
 
-class Base {
-}
-
-class Escolta {
-}
-
-class Alero {
-}
-
-class AlaPivot {
-}
-
-class Pivot {
-}
-
-class Partido {
-    -int: MAX_PUNTOS = 150
-    -int: MIN_PUNTOS = 35
-    +calcularResultado(): int
-}
-
-class PartidoExibicion {
-}
-
-class PartidoOficial {
-    +verificarSiYaSeJugó(Equipo rival): boolean
-}
-
-class Local {
-    // más porcentaje de ganar
-}
-
-class Visitante {
-    // menos porcentaje de ganar
-}
-
-class Arbitro {
-    -String: nombre
-    -boolean: enfermo
-    +estarEnfermo(): boolean
-}
-
-interface GestorArchivo {
-    +leerEquipos(): List<Equipo>
-    +guardarResumen(Equipo equipo, String resumen)
-}
-
-class Temporada {
-    -static Temporada instancia
-    +static getInstancia(): Temporada
-    +jugarPartido(Equipo equipo1, Equipo equipo2, boolean esOficial)
-    +mostrarResumenUltimoPartido()
-    +mostrarHistoricoTemporada()
-    +mostrarResumenJugadoresPorTipo(String tipo)
-}
-
-class Excepciones{
+package Controller{
+    class Switch{}
 }
 
 Temporada *-- Partido
@@ -99,5 +112,8 @@ PartidoOficial -- Equipo : local
 PartidoOficial -- Equipo : visitante
 
 GestorArchivo <|.. Fichero
+
+View --> Controller
+Controller --> Model
 
 @enduml

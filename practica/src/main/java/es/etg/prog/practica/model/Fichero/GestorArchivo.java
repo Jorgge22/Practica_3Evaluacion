@@ -1,8 +1,8 @@
-package es.etg.prog.practica.model.Fichero;
+package es.etg.prog.practica.model.fichero;
 
 import java.util.List;
 
-import es.etg.prog.practica.model.Equipo;
+import es.etg.prog.practica.model.temporada.Equipo;
 
 public interface GestorArchivo {
     public List<Equipo> leerEquipos();
