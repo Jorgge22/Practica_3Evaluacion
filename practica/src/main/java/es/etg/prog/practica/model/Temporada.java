@@ -18,7 +18,7 @@ public class Temporada {
     private List<Partido> partidos;
     private List<Equipo> equipos;
 
-    private Temporada() {
+    public Temporada() {
         partidos = new ArrayList<>();
         equipos = new ArrayList<>();
     }

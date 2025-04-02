@@ -79,7 +79,7 @@ public class Fichero implements GestorArchivo {
 
     @Override
     public void guardarResumenJugador(Equipo equipo, String resumen) {
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter(Constantes.RUTA_FICHEROS_JUGADORES))) {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(Constantes.RUTA_FICHEROS_JUGADORES, true))) {
             StringBuilder stringBuilder = new StringBuilder();
 
             stringBuilder.append(Constantes.MSG_ESTADISTICAS + Constantes.MSG_BARRA_N);
