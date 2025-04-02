@@ -2,11 +2,13 @@ package es.etg.prog.practica.model.temporada.partido;
 
 import java.util.Random;
 
+import es.etg.prog.practica.model.temporada.Arbitro;
 import es.etg.prog.practica.model.temporada.Equipo;
 
 public class Partido {
     protected final int MAX_PUNTOS = 150;
     protected final int MIN_PUNTOS = 35;
+    protected Arbitro arbitro;
     protected int resultadoLocal;
     protected int resultadoVisitante;
     protected Equipo ganador;
@@ -23,9 +25,9 @@ public class Partido {
 
     public Equipo calcularResultado() {
         Random random = new Random();
-        
+
         this.resultadoLocal = random.nextInt(MAX_PUNTOS - MIN_PUNTOS + 1) + MIN_PUNTOS;
-        this.resultadoVisitante = random.nextInt(MAX_PUNTOS - MIN_PUNTOS +1 ) + MIN_PUNTOS;
+        this.resultadoVisitante = random.nextInt(MAX_PUNTOS - MIN_PUNTOS + 1) + MIN_PUNTOS;
 
         if (random.nextDouble() < 0.6) {
             this.resultadoLocal += 5;
@@ -78,6 +80,14 @@ public class Partido {
 
     public void setEquipoVisitante(Equipo equipoVisitante) {
         this.equipoVisitante = equipoVisitante;
+    }
+
+    public Arbitro getArbitro() {
+        return arbitro;
+    }
+
+    public void setArbitro(Arbitro arbitro) {
+        this.arbitro = arbitro;
     }
 
     public int getMAX_PUNTOS() {

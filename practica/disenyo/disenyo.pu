@@ -39,6 +39,7 @@ package Model{
     class Partido {
         #int: MAX_PUNTOS = 150
         #int: MIN_PUNTOS = 35
+        #Arbitro: arbitro
         #int: resultadoLocal
         #int: resultadoVisitante
         #Equipo: ganador
