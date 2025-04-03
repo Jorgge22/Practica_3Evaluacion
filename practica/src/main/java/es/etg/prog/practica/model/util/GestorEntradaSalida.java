@@ -9,11 +9,11 @@ public class GestorEntradaSalida {
         this.scanner = scanner;
     }
 
-    public void imprimirMensaje(String mensaje) {
+    public void imprimirMensajeSeparado(String mensaje) {
         System.out.println(mensaje);
     }
 
-    public void imprimirMensajeSeparado(String mensaje) {
+    public void imprimirMensaje(String mensaje) {
         System.out.print(mensaje);
     }
 

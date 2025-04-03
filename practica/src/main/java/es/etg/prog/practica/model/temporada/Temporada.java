@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import es.etg.prog.practica.model.excepciones.Excepciones;
+import es.etg.prog.practica.model.excepciones.Excepciones.ArbitrosNoDisponibles;
 import es.etg.prog.practica.model.excepciones.Excepciones.ArchivoNoEncontradoException;
 import es.etg.prog.practica.model.fichero.Fichero;
 import es.etg.prog.practica.model.fichero.GestorArchivo;
@@ -54,8 +55,9 @@ public class Temporada {
      *                                              ha jugado previamente, se lanza
      *                                              esta excepción.
      * @throws ArchivoNoEncontradoException 
+     * @throws ArbitrosNoDisponibles 
      */
-    public void jugarPartido(Equipo local, Equipo visitante, Arbitro arbitro, boolean esOficial) throws ArchivoNoEncontradoException {
+    public void jugarPartido(Equipo local, Equipo visitante, Arbitro arbitro, boolean esOficial) throws ArchivoNoEncontradoException, ArbitrosNoDisponibles {
         Partido partido;
         
         if (esOficial) {

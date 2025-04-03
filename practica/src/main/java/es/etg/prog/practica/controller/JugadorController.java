@@ -1,5 +1,8 @@
 package es.etg.prog.practica.controller;
-
+/**
+ * 
+ * @author Jorge
+ */
 import es.etg.prog.practica.model.excepciones.Excepciones.ArchivoNoEncontradoException;
 import es.etg.prog.practica.model.excepciones.Excepciones.MaximoJugadoresException;
 import es.etg.prog.practica.model.excepciones.Excepciones.MaximoJugadoresPosicionException;
@@ -14,10 +17,8 @@ import es.etg.prog.practica.model.temporada.jugador.Jugador;
 public class JugadorController {
     private final GestorArchivo gestorArchivo;
 
-    public JugadorController() {
-        this.gestorArchivo = new GestorArchivo() {
-            
-        };
+    public JugadorController(GestorArchivo gestorArchivo) {
+        this.gestorArchivo = gestorArchivo;
     }
 
     public void anyadirJugador(Equipo equipo, Jugador jugador) throws MaximoJugadoresException, MaximoJugadoresPosicionException {

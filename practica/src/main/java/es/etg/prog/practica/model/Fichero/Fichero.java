@@ -42,19 +42,22 @@ public class Fichero implements GestorArchivo {
 
     @Override
     public List<Arbitro> leerArbitros() throws ArchivoNoEncontradoException {
-        List<Arbitro> arbitros = new ArrayList<>();
-
+        List<Arbitro> arbitrosLeidos = new ArrayList<>();
+    
         try (BufferedReader bufferedReader = new BufferedReader(new FileReader(Constantes.RUTA_FICHEROS_ARBITROS))) {
             String linea;
             while ((linea = bufferedReader.readLine()) != null) {
-                arbitros.add(new Arbitro(linea.trim()));
+                if (!linea.trim().isEmpty()) {
+                    arbitrosLeidos.add(new Arbitro(linea.trim())); // Agregar un arbitro sin modificar la lista global
+                }
             }
         } catch (IOException e) {
             throw new Excepciones.ArchivoNoEncontradoException();
         }
-
-        return arbitros;
+    
+        return arbitrosLeidos; 
     }
+    
 
     @Override
     public void guardarResumen(Equipo equipo, Partido partido) throws ArchivoNoEncontradoException {
@@ -119,12 +122,4 @@ public class Fichero implements GestorArchivo {
             throw new Excepciones.ArchivoNoEncontradoException();
         }
     }
-
-    @Override
-    public List<Partido> leePartidos() throws ArchivoNoEncontradoException {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'leePartidos'");
-    }
-    
-
 }

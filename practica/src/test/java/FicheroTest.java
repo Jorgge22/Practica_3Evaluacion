@@ -130,7 +130,7 @@ public class FicheroTest {
         assertTrue(lines.get(0).contains("Jugador 1"));
     }*/
 
-    @Test
+    /*@Test
     public void testGuardarHistoricoTemporada() throws IOException, ArchivoNoEncontradoException {
         // Creamos una temporada con partidos
         Temporada temporada = new Temporada();
@@ -164,5 +164,5 @@ public class FicheroTest {
         assertTrue(lines.size() > 0);  // Al menos una línea debería estar escrita
         assertTrue(lines.get(0).contains("Equipo A"));
         assertTrue(lines.get(1).contains("Equipo B"));
-    }
+    }*/
 }

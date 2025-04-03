@@ -5,14 +5,16 @@ import es.etg.prog.practica.model.excepciones.Excepciones.ExpulsionJugadorExcept
 
 public abstract class Jugador implements Comparable<Jugador> {
     protected String nombre;
+    protected String tipo;
     protected int dorsal;
     protected int altura;
     protected int habilidad;
     protected int puntos;
     protected int faltas;
 
-    public Jugador(String nombre, int dorsal, int altura, int habilidad) {
+    public Jugador(String nombre, String tipo, int dorsal, int altura, int habilidad) {
         this.nombre = nombre;
+        this.tipo = tipo;
         this.dorsal = dorsal;
         this.altura = altura;
         this.habilidad = habilidad;
@@ -81,6 +83,14 @@ public abstract class Jugador implements Comparable<Jugador> {
         this.faltas = faltas;
     }
 
+    public String getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
+    }
+
     @Override
     public int compareTo(Jugador otro) {
         return Integer.compare(this.habilidad, otro.habilidad);
@@ -89,7 +99,6 @@ public abstract class Jugador implements Comparable<Jugador> {
     @Override
     public String toString() {
         return "Jugador [nombre=" + nombre + ", dorsal=" + dorsal + ", altura=" + altura + ", habilidad=" + habilidad
-                + ", puntos=" + puntos + ", faltas=" + faltas + "]";
+                + ", puntos=" + puntos + ", faltas=" + faltas + ", tipo=" + tipo + "]"; // Añadido tipo a toString
     }
-
 }

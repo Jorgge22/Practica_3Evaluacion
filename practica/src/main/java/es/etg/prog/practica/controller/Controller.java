@@ -3,7 +3,7 @@ package es.etg.prog.practica.controller;
 import es.etg.prog.practica.model.excepciones.Excepciones.MaximoJugadoresException;
 import es.etg.prog.practica.model.excepciones.Excepciones.MaximoJugadoresPosicionException;
 import es.etg.prog.practica.model.fichero.Fichero;
-import es.etg.prog.practica.model.fichero.GestorArchivo;
+import es.etg.prog.practica.model.temporada.Equipo;
 import es.etg.prog.practica.model.temporada.jugador.Jugador;
 import es.etg.prog.practica.model.util.Constantes;
 import es.etg.prog.practica.model.util.GestorEntradaSalida;
@@ -38,7 +38,9 @@ public class Controller {
                     String nombre = gestorEntradaSalida.leerLinea();
 
                     gestorEntradaSalida.imprimirMensaje("Dorsal: ");
-                    String dorsal = gestorEntradaSalida.leerLinea();
+                    int dorsal = gestorEntradaSalida.leerInt();
+
+                    gestorEntradaSalida.leerLinea();
 
                     gestorEntradaSalida.imprimirMensaje("Altura (1-5): ");
                     int altura = gestorEntradaSalida.leerInt();
@@ -50,9 +52,21 @@ public class Controller {
 
                     gestorEntradaSalida.leerLinea();
 
-                    JugadorController jugadorController = new JugadorController();
-                    jugadorController.anyadirJugador(null, null);
-                    
+                    Jugador jugador = new Jugador(nombre, dorsal, altura, habilidad){
+
+                    };
+
+                    gestorEntradaSalida.imprimirMensaje("Nombre del equipo: ");
+                    String nombreEquipo = gestorEntradaSalida.leerLinea();
+                    Equipo equipo = new Equipo(nombreEquipo);
+
+                    boolean jugadorAgregado = equipo.agregarJugador(jugador);
+
+                    if (jugadorAgregado) {
+                        gestorEntradaSalida.imprimirMensajeSeparado("Jugador agregado con exito");
+                    } else {
+                        gestorEntradaSalida.imprimirMensajeSeparado("No se pudo agregar al jugador");
+                    }
                     break;
                 case 2:
                     break;

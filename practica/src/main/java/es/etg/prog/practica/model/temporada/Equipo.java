@@ -1,8 +1,5 @@
 package es.etg.prog.practica.model.temporada;
-/**
- * 
- * @author Jorge
- */
+
 import es.etg.prog.practica.model.excepciones.Excepciones;
 import es.etg.prog.practica.model.excepciones.Excepciones.MaximoJugadoresPosicionException;
 import es.etg.prog.practica.model.temporada.jugador.AlaPivot;
@@ -17,71 +14,86 @@ public class Equipo {
     private String nombre;
     private int numJugadores;
     private Jugador[] jugadores;
+    
+    // Contadores de jugadores por posición
+    private int bases;
+    private int escoltas;
+    private int aleros;
+    private int alaPivots;
+    private int pivots;
 
     public Equipo(String nombre) {
         this.nombre = nombre;
         this.numJugadores = 0;
         this.jugadores = new Jugador[Constantes.MAX_JUGADORES];
+        // Inicializar los contadores de posiciones
+        this.bases = 0;
+        this.escoltas = 0;
+        this.aleros = 0;
+        this.alaPivots = 0;
+        this.pivots = 0;
     }
 
     public boolean agregarJugador(Jugador j) throws Excepciones.MaximoJugadoresException, MaximoJugadoresPosicionException {
-        int bases = 0, escoltas = 0, aleros = 0, alaPivots = 0, pivots = 0;
-        if (numJugadores > 15) {
+        if (numJugadores >= 15) {
             throw new Excepciones.MaximoJugadoresException();
         }
 
+        // Asignar posición según altura y habilidad
         if (j.getAltura() <= 2 && j.getHabilidad() >= 2) {
-            if (bases > 3) {
-                j = modificarJugador(j);
-                throw new Excepciones.MaximoJugadoresPosicionException();
+            if (bases >= 3) {
+                throw new MaximoJugadoresPosicionException();
             }
-            j = new Base(j.getNombre(), j.getDorsal(), j.getAltura(), j.getHabilidad());
-
-        } else if (j.getAltura() > 1 && j.getAltura() <= 3 && j.getHabilidad() >= 2) {
-            if (escoltas > 3) {
-                j = modificarJugador(j);
-                throw new Excepciones.MaximoJugadoresPosicionException();
+            bases++;
+            j = new Base(j.getNombre(), j.getTipo(), j.getDorsal(), j.getAltura(), j.getHabilidad());
+            j.setTipo("Base");
+        } else if (j.getAltura() > 2 && j.getAltura() <= 3 && j.getHabilidad() >= 2) {
+            if (escoltas >= 3) {
+                throw new MaximoJugadoresPosicionException();
             }
-            j = new Escolta(j.getNombre(), j.getDorsal(), j.getAltura(), j.getHabilidad());
-
+            escoltas++;
+            j = new Escolta(j.getNombre(), j.getTipo(), j.getDorsal(), j.getAltura(), j.getHabilidad());
+            j.setTipo("Escolta");
         } else if (j.getAltura() > 2 && j.getAltura() <= 3 && j.getHabilidad() <= 3) {
-            if (aleros > 3) {
-                j = modificarJugador(j);
-                throw new Excepciones.MaximoJugadoresPosicionException();
+            if (aleros >= 3) {
+                throw new MaximoJugadoresPosicionException();
             }
-            j = new Alero(j.getNombre(), j.getDorsal(), j.getAltura(), j.getHabilidad());
-
+            aleros++;
+            j = new Alero(j.getNombre(), j.getTipo(), j.getDorsal(), j.getAltura(), j.getHabilidad());
+            j.setTipo("Alero");
         } else if (j.getAltura() > 3 && j.getAltura() <= 4 && j.getHabilidad() <= 2) {
-            if (alaPivots > 3) {
-                j = modificarJugador(j);
-                throw new Excepciones.MaximoJugadoresPosicionException();
+            if (alaPivots >= 3) {
+                throw new MaximoJugadoresPosicionException();
             }
-            j = new AlaPivot(j.getNombre(), j.getDorsal(), j.getAltura(), j.getHabilidad());
-
+            alaPivots++;
+            j = new AlaPivot(j.getNombre(), j.getTipo(), j.getDorsal(), j.getAltura(), j.getHabilidad());
+            j.setTipo("Ala-Pivot");
         } else if (j.getAltura() > 4 && j.getAltura() <= 5 && j.getHabilidad() <= 2) {
-            if (pivots > 3) {
-                j = modificarJugador(j);
-                throw new Excepciones.MaximoJugadoresPosicionException();
+            if (pivots >= 3) {
+                throw new MaximoJugadoresPosicionException();
             }
-            j = new Pivot(j.getNombre(), j.getDorsal(), j.getAltura(), j.getHabilidad());
-
+            pivots++;
+            j = new Pivot(j.getNombre(), j.getTipo(), j.getDorsal(), j.getAltura(), j.getHabilidad());
+            j.setTipo("Pivot");
         }
-
+    
         // Añadir el jugador al equipo
         for (int i = 0; i < jugadores.length; i++) {
-            if (jugadores == null) {
-                jugadores[numJugadores] = j;
+            if (jugadores[i] == null) {  
+                jugadores[i] = j;
                 numJugadores++;
+                return true; 
             }
         }
-
-        return true;
+    
+        return false; 
     }
 
     public boolean eliminarJugador(Jugador j) {
         for (int i = 0; i < jugadores.length; i++) {
             if (jugadores[i] != null && jugadores[i].equals(j)) {
                 jugadores[i] = null;
+                numJugadores--;
                 return true;
             }
         }

@@ -1,16 +1,15 @@
 package es.etg.prog.practica.model.temporada.partido;
-/**
- * 
- * @author Jorge
- */
+
 import java.util.Random;
 
 import es.etg.prog.practica.model.temporada.Arbitro;
 import es.etg.prog.practica.model.temporada.Equipo;
+import es.etg.prog.practica.model.excepciones.Excepciones.ArbitrosNoDisponibles;
 
 public class Partido {
     protected final int MAX_PUNTOS = 150;
     protected final int MIN_PUNTOS = 35;
+
     protected Arbitro arbitro;
     protected int resultadoLocal;
     protected int resultadoVisitante;
@@ -18,14 +17,21 @@ public class Partido {
     protected Equipo equipoLocal;
     protected Equipo equipoVisitante;
 
-    public Partido(Equipo equipoLocal, Equipo equipoVisitante) {
+    public Partido(Equipo equipoLocal, Equipo equipoVisitante) throws ArbitrosNoDisponibles {
         this.resultadoLocal = 0;
         this.resultadoVisitante = 0;
         this.ganador = null; // El ganador se asignará después
         this.equipoLocal = equipoLocal;
         this.equipoVisitante = equipoVisitante;
+        this.arbitro = Arbitro.elegirArbitro(); 
     }
 
+    /**
+     * Método para calcular el resultado del partido de manera aleatoria
+     * y determinar el ganador.
+     * 
+     * @return El equipo ganador.
+     */
     public Equipo calcularResultado() {
         Random random = new Random();
 
@@ -33,13 +39,17 @@ public class Partido {
         this.resultadoVisitante = random.nextInt(MAX_PUNTOS - MIN_PUNTOS + 1) + MIN_PUNTOS;
 
         if (random.nextDouble() < 0.6) {
-            this.resultadoLocal += 5;
+            this.resultadoLocal += 5; // El equipo local recibe una bonificación del 5%
         }
 
+        // Determinar el ganador basado en los resultados
         if (resultadoLocal > resultadoVisitante) {
             this.ganador = equipoLocal;
-        } else {
+        } else if (resultadoLocal < resultadoVisitante) {
             this.ganador = equipoVisitante;
+        } else {
+            // Si el resultado es empate, se decide un ganador aleatorio
+            this.ganador = random.nextBoolean() ? equipoLocal : equipoVisitante;
         }
 
         return ganador;
@@ -100,5 +110,4 @@ public class Partido {
     public int getMIN_PUNTOS() {
         return MIN_PUNTOS;
     }
-
 }
