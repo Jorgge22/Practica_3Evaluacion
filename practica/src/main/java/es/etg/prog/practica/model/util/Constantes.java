@@ -1,14 +1,19 @@
 package es.etg.prog.practica.model.util;
-
+/**
+ * 
+ * @author Jorge
+ */
 public class Constantes {
     public static final String RUTA_FICHEROS_ARBITROS = "./src/main/resources/misFicheros/arbitros.txt";
     public static final String RUTA_FICHEROS_EQUIPOS = "./src/main/resources/misFicheros/equipos.txt";
     public static final String RUTA_FICHEROS_JUGADORES = "./src/main/resources/misFicheros/jugadores.txt";
     public static final String RUTA_FICHEROS_TEMPORADA = "./src/main/resources/misFicheros/temporada.txt";
+
     public static final String MSG_EXCEPCION_EXPULSION = "El jugador ha sido expulsado por acumulación de faltas.";
     public static final String MSG_EXCEPCION_MAXIMO_JUGADORES = "No se puede agregar más jugadores. El equipo ya está completo.";
     public static final String MSG_EXCEPCION_MAXIMO_JUGADORES_POSICION = "No se puede agregar más jugadores a esta posición.";
     public static final String MSG_EXCEPCION_PARTIDO = "Este partido ya se ha jugado en la temporada.";
+
     public static final String MSG_ARBITROS_NO_DISPONIBLES = "Árbitros no disponibles.";
     public static final String MSG_ARCHIVO_NO_LEIDO = "No se pudo leer el archivo de equipos";
     public static final String MSG_ESTADISTICAS = "Estadisticas: ";
@@ -20,7 +25,6 @@ public class Constantes {
     public static final String MSG_EQUIPO_VISITANTE = "Equipo Visitante: ";
     public static final String MSG_ARBITRO = "Arbitro: ";
     public static final String MSG_RESULTADO = "Resultado: ";
-
 
     public static final int MAX_JUGADORES = 15;
 }

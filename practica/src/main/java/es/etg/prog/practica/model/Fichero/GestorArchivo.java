@@ -1,5 +1,8 @@
 package es.etg.prog.practica.model.fichero;
-
+/**
+ * 
+ * @author Jorge
+ */
 import java.util.List;
 
 import es.etg.prog.practica.model.Temporada;
@@ -11,7 +14,7 @@ import es.etg.prog.practica.model.temporada.partido.Partido;
 public interface GestorArchivo {
     public List<Equipo> leerEquipos() throws ArchivoNoEncontradoException;
     public List<Arbitro> leerArbitros() throws ArchivoNoEncontradoException;
-    public void guardarResumen(Equipo equipo, Partido partido, String resumen);
-    public void guardarResumenJugador(Equipo equipo, String resumen);
-    public void guardarHistoricoTemporada(Temporada temporada, String resumen);
+    public void guardarResumen(Equipo equipo, Partido partido, String resumen) throws ArchivoNoEncontradoException;
+    public void guardarResumenJugador(Equipo equipo, String resumen) throws ArchivoNoEncontradoException;
+    public void guardarHistoricoTemporada(Temporada temporada, String resumen) throws ArchivoNoEncontradoException;
 }

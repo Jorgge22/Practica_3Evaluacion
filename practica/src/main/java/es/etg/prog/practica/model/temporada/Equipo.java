@@ -1,7 +1,7 @@
 package es.etg.prog.practica.model.temporada;
-/*
+/**
  * 
- * @Author Jorge
+ * @author Jorge
  */
 import es.etg.prog.practica.model.excepciones.Excepciones;
 import es.etg.prog.practica.model.excepciones.Excepciones.MaximoJugadoresPosicionException;

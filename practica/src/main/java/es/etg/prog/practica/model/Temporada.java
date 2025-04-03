@@ -76,18 +76,6 @@ public class Temporada {
 
     }
 
-    public void mostrarResumenUltimoPartido() {
-
-    }
-
-    public void mostrarHistoricoTemporada() {
-
-    }
-
-    public void mostrarResumenJugadores(String tipo) {
-
-    }
-
     /**
      * Método que verifica si un partido oficial entre el equipo actual y un equipo
      * rival ya ha sido jugado en la temporada.

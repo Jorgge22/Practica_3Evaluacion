@@ -2,7 +2,6 @@ import es.etg.prog.practica.model.Temporada;
 import es.etg.prog.practica.model.excepciones.Excepciones.ArchivoNoEncontradoException;
 import es.etg.prog.practica.model.temporada.Arbitro;
 import es.etg.prog.practica.model.temporada.Equipo;
-import es.etg.prog.practica.model.temporada.jugador.Jugador;
 import es.etg.prog.practica.model.temporada.partido.Partido;
 import es.etg.prog.practica.model.fichero.Fichero;
 import es.etg.prog.practica.model.util.Constantes;
@@ -110,9 +109,9 @@ public class FicheroTest {
     public void testGuardarResumenJugador() throws IOException {
         // Creamos un equipo con un jugador
         Equipo equipo = new Equipo("Equipo A");
-        List<Jugador> jugadores = new ArrayList<>();
+        Jugador[] jugadores = new Jugador[10];
         Jugador jugador = new Jugador("Jugador 1", 20, 2);
-        jugadores.add(jugador);
+        jugadores.add(jugadores);
         equipo.setJugadores(jugadores);
 
         // Preparamos el archivo de salida
@@ -132,7 +131,7 @@ public class FicheroTest {
     }*/
 
     @Test
-    public void testGuardarHistoricoTemporada() throws IOException {
+    public void testGuardarHistoricoTemporada() throws IOException, ArchivoNoEncontradoException {
         // Creamos una temporada con partidos
         Temporada temporada = new Temporada();
         List<Partido> partidos = new ArrayList<>();

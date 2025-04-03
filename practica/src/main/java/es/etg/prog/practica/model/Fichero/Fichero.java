@@ -1,5 +1,8 @@
 package es.etg.prog.practica.model.fichero;
-
+/**
+ * 
+ * @author Jorge
+ */
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileReader;
@@ -7,7 +10,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
 import es.etg.prog.practica.model.Temporada;
 import es.etg.prog.practica.model.excepciones.Excepciones;
 import es.etg.prog.practica.model.excepciones.Excepciones.ArchivoNoEncontradoException;
@@ -54,7 +56,7 @@ public class Fichero implements GestorArchivo {
     }
 
     @Override
-    public void guardarResumen(Equipo equipo, Partido partido, String resumen) {
+    public void guardarResumen(Equipo equipo, Partido partido, String resumen) throws ArchivoNoEncontradoException {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(Constantes.RUTA_FICHEROS_EQUIPOS, true))) {
             StringBuilder stringBuilder = new StringBuilder();
             stringBuilder.append(Constantes.MSG_NOMBRE).append(equipo.getNombre()).append(Constantes.MSG_BARRA_N);
@@ -70,15 +72,17 @@ public class Fichero implements GestorArchivo {
                 stringBuilder.append(Constantes.MSG_BARRA_N);
             }
 
-            bw.write(stringBuilder.toString());
+            resumen = stringBuilder.toString();
+
+            bw.write(resumen);
             bw.write("---\n");
         } catch (IOException e) {
-            e.printStackTrace(); // Manejo básico de la excepción
+            throw new Excepciones.ArchivoNoEncontradoException();
         }
     }
 
     @Override
-    public void guardarResumenJugador(Equipo equipo, String resumen) {
+    public void guardarResumenJugador(Equipo equipo, String resumen) throws ArchivoNoEncontradoException {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(Constantes.RUTA_FICHEROS_JUGADORES, true))) {
             StringBuilder stringBuilder = new StringBuilder();
 
@@ -95,12 +99,12 @@ public class Fichero implements GestorArchivo {
             bw.write(resumen);
             bw.write("---\n");
         } catch (Exception e) {
-
+            throw new Excepciones.ArchivoNoEncontradoException();
         }
     }
 
     @Override
-    public void guardarHistoricoTemporada(Temporada temporada, String resumen) {
+    public void guardarHistoricoTemporada(Temporada temporada, String resumen) throws ArchivoNoEncontradoException {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(Constantes.RUTA_FICHEROS_TEMPORADA))) {
             StringBuilder stringBuilder = new StringBuilder();
 
@@ -117,7 +121,7 @@ public class Fichero implements GestorArchivo {
             bw.write(resumen);
             bw.write("---\n");
         } catch (Exception e) {
-            
+            throw new Excepciones.ArchivoNoEncontradoException();
         }
     }
 

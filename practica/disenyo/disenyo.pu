@@ -80,9 +80,6 @@ package Model{
         +static getInstancia(): Temporada
         +registrarPartidoJugado()
         +jugarPartido(Equipo equipo1, Equipo equipo2, boolean esOficial)
-        +mostrarResumenUltimoPartido()
-        +mostrarHistoricoTemporada()
-        +mostrarResumenJugadoresPorTipo(String tipo)
     }
 
     class Excepciones{
