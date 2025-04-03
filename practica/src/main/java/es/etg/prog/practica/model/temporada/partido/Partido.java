@@ -1,5 +1,8 @@
 package es.etg.prog.practica.model.temporada.partido;
-
+/**
+ * 
+ * @author Jorge
+ */
 import java.util.Random;
 
 import es.etg.prog.practica.model.temporada.Arbitro;

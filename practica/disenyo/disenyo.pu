@@ -91,7 +91,20 @@ package View{
 }
 
 package Controller{
-    class Switch{}
+    class JugadorController{
+        +añadirJugador(Equipo equipo, Jugador juagdor)
+        +eliminarJugador(Equipo equipo, Jugador jugador)
+        +mostrarResumenJugador()
+    }
+
+    class EquipoController{
+        +jugarPartido(Equipo local, Equipo visitante, Arbitro arbitro, boolean esOficial)
+        +mostrarResumenPartido()
+    }
+
+    class TemporadaController{
+        +mostrarResumenHistorico()
+    }
 }
 
 Temporada *-- Partido

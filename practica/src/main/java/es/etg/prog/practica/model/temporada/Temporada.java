@@ -1,4 +1,4 @@
-package es.etg.prog.practica.model;
+package es.etg.prog.practica.model.temporada;
 
 /**
  * 
@@ -8,9 +8,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import es.etg.prog.practica.model.excepciones.Excepciones;
-import es.etg.prog.practica.model.excepciones.Excepciones.PartidoYaJugadoException;
-import es.etg.prog.practica.model.temporada.Equipo;
+import es.etg.prog.practica.model.excepciones.Excepciones.ArchivoNoEncontradoException;
+import es.etg.prog.practica.model.fichero.Fichero;
+import es.etg.prog.practica.model.fichero.GestorArchivo;
 import es.etg.prog.practica.model.temporada.partido.Partido;
+import es.etg.prog.practica.model.temporada.partido.PartidoExibicion;
 import es.etg.prog.practica.model.temporada.partido.PartidoOficial;
 
 public class Temporada {
@@ -51,29 +53,29 @@ public class Temporada {
      * @throws Excepciones.PartidoYaJugadoException Si el partido es oficial y ya se
      *                                              ha jugado previamente, se lanza
      *                                              esta excepción.
+     * @throws ArchivoNoEncontradoException 
      */
-    public void jugarPartido(Equipo equipoLocal, Equipo equipoVisitante, boolean esOficial)
-            throws PartidoYaJugadoException {
+    public void jugarPartido(Equipo local, Equipo visitante, Arbitro arbitro, boolean esOficial) throws ArchivoNoEncontradoException {
         Partido partido;
-
-        if (!esOficial) {
-            partido = new Partido(equipoLocal, equipoVisitante);
-        } else {
-            PartidoOficial partidoOficial = new PartidoOficial(equipoLocal, equipoVisitante);
-
-            if (partidoOficial.verificarPartido()) {
-                throw new Excepciones.PartidoYaJugadoException();
-            }
-
-            partido = partidoOficial;
-        }
-
-        partido.calcularResultado();
-
+        
         if (esOficial) {
-            Temporada.getInstancia().registrarPartidoJugado(partido);
+            partido = new PartidoOficial(local, visitante);
+        } else {
+            partido = new PartidoExibicion(local, visitante);
         }
 
+        // Calcular el resultado del partido
+        Equipo ganador = partido.calcularResultado();
+
+        // Crear el resumen del partido
+        StringBuilder resumen = new StringBuilder();
+        resumen.append("Resultado del partido: " + local.getNombre() + " " + partido.getResultadoLocal() + " - " + partido.getResultadoVisitante() + " " + visitante.getNombre() + "\n");
+        resumen.append("Árbitro: " + arbitro.getNombre() + "\n");
+        resumen.append("El ganador es: " + ganador.getNombre() + "\n");
+
+        // Guardar el resumen en un archivo
+        GestorArchivo gestorArchivo = new Fichero();
+        gestorArchivo.guardarResumen(ganador, partido);
     }
 
     /**

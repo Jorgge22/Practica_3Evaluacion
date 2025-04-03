@@ -1,10 +1,12 @@
 package es.etg.prog.practica.model.util;
+
 /**
  * 
  * @author Jorge
  */
 public class Constantes {
     public static final String RUTA_FICHEROS_ARBITROS = "./src/main/resources/misFicheros/arbitros.txt";
+    public static final String RUTA_FICHEROS_PARTIDOS = "./src/main/resources/misFicheros/partido.txt";
     public static final String RUTA_FICHEROS_EQUIPOS = "./src/main/resources/misFicheros/equipos.txt";
     public static final String RUTA_FICHEROS_JUGADORES = "./src/main/resources/misFicheros/jugadores.txt";
     public static final String RUTA_FICHEROS_TEMPORADA = "./src/main/resources/misFicheros/temporada.txt";
@@ -25,6 +27,17 @@ public class Constantes {
     public static final String MSG_EQUIPO_VISITANTE = "Equipo Visitante: ";
     public static final String MSG_ARBITRO = "Arbitro: ";
     public static final String MSG_RESULTADO = "Resultado: ";
+
+    public static final String MSG_MENU = """
+            1. AÑADIR JUGADOR
+            2. ELIMINAR JUGADOR
+            3. JUGAR PARTIDO
+            4. MOSTRAR RESUMEN ULTIMO PARTIDO
+            5. MOSTRAR HISTORICO DE LA TEMPORADA
+            6. MOSTRAR RESUMEN JUGADORES
+            7. SALIR
+            """;
+    public static final String MSG_OPCION = "Elige una opción: ";
 
     public static final int MAX_JUGADORES = 15;
 }

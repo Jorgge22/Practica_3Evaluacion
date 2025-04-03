@@ -1,7 +1,7 @@
-import es.etg.prog.practica.model.Temporada;
 import es.etg.prog.practica.model.excepciones.Excepciones.ArchivoNoEncontradoException;
 import es.etg.prog.practica.model.temporada.Arbitro;
 import es.etg.prog.practica.model.temporada.Equipo;
+import es.etg.prog.practica.model.temporada.Temporada;
 import es.etg.prog.practica.model.temporada.partido.Partido;
 import es.etg.prog.practica.model.fichero.Fichero;
 import es.etg.prog.practica.model.util.Constantes;

@@ -10,11 +10,12 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import es.etg.prog.practica.model.Temporada;
+
 import es.etg.prog.practica.model.excepciones.Excepciones;
 import es.etg.prog.practica.model.excepciones.Excepciones.ArchivoNoEncontradoException;
 import es.etg.prog.practica.model.temporada.Arbitro;
 import es.etg.prog.practica.model.temporada.Equipo;
+import es.etg.prog.practica.model.temporada.Temporada;
 import es.etg.prog.practica.model.temporada.jugador.Jugador;
 import es.etg.prog.practica.model.temporada.partido.Partido;
 import es.etg.prog.practica.model.util.Constantes;
@@ -56,7 +57,7 @@ public class Fichero implements GestorArchivo {
     }
 
     @Override
-    public void guardarResumen(Equipo equipo, Partido partido, String resumen) throws ArchivoNoEncontradoException {
+    public void guardarResumen(Equipo equipo, Partido partido) throws ArchivoNoEncontradoException {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(Constantes.RUTA_FICHEROS_EQUIPOS, true))) {
             StringBuilder stringBuilder = new StringBuilder();
             stringBuilder.append(Constantes.MSG_NOMBRE).append(equipo.getNombre()).append(Constantes.MSG_BARRA_N);
@@ -72,9 +73,7 @@ public class Fichero implements GestorArchivo {
                 stringBuilder.append(Constantes.MSG_BARRA_N);
             }
 
-            resumen = stringBuilder.toString();
-
-            bw.write(resumen);
+            bw.write(stringBuilder.toString());
             bw.write("---\n");
         } catch (IOException e) {
             throw new Excepciones.ArchivoNoEncontradoException();
@@ -82,7 +81,7 @@ public class Fichero implements GestorArchivo {
     }
 
     @Override
-    public void guardarResumenJugador(Equipo equipo, String resumen) throws ArchivoNoEncontradoException {
+    public void guardarResumenJugador(Equipo equipo) throws ArchivoNoEncontradoException {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(Constantes.RUTA_FICHEROS_JUGADORES, true))) {
             StringBuilder stringBuilder = new StringBuilder();
 
@@ -94,17 +93,15 @@ public class Fichero implements GestorArchivo {
                 stringBuilder.append(Constantes.MSG_BARRA_N);
             }
 
-            resumen = stringBuilder.toString();
-
-            bw.write(resumen);
+            bw.write(stringBuilder.toString());
             bw.write("---\n");
-        } catch (Exception e) {
+        } catch (IOException e) {
             throw new Excepciones.ArchivoNoEncontradoException();
         }
     }
 
     @Override
-    public void guardarHistoricoTemporada(Temporada temporada, String resumen) throws ArchivoNoEncontradoException {
+    public void guardarHistoricoTemporada(Temporada temporada) throws ArchivoNoEncontradoException {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(Constantes.RUTA_FICHEROS_TEMPORADA))) {
             StringBuilder stringBuilder = new StringBuilder();
 
@@ -116,13 +113,18 @@ public class Fichero implements GestorArchivo {
                 stringBuilder.append("---\n"); 
             }
 
-            resumen = stringBuilder.toString();
-
-            bw.write(resumen);
+            bw.write(stringBuilder.toString());
             bw.write("---\n");
-        } catch (Exception e) {
+        } catch (IOException e) {
             throw new Excepciones.ArchivoNoEncontradoException();
         }
     }
+
+    @Override
+    public List<Partido> leePartidos() throws ArchivoNoEncontradoException {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'leePartidos'");
+    }
+    
 
 }

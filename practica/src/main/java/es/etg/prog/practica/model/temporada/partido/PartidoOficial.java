@@ -1,9 +1,9 @@
 package es.etg.prog.practica.model.temporada.partido;
 
-import es.etg.prog.practica.model.Temporada;
 import es.etg.prog.practica.model.excepciones.Excepciones;
 import es.etg.prog.practica.model.excepciones.Excepciones.PartidoYaJugadoException;
 import es.etg.prog.practica.model.temporada.Equipo;
+import es.etg.prog.practica.model.temporada.Temporada;
 
 public class PartidoOficial extends Partido {
 
