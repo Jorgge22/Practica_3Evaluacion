@@ -1,13 +1,8 @@
 package es.etg.prog.practica.model.temporada;
 
-import es.etg.prog.practica.model.excepciones.Excepciones;
+import es.etg.prog.practica.model.excepciones.Excepciones.MaximoJugadoresException;
 import es.etg.prog.practica.model.excepciones.Excepciones.MaximoJugadoresPosicionException;
-import es.etg.prog.practica.model.temporada.jugador.AlaPivot;
-import es.etg.prog.practica.model.temporada.jugador.Alero;
-import es.etg.prog.practica.model.temporada.jugador.Base;
-import es.etg.prog.practica.model.temporada.jugador.Escolta;
 import es.etg.prog.practica.model.temporada.jugador.Jugador;
-import es.etg.prog.practica.model.temporada.jugador.Pivot;
 import es.etg.prog.practica.model.util.Constantes;
 
 public class Equipo {
@@ -15,7 +10,6 @@ public class Equipo {
     private int numJugadores;
     private Jugador[] jugadores;
     
-    // Contadores de jugadores por posición
     private int bases;
     private int escoltas;
     private int aleros;
@@ -26,7 +20,6 @@ public class Equipo {
         this.nombre = nombre;
         this.numJugadores = 0;
         this.jugadores = new Jugador[Constantes.MAX_JUGADORES];
-        // Inicializar los contadores de posiciones
         this.bases = 0;
         this.escoltas = 0;
         this.aleros = 0;
@@ -34,59 +27,63 @@ public class Equipo {
         this.pivots = 0;
     }
 
-    public boolean agregarJugador(Jugador j) throws Excepciones.MaximoJugadoresException, MaximoJugadoresPosicionException {
-        if (numJugadores >= 15) {
-            throw new Excepciones.MaximoJugadoresException();
+
+    public boolean agregarJugador(Jugador j) throws MaximoJugadoresException, MaximoJugadoresPosicionException {
+        if (numJugadores >= Constantes.MAX_JUGADORES) {
+            throw new MaximoJugadoresException();
         }
 
-        // Asignar posición según altura y habilidad
-        if (j.getAltura() <= 2 && j.getHabilidad() >= 2) {
-            if (bases >= 3) {
-                throw new MaximoJugadoresPosicionException();
-            }
-            bases++;
-            j = new Base(j.getNombre(), j.getTipo(), j.getDorsal(), j.getAltura(), j.getHabilidad());
-            j.setTipo("Base");
-        } else if (j.getAltura() > 2 && j.getAltura() <= 3 && j.getHabilidad() >= 2) {
-            if (escoltas >= 3) {
-                throw new MaximoJugadoresPosicionException();
-            }
-            escoltas++;
-            j = new Escolta(j.getNombre(), j.getTipo(), j.getDorsal(), j.getAltura(), j.getHabilidad());
-            j.setTipo("Escolta");
-        } else if (j.getAltura() > 2 && j.getAltura() <= 3 && j.getHabilidad() <= 3) {
-            if (aleros >= 3) {
-                throw new MaximoJugadoresPosicionException();
-            }
-            aleros++;
-            j = new Alero(j.getNombre(), j.getTipo(), j.getDorsal(), j.getAltura(), j.getHabilidad());
-            j.setTipo("Alero");
-        } else if (j.getAltura() > 3 && j.getAltura() <= 4 && j.getHabilidad() <= 2) {
-            if (alaPivots >= 3) {
-                throw new MaximoJugadoresPosicionException();
-            }
-            alaPivots++;
-            j = new AlaPivot(j.getNombre(), j.getTipo(), j.getDorsal(), j.getAltura(), j.getHabilidad());
-            j.setTipo("Ala-Pivot");
-        } else if (j.getAltura() > 4 && j.getAltura() <= 5 && j.getHabilidad() <= 2) {
-            if (pivots >= 3) {
-                throw new MaximoJugadoresPosicionException();
-            }
-            pivots++;
-            j = new Pivot(j.getNombre(), j.getTipo(), j.getDorsal(), j.getAltura(), j.getHabilidad());
-            j.setTipo("Pivot");
+        String tipo = j.getTipo();
+
+        switch (tipo) {
+            case Constantes.BASE:
+                if (bases >= 3) {
+                    modificarJugador(j);
+                    throw new MaximoJugadoresPosicionException();
+                }
+                bases++;
+                break;
+            case Constantes.ESCOLTA:
+                if (escoltas >= 3) {
+                    modificarJugador(j);
+                    throw new MaximoJugadoresPosicionException();
+                }
+                escoltas++;
+                break;
+            case Constantes.ALERO:
+                if (aleros >= 3) {
+                    modificarJugador(j);
+                    throw new MaximoJugadoresPosicionException();
+                }
+                aleros++;
+                break;
+            case Constantes.ALA_PIVOT:
+                if (alaPivots >= 3) {
+
+                    throw new MaximoJugadoresPosicionException();
+                }
+                alaPivots++;
+                break;
+            case Constantes.PIVOT:
+                if (pivots >= 3) {
+                    modificarJugador(j);
+                    throw new MaximoJugadoresPosicionException();
+                }
+                pivots++;
+                break;
+            default:
+                break;
         }
-    
-        // Añadir el jugador al equipo
+
         for (int i = 0; i < jugadores.length; i++) {
-            if (jugadores[i] == null) {  
+            if (jugadores[i] == null) {
                 jugadores[i] = j;
                 numJugadores++;
-                return true; 
+                return true;
             }
         }
-    
-        return false; 
+
+        return false;
     }
 
     public boolean eliminarJugador(Jugador j) {
@@ -94,6 +91,29 @@ public class Equipo {
             if (jugadores[i] != null && jugadores[i].equals(j)) {
                 jugadores[i] = null;
                 numJugadores--;
+
+                String tipo = j.getTipo();
+
+                switch (tipo) {
+                    case Constantes.BASE:
+                        bases--;
+                        break;
+                    case Constantes.ESCOLTA:
+                        escoltas--;
+                        break;
+                    case Constantes.ALERO:
+                        aleros--;
+                        break;
+                    case Constantes.ALA_PIVOT:
+                        alaPivots--;
+                        break;
+                    case Constantes.PIVOT:
+                        pivots--;
+                        break;
+                    default:
+                        break;
+                }
+
                 return true;
             }
         }

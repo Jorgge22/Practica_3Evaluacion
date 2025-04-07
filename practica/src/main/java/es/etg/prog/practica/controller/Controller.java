@@ -53,7 +53,7 @@ public class Controller {
                     gestorEntradaSalida.leerLinea();
 
                     Jugador jugador = new Jugador(nombre, dorsal, altura, habilidad){
-
+                        
                     };
 
                     gestorEntradaSalida.imprimirMensaje("Nombre del equipo: ");

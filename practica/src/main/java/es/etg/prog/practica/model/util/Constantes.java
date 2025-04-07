@@ -28,6 +28,12 @@ public class Constantes {
     public static final String MSG_ARBITRO = "Arbitro: ";
     public static final String MSG_RESULTADO = "Resultado: ";
 
+    public static final String BASE = "Base";
+    public static final String ESCOLTA = "Escolta";
+    public static final String ALERO = "Alero";
+    public static final String ALA_PIVOT = "Ala-Pivot";
+    public static final String PIVOT = "Pivot";
+
     public static final String MSG_MENU = """
             1. AÑADIR JUGADOR
             2. ELIMINAR JUGADOR
