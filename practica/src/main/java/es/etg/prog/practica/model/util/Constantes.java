@@ -18,6 +18,7 @@ public class Constantes {
 
     public static final String MSG_ARBITROS_NO_DISPONIBLES = "Árbitros no disponibles.";
     public static final String MSG_ARCHIVO_NO_LEIDO = "No se pudo leer el archivo de equipos";
+    public static final String MSG_NUMERO_INCORRECTO = "Número incorrecto.";
     public static final String MSG_ESTADISTICAS = "Estadisticas: ";
     public static final String MSG_NOMBRE = "Nombre: ";
     public static final String MSG_PUNTOS = "Puntos: ";

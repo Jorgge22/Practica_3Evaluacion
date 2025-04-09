@@ -1,7 +1,9 @@
 package es.etg.prog.practica.controller;
 
+import es.etg.prog.practica.model.excepciones.Excepciones;
 import es.etg.prog.practica.model.excepciones.Excepciones.MaximoJugadoresException;
 import es.etg.prog.practica.model.excepciones.Excepciones.MaximoJugadoresPosicionException;
+import es.etg.prog.practica.model.excepciones.Excepciones.NumeroIncorrectoException;
 import es.etg.prog.practica.model.fichero.Fichero;
 import es.etg.prog.practica.model.temporada.Equipo;
 import es.etg.prog.practica.model.temporada.jugador.Jugador;
@@ -20,7 +22,7 @@ public class Controller {
         this.equipo = new Equipo("Equipo de Ejemplo");
     }
 
-    public void menu() throws MaximoJugadoresException, MaximoJugadoresPosicionException {
+    public void menu() throws MaximoJugadoresException, MaximoJugadoresPosicionException, NumeroIncorrectoException {
         int opcion;
         boolean salir = false;
 
@@ -72,6 +74,17 @@ public class Controller {
                     break;
 
                 case 2:
+                    try {
+                        gestorEntradaSalida.imprimirMensaje("Dime el numero del jugador que quieres eliminar: ");
+                        int numeroJuagador = gestorEntradaSalida.leerInt();
+    
+                        gestorEntradaSalida.leerLinea();
+
+                        Jugador jugadorEliminado = equipo.eliminarJugador(numeroJuagador);
+                        gestorEntradaSalida.imprimirMensajeSeparado("Jugador eliminado: " + jugadorEliminado);
+                    } catch (Excepciones.NumeroIncorrectoException e) {
+                        gestorEntradaSalida.imprimirMensajeSeparado(e.getMessage());
+                    }
                     break;
 
                 case 3:

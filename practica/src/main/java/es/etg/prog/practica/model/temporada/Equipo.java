@@ -2,7 +2,9 @@ package es.etg.prog.practica.model.temporada;
 
 import java.util.*;
 
+import es.etg.prog.practica.model.excepciones.Excepciones;
 import es.etg.prog.practica.model.excepciones.Excepciones.MaximoJugadoresPosicionException;
+import es.etg.prog.practica.model.excepciones.Excepciones.NumeroIncorrectoException;
 import es.etg.prog.practica.model.temporada.jugador.Jugador;
 import es.etg.prog.practica.model.temporada.jugador.JugadorFactory;
 import es.etg.prog.practica.model.util.Constantes;
@@ -21,10 +23,7 @@ public class Equipo {
     public void agregarJugador(String nombre, int dorsal, int altura, int habilidad) throws MaximoJugadoresPosicionException {
         Jugador jugador = JugadorFactory.crearJugador(nombre, dorsal, altura, habilidad);
 
-        // Obtener el tipo de posición del jugador
         String tipoPosicion = jugador.getTipo();
-
-        // Comprobar cuántos jugadores hay en esta posición
         int jugadoresEnPosicion = jugadoresPorPosicion.getOrDefault(tipoPosicion, 0);
 
         System.out.println("Jugadores en la posición " + tipoPosicion + ": " + jugadoresEnPosicion);
@@ -34,36 +33,45 @@ public class Equipo {
         }
 
         jugadores.add(jugador);
-
-        // Actualizar el contador de jugadores por posición
         jugadoresPorPosicion.put(tipoPosicion, jugadoresEnPosicion + 1);
+
+        System.out.println("Jugador agregado con éxito.");
     }
 
-    public Jugador eliminarJugador(String nombreJugador) {
-        for (Jugador jugador2 : jugadores) {
-            if (nombreJugador != null) {
-                if (jugador2.getNombre().equals(nombreJugador)) {
-                    // Si encontramos el jugador, eliminamos de la lista
-                    jugadores.remove(jugador2);
-        
-                    // Actualizamos el contador de jugadores en la posición
-                    String tipoPosicion = jugador2.getTipo();
-                    int jugadoresEnPosicion = jugadoresPorPosicion.getOrDefault(tipoPosicion, 0);
-        
-                    // Reducimos el contador de jugadores en esa posición
-                    if (jugadoresEnPosicion > 0) {
-                        jugadoresPorPosicion.put(tipoPosicion, jugadoresEnPosicion - 1);
-                    }
-        
-                    // Devolvemos el jugador eliminado
-                    return jugador2;
-                }
-            }
+    public Jugador eliminarJugador(int numeroJugador) throws NumeroIncorrectoException {
+        // Mostrar todos los jugadores con su índice
+        if (jugadores.isEmpty()) {
+            throw new Excepciones.NumeroIncorrectoException();
         }
     
-        // Si no se encuentra el jugador, devolver null
-        return null;
+        // Mostrar los jugadores con sus índices
+        for (int i = 0; i < jugadores.size(); i++) {
+            System.out.println(i + ". " + jugadores.get(i));  // Muestra los jugadores con su índice
+        }
+    
+        // Comprobar si el número del jugador seleccionado es válido
+        if (numeroJugador >= 0 && numeroJugador < jugadores.size()) {
+            Jugador jugadorEliminado = jugadores.get(numeroJugador);
+            jugadores.remove(numeroJugador);
+    
+            // Actualizar el contador de jugadores en la posición
+            String tipoPosicion = jugadorEliminado.getTipo();
+            int jugadoresEnPosicion = jugadoresPorPosicion.getOrDefault(tipoPosicion, 0);
+    
+            // Reducir el contador de jugadores en esa posición
+            if (jugadoresEnPosicion > 0) {
+                jugadoresPorPosicion.put(tipoPosicion, jugadoresEnPosicion - 1);
+            }
+    
+            // Devolver el jugador eliminado
+            return jugadorEliminado;
+        } else {
+            // Si el número ingresado no es válido
+            throw new Excepciones.NumeroIncorrectoException();
+        }
     }
+    
+    
 
     public String getNombre() {
         return nombre;

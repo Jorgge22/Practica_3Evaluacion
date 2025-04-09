@@ -99,6 +99,6 @@ public abstract class Jugador implements Comparable<Jugador> {
     @Override
     public String toString() {
         return "Jugador [nombre=" + nombre + ", dorsal=" + dorsal + ", altura=" + altura + ", habilidad=" + habilidad
-                + ", puntos=" + puntos + ", faltas=" + faltas + ", tipo=" + tipo + "]"; // Añadido tipo a toString
+                + ", puntos=" + puntos + ", faltas=" + faltas + ", tipo=" + tipo + "]"; 
     }
 }

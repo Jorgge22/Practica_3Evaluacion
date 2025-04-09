@@ -6,6 +6,7 @@ package es.etg.prog.practica.controller;
 import es.etg.prog.practica.model.excepciones.Excepciones.ArchivoNoEncontradoException;
 import es.etg.prog.practica.model.excepciones.Excepciones.MaximoJugadoresException;
 import es.etg.prog.practica.model.excepciones.Excepciones.MaximoJugadoresPosicionException;
+import es.etg.prog.practica.model.excepciones.Excepciones.NumeroIncorrectoException;
 import es.etg.prog.practica.model.fichero.GestorArchivo;
 import es.etg.prog.practica.model.temporada.Equipo;
 
@@ -20,8 +21,8 @@ public class JugadorController {
         equipo.agregarJugador(nombre, dorsal, altura, habilidad);
     }
 
-    public void eliminarJugador(Equipo equipo, String nombreJuagdor) {
-        equipo.eliminarJugador(nombreJuagdor);
+    public void eliminarJugador(Equipo equipo, int numeroJuagador) throws NumeroIncorrectoException {
+        equipo.eliminarJugador(numeroJuagador);
     }
 
     public void mostrarResumenJugador(Equipo equipo) throws ArchivoNoEncontradoException {

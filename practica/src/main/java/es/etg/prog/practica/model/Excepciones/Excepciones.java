@@ -15,8 +15,8 @@ public class Excepciones extends Exception {
         }
     }
 
-    public static class MaximoJugadoresPosicionException extends Exception{
-        public MaximoJugadoresPosicionException(){
+    public static class MaximoJugadoresPosicionException extends Exception {
+        public MaximoJugadoresPosicionException() {
             super(Constantes.MSG_EXCEPCION_MAXIMO_JUGADORES_POSICION);
         }
     }
@@ -32,9 +32,16 @@ public class Excepciones extends Exception {
             super(Constantes.MSG_ARBITROS_NO_DISPONIBLES);
         }
     }
+
     public static class ArchivoNoEncontradoException extends Exception {
         public ArchivoNoEncontradoException() {
             super(Constantes.MSG_ARCHIVO_NO_LEIDO);
+        }
+    }
+
+    public static class NumeroIncorrectoException extends Exception {
+        public NumeroIncorrectoException() {
+            super(Constantes.MSG_NUMERO_INCORRECTO);
         }
     }
 }
