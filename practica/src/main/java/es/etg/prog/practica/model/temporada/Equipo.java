@@ -1,132 +1,68 @@
 package es.etg.prog.practica.model.temporada;
 
-import es.etg.prog.practica.model.excepciones.Excepciones.MaximoJugadoresException;
+import java.util.*;
+
 import es.etg.prog.practica.model.excepciones.Excepciones.MaximoJugadoresPosicionException;
 import es.etg.prog.practica.model.temporada.jugador.Jugador;
+import es.etg.prog.practica.model.temporada.jugador.JugadorFactory;
 import es.etg.prog.practica.model.util.Constantes;
 
 public class Equipo {
-    private String nombre;
-    private int numJugadores;
-    private Jugador[] jugadores;
-    
-    private int bases;
-    private int escoltas;
-    private int aleros;
-    private int alaPivots;
-    private int pivots;
+    protected String nombre;
+    protected List<Jugador> jugadores; // Lista para almacenar los jugadores
+    protected Map<String, Integer> jugadoresPorPosicion; // Mapa para llevar el conteo de jugadores por posición
 
     public Equipo(String nombre) {
         this.nombre = nombre;
-        this.numJugadores = 0;
-        this.jugadores = new Jugador[Constantes.MAX_JUGADORES];
-        this.bases = 0;
-        this.escoltas = 0;
-        this.aleros = 0;
-        this.alaPivots = 0;
-        this.pivots = 0;
+        this.jugadores = new ArrayList<>();
+        this.jugadoresPorPosicion = new HashMap<>();
     }
 
+    public void agregarJugador(String nombre, int dorsal, int altura, int habilidad) throws MaximoJugadoresPosicionException {
+        Jugador jugador = JugadorFactory.crearJugador(nombre, dorsal, altura, habilidad);
 
-    public boolean agregarJugador(Jugador j) throws MaximoJugadoresException, MaximoJugadoresPosicionException {
-        if (numJugadores >= Constantes.MAX_JUGADORES) {
-            throw new MaximoJugadoresException();
+        // Obtener el tipo de posición del jugador
+        String tipoPosicion = jugador.getTipo();
+
+        // Comprobar cuántos jugadores hay en esta posición
+        int jugadoresEnPosicion = jugadoresPorPosicion.getOrDefault(tipoPosicion, 0);
+
+        System.out.println("Jugadores en la posición " + tipoPosicion + ": " + jugadoresEnPosicion);
+
+        if (jugadoresEnPosicion >= Constantes.MAX_JUGADORES_POSICION) {
+            throw new MaximoJugadoresPosicionException();
         }
 
-        String tipo = j.getTipo();
+        jugadores.add(jugador);
 
-        switch (tipo) {
-            case Constantes.BASE:
-                if (bases >= 3) {
-                    modificarJugador(j);
-                    throw new MaximoJugadoresPosicionException();
-                }
-                bases++;
-                break;
-            case Constantes.ESCOLTA:
-                if (escoltas >= 3) {
-                    modificarJugador(j);
-                    throw new MaximoJugadoresPosicionException();
-                }
-                escoltas++;
-                break;
-            case Constantes.ALERO:
-                if (aleros >= 3) {
-                    modificarJugador(j);
-                    throw new MaximoJugadoresPosicionException();
-                }
-                aleros++;
-                break;
-            case Constantes.ALA_PIVOT:
-                if (alaPivots >= 3) {
+        // Actualizar el contador de jugadores por posición
+        jugadoresPorPosicion.put(tipoPosicion, jugadoresEnPosicion + 1);
+    }
 
-                    throw new MaximoJugadoresPosicionException();
+    public Jugador eliminarJugador(String nombreJugador) {
+        for (Jugador jugador2 : jugadores) {
+            if (nombreJugador != null) {
+                if (jugador2.getNombre().equals(nombreJugador)) {
+                    // Si encontramos el jugador, eliminamos de la lista
+                    jugadores.remove(jugador2);
+        
+                    // Actualizamos el contador de jugadores en la posición
+                    String tipoPosicion = jugador2.getTipo();
+                    int jugadoresEnPosicion = jugadoresPorPosicion.getOrDefault(tipoPosicion, 0);
+        
+                    // Reducimos el contador de jugadores en esa posición
+                    if (jugadoresEnPosicion > 0) {
+                        jugadoresPorPosicion.put(tipoPosicion, jugadoresEnPosicion - 1);
+                    }
+        
+                    // Devolvemos el jugador eliminado
+                    return jugador2;
                 }
-                alaPivots++;
-                break;
-            case Constantes.PIVOT:
-                if (pivots >= 3) {
-                    modificarJugador(j);
-                    throw new MaximoJugadoresPosicionException();
-                }
-                pivots++;
-                break;
-            default:
-                break;
-        }
-
-        for (int i = 0; i < jugadores.length; i++) {
-            if (jugadores[i] == null) {
-                jugadores[i] = j;
-                numJugadores++;
-                return true;
             }
         }
-
-        return false;
-    }
-
-    public boolean eliminarJugador(Jugador j) {
-        for (int i = 0; i < jugadores.length; i++) {
-            if (jugadores[i] != null && jugadores[i].equals(j)) {
-                jugadores[i] = null;
-                numJugadores--;
-
-                String tipo = j.getTipo();
-
-                switch (tipo) {
-                    case Constantes.BASE:
-                        bases--;
-                        break;
-                    case Constantes.ESCOLTA:
-                        escoltas--;
-                        break;
-                    case Constantes.ALERO:
-                        aleros--;
-                        break;
-                    case Constantes.ALA_PIVOT:
-                        alaPivots--;
-                        break;
-                    case Constantes.PIVOT:
-                        pivots--;
-                        break;
-                    default:
-                        break;
-                }
-
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private Jugador modificarJugador(Jugador j) {
-        if (j.getAltura() > 2) {
-            j.setAltura(j.getAltura() - 2);
-        } else {
-            j.setHabilidad(j.getHabilidad() - 2);
-        }
-        return j;
+    
+        // Si no se encuentra el jugador, devolver null
+        return null;
     }
 
     public String getNombre() {
@@ -137,19 +73,20 @@ public class Equipo {
         this.nombre = nombre;
     }
 
-    public Jugador[] getJugadores() {
+    public List<Jugador> getJugadores() {
         return jugadores;
     }
 
-    public void setJugadores(Jugador[] jugadores) {
+    public void setJugadores(List<Jugador> jugadores) {
         this.jugadores = jugadores;
     }
 
-    public int getNumJugadores() {
-        return numJugadores;
+    public Map<String, Integer> getJugadoresPorPosicion() {
+        return jugadoresPorPosicion;
     }
 
-    public void setNumJugadores(int numJugadores) {
-        this.numJugadores = numJugadores;
+    public void setJugadoresPorPosicion(Map<String, Integer> jugadoresPorPosicion) {
+        this.jugadoresPorPosicion = jugadoresPorPosicion;
     }
+
 }

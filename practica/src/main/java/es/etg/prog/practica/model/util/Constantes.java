@@ -8,7 +8,7 @@ public class Constantes {
     public static final String RUTA_FICHEROS_ARBITROS = "./src/main/resources/misFicheros/arbitros.txt";
     public static final String RUTA_FICHEROS_PARTIDOS = "./src/main/resources/misFicheros/partido.txt";
     public static final String RUTA_FICHEROS_EQUIPOS = "./src/main/resources/misFicheros/equipos.txt";
-    public static final String RUTA_FICHEROS_JUGADORES = "./src/main/resources/misFicheros/jugadores.txt";
+    public static final String RUTA_FICHEROS_JUGADORES = "practica\\src\\main\\resources\\misFicheros\\jugadores.txt";
     public static final String RUTA_FICHEROS_TEMPORADA = "./src/main/resources/misFicheros/temporada.txt";
 
     public static final String MSG_EXCEPCION_EXPULSION = "El jugador ha sido expulsado por acumulación de faltas.";
@@ -33,6 +33,8 @@ public class Constantes {
     public static final String ALERO = "Alero";
     public static final String ALA_PIVOT = "Ala-Pivot";
     public static final String PIVOT = "Pivot";
+
+    public static final int MAX_JUGADORES_POSICION = 3;
 
     public static final String MSG_MENU = """
             1. AÑADIR JUGADOR

@@ -5,20 +5,19 @@ import es.etg.prog.practica.model.excepciones.Excepciones.MaximoJugadoresPosicio
 import es.etg.prog.practica.model.fichero.Fichero;
 import es.etg.prog.practica.model.temporada.Equipo;
 import es.etg.prog.practica.model.temporada.jugador.Jugador;
+import es.etg.prog.practica.model.temporada.jugador.JugadorFactory;
 import es.etg.prog.practica.model.util.Constantes;
 import es.etg.prog.practica.model.util.GestorEntradaSalida;
 
-/**
- * 
- * @author Jorge
- */
 public class Controller {
     private final GestorEntradaSalida gestorEntradaSalida;
     private final Fichero fichero;
+    private Equipo equipo;
 
     public Controller(GestorEntradaSalida gestorEntradaSalida) {
         this.gestorEntradaSalida = gestorEntradaSalida;
         this.fichero = new Fichero();
+        this.equipo = new Equipo("Equipo de Ejemplo");
     }
 
     public void menu() throws MaximoJugadoresException, MaximoJugadoresPosicionException {
@@ -26,6 +25,13 @@ public class Controller {
         boolean salir = false;
 
         while (!salir) {
+            if (equipo == null) {
+                // Si el equipo no está creado, pedimos el nombre
+                gestorEntradaSalida.imprimirMensaje("Introduce el nombre del equipo: ");
+                String nombreEquipo = gestorEntradaSalida.leerLinea();
+                equipo = new Equipo(nombreEquipo); 
+                gestorEntradaSalida.imprimirMensaje("Equipo " + nombreEquipo + " creado con éxito.");
+            }
             gestorEntradaSalida.imprimirMensajeConFormato(Constantes.MSG_MENU);
             gestorEntradaSalida.imprimirMensajeConFormato(Constantes.MSG_OPCION);
             opcion = gestorEntradaSalida.leerInt();
@@ -52,22 +58,19 @@ public class Controller {
 
                     gestorEntradaSalida.leerLinea();
 
-                    Jugador jugador = new Jugador(nombre, dorsal, altura, habilidad){
-                        
-                    };
-
-                    gestorEntradaSalida.imprimirMensaje("Nombre del equipo: ");
-                    String nombreEquipo = gestorEntradaSalida.leerLinea();
-                    Equipo equipo = new Equipo(nombreEquipo);
-
-                    boolean jugadorAgregado = equipo.agregarJugador(jugador);
-
-                    if (jugadorAgregado) {
-                        gestorEntradaSalida.imprimirMensajeSeparado("Jugador agregado con exito");
-                    } else {
-                        gestorEntradaSalida.imprimirMensajeSeparado("No se pudo agregar al jugador");
-                    }
+                    try {
+                        Jugador jugador = JugadorFactory.crearJugador(nombre, dorsal, altura, habilidad);
+                        equipo.agregarJugador(nombre, dorsal, altura, habilidad);
+                        gestorEntradaSalida.imprimirMensajeSeparado("Jugador agregado con éxito.");
+                        fichero.guardarJugador(jugador);
+                        fichero.mostrarJugadores();
+                    } catch (MaximoJugadoresPosicionException e) {
+                        gestorEntradaSalida.imprimirMensajeSeparado("Error: Ya hay 3 jugadores en esta posición.");
+                    } /*catch (MaximoJugadoresException e) {
+                        gestorEntradaSalida.imprimirMensajeSeparado("Error: El equipo ya tiene el máximo de jugadores.");
+                    }*/
                     break;
+
                 case 2:
                     break;
 

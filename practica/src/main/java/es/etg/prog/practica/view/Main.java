@@ -18,11 +18,9 @@ public class Main {
         // Crear el controlador pasando el gestorEntradaSalida
         Controller controller = new Controller(gestorEntradaSalida);
 
-        // Llamar al método menu del controlador
         try {
-            controller.menu();  // Aquí llamamos al método menu() del Controller
+            controller.menu();  
         } catch (Exception e) {
-            // Manejar las excepciones de acuerdo a lo que necesites
             e.printStackTrace();
         }
     }

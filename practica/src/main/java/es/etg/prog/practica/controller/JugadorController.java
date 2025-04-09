@@ -8,12 +8,7 @@ import es.etg.prog.practica.model.excepciones.Excepciones.MaximoJugadoresExcepti
 import es.etg.prog.practica.model.excepciones.Excepciones.MaximoJugadoresPosicionException;
 import es.etg.prog.practica.model.fichero.GestorArchivo;
 import es.etg.prog.practica.model.temporada.Equipo;
-import es.etg.prog.practica.model.temporada.jugador.Jugador;
 
-/**
- * 
- * @author Jorge
- */
 public class JugadorController {
     private final GestorArchivo gestorArchivo;
 
@@ -21,12 +16,12 @@ public class JugadorController {
         this.gestorArchivo = gestorArchivo;
     }
 
-    public void anyadirJugador(Equipo equipo, Jugador jugador) throws MaximoJugadoresException, MaximoJugadoresPosicionException {
-        equipo.agregarJugador(jugador);
+    public void anyadirJugador(Equipo equipo, String nombre, int dorsal, int altura, int habilidad) throws MaximoJugadoresException, MaximoJugadoresPosicionException {
+        equipo.agregarJugador(nombre, dorsal, altura, habilidad);
     }
 
-    public void eliminarJugador(Equipo equipo, Jugador jugador) {
-        equipo.eliminarJugador(jugador);
+    public void eliminarJugador(Equipo equipo, String nombreJuagdor) {
+        equipo.eliminarJugador(nombreJuagdor);
     }
 
     public void mostrarResumenJugador(Equipo equipo) throws ArchivoNoEncontradoException {

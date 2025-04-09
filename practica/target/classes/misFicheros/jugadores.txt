@@ -1,0 +1,7 @@
+jorge, dorsal:22, altura: 1, habilidad: 2
+jaja, dorsal:23, altura: 2, habilidad: 3
+pop, dorsal:77, altura: 2, habilidad: 5
+jorge, dorsal:33, altura: 1, habilidad: 4
+paco, dorsal:99, altura: 1, habilidad: 5
+paco, dorsal:22, altura: 1, habilidad: 5
+paco, dorsal:2, altura: 1, habilidad: 5

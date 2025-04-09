@@ -15,7 +15,7 @@ public class JugadorFactory {
         } else if (altura > 4 && altura <= 5 && habilidad <= 2) {
             return new Pivot(nombre, "Pivot", dorsal, altura, habilidad);
         } else {
-            throw new MaximoJugadoresPosicionException(); // o puedes crear una excepción personalizada si lo prefieres
+            throw new MaximoJugadoresPosicionException(); 
         }
     }
 }

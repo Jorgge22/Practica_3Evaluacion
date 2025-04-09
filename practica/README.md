@@ -40,3 +40,15 @@ Este proyecto en Java gestiona un equipo de baloncesto, incluyendo jugadores, pa
 3. **Selección de Árbitros**: Los árbitros son seleccionados aleatoriamente, teniendo en cuenta si están enfermos.
 4. **Generación de Partido**: El partido se genera aleatoriamente con un resultado dentro del rango permitido, y se determina si es exhibición o oficial.
 5. **Guardado de Resúmenes**: Después de cada partido, se guarda el resumen de los resultados en `historicoEquipo.txt`.
+
+Elección de Map para la gestión de jugadores por posición
+
+La decisión de usar un Map<String, Integer> para gestionar los jugadores por posición se toma en base a las siguientes razones:
+
+    Eficiencia en la búsqueda: Utilizando un Map, podemos verificar rápidamente cuántos jugadores hay en una posición dada. Los Map permiten búsquedas, inserciones y actualizaciones en tiempo constante (O(1)).
+
+    Claridad y organización: Al usar un Map, la relación entre las posiciones y los jugadores se expresa de forma clara y estructurada. Cada clave en el Map (el tipo de jugador, como "Base", "Escolta", etc.) está asociada a un valor que representa la cantidad de jugadores en esa posición.
+
+    Escalabilidad: Si en el futuro se desea cambiar el número máximo de jugadores por posición o agregar nuevas posiciones, modificar el Map es sencillo y no requiere cambios complejos en el código.
+
+    Flexibilidad: Esta estructura permite un control eficiente sobre el número de jugadores por posición, garantizando que no se pueda exceder el límite preestablecido, lo que facilita la gestión del equipo sin necesidad de recorrer listas enteras para verificar cuántos jugadores hay en cada posición.

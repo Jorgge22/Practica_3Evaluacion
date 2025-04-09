@@ -1,6 +1,0 @@
-Equipo Local: Equipo A
-Equipo Visitante: Equipo B
-Resultado: 80 - 75
-Arbitro: Arbitro 1
----
----

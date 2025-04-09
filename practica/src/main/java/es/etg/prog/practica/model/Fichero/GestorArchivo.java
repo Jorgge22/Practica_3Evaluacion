@@ -9,6 +9,7 @@ import es.etg.prog.practica.model.excepciones.Excepciones.ArchivoNoEncontradoExc
 import es.etg.prog.practica.model.temporada.Arbitro;
 import es.etg.prog.practica.model.temporada.Equipo;
 import es.etg.prog.practica.model.temporada.Temporada;
+import es.etg.prog.practica.model.temporada.jugador.Jugador;
 import es.etg.prog.practica.model.temporada.partido.Partido;
 
 public interface GestorArchivo {
@@ -17,4 +18,6 @@ public interface GestorArchivo {
     public void guardarResumen(Equipo equipo, Partido partido) throws ArchivoNoEncontradoException;
     public void guardarResumenJugador(Equipo equipo) throws ArchivoNoEncontradoException;
     public void guardarHistoricoTemporada(Temporada temporada) throws ArchivoNoEncontradoException;
+    public void guardarJugador(Jugador jugador);
+    public void mostrarJugadores();
 }
