@@ -1,5 +1,6 @@
 package es.etg.prog.practica.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import es.etg.prog.practica.model.excepciones.Excepciones;
@@ -28,136 +29,102 @@ public class Controller {
     public void menu() throws MaximoJugadoresException, MaximoJugadoresPosicionException, NumeroIncorrectoException {
         int opcion;
         boolean salir = false;
-
+    
         while (!salir) {
             if (equipo == null) {
                 gestorEntradaSalida.imprimirMensaje("Introduce el nombre del equipo: ");
                 String nombreEquipo = gestorEntradaSalida.leerLinea();
                 equipo = new Equipo(nombreEquipo);
-
+    
                 Temporada.getInstancia().getEquipos().add(equipo);
-
+    
+                List<Jugador> jugadoresGuardados = fichero.leerJugadores();
+                if (jugadoresGuardados.isEmpty()) {
+                    System.out.println("No hay jugadores cargados.");
+                } else {
+                    equipo.getJugadores().clear();
+                    equipo.getJugadores().addAll(jugadoresGuardados);
+                }
+    
                 gestorEntradaSalida.imprimirMensajeSeparado("Equipo " + nombreEquipo + " creado con éxito.");
             }
+    
             gestorEntradaSalida.imprimirMensajeConFormato(Constantes.MSG_MENU);
             gestorEntradaSalida.imprimirMensajeConFormato(Constantes.MSG_OPCION);
-            opcion = gestorEntradaSalida.leerInt();
-
-            gestorEntradaSalida.leerLinea(); // Salto de línea
-
+            opcion = gestorEntradaSalida.leerInt();  
+    
             switch (opcion) {
                 case 1:
                     gestorEntradaSalida.imprimirMensaje("Nombre: ");
-                    String nombre = gestorEntradaSalida.leerLinea();
-
+                    String nombre = gestorEntradaSalida.leerLinea();  
+    
                     gestorEntradaSalida.imprimirMensaje("Dorsal: ");
-                    int dorsal = gestorEntradaSalida.leerInt();
-
-                    gestorEntradaSalida.leerLinea();
-
+                    int dorsal = gestorEntradaSalida.leerInt();  
+        
                     gestorEntradaSalida.imprimirMensaje("Altura (1-5): ");
                     int altura = gestorEntradaSalida.leerInt();
-
-                    gestorEntradaSalida.leerLinea();
-
+        
                     gestorEntradaSalida.imprimirMensaje("Habilidad (1-5): ");
                     int habilidad = gestorEntradaSalida.leerInt();
-
-                    gestorEntradaSalida.leerLinea();
-
+        
                     Jugador jugador = JugadorFactory.crearJugador(nombre, dorsal, altura, habilidad);
-
+    
                     // Guardar el jugador en el fichero
                     fichero.guardarJugador(jugador);
-
+    
                     // Leer todos los jugadores del fichero tras guardar el nuevo
                     List<Jugador> jugadoresActualizados = fichero.leerJugadores();
-
+    
                     // Actualizar el equipo con los jugadores leídos
                     equipo.getJugadores().clear();
                     equipo.getJugadores().addAll(jugadoresActualizados);
-
-                    // Reconstruir el mapa jugadoresPorPosicion
-                    equipo.getJugadoresPorPosicion().clear();
-                    for (Jugador j : jugadoresActualizados) {
-                        String tipo = j.getTipo();
-                        int cantidad = equipo.getJugadoresPorPosicion().getOrDefault(tipo, 0);
-                        equipo.getJugadoresPorPosicion().put(tipo, cantidad + 1);
-                    }
-
+    
                     gestorEntradaSalida.imprimirMensajeSeparado("Jugador agregado con éxito.");
                     fichero.mostrarJugadores();
                     break;
-
-                    case 2:
-                    gestorEntradaSalida.imprimirMensajeSeparado("Lista de jugadores:");
-                
-                    // Leer jugadores desde archivo
-                    List<Jugador> jugadores = fichero.leerJugadores();
-                
+    
+                case 2:
+                    List<Jugador> jugadores = equipo.getJugadores();
+    
                     if (jugadores.isEmpty()) {
-                        gestorEntradaSalida.imprimirMensajeSeparado("No hay jugadores en el archivo.");
+                        gestorEntradaSalida.imprimirMensajeSeparado("No hay jugadores para eliminar.");
+                        break;
+                    }
+    
+                    for (int i = 0; i < jugadores.size(); i++) {
+                        Jugador jugador2 = jugadores.get(i);
+                        gestorEntradaSalida.imprimirMensajeSeparado(
+                                (i + 1) + ". " + jugador2.getNombre() + " (Dorsal: " + jugador2.getDorsal() + ")");
+                    }
+    
+                    gestorEntradaSalida.imprimirMensaje("Seleccione el número del jugador a eliminar: ");
+                    int numeroAEliminar = gestorEntradaSalida.leerInt();  
+        
+                    if (numeroAEliminar < 1 || numeroAEliminar > jugadores.size()) {
+                        gestorEntradaSalida.imprimirMensajeSeparado("Error. Número fuera de rango.");
                     } else {
-                        gestorEntradaSalida.imprimirMensajeSeparado("Jugadores disponibles para eliminar:");
-                        for (int i = 0; i < jugadores.size(); i++) {
-                            Jugador jugador1 = jugadores.get(i);
-                            gestorEntradaSalida.imprimirMensajeSeparado((i + 1) + ". " + jugador1.toString());
-                        }
-                
-                        gestorEntradaSalida.imprimirMensaje(
-                                "Introduce el número del jugador a eliminar (1-" + jugadores.size() + "): ");
-                        int numeroJugador = gestorEntradaSalida.leerInt();
-                
-                        if (numeroJugador < 1 || numeroJugador > jugadores.size()) {
-                            gestorEntradaSalida.imprimirMensajeSeparado("Número incorrecto.");
-                        } else {
-                            // Eliminar el jugador de la lista
-                            Jugador jugadorEliminado = jugadores.remove(numeroJugador - 1);
-                
-                            // Actualizar los datos del equipo con los jugadores nuevos
-                            equipo.getJugadores().clear();
-                            equipo.getJugadores().addAll(jugadores);
-                
-                            // Reconstruir el mapa jugadoresPorPosicion
-                            equipo.getJugadoresPorPosicion().clear();
-                            for (Jugador j : jugadores) {
-                                String tipo = j.getTipo();
-                                int cantidad = equipo.getJugadoresPorPosicion().getOrDefault(tipo, 0);
-                                equipo.getJugadoresPorPosicion().put(tipo, cantidad + 1);
-                            }
-                
-                            // Guardar en el fichero los jugadores actualizados (sobrescribir)
-                            fichero.guardarJugadores(jugadores); // Aquí sobrescribimos todo el archivo
-                
-                            gestorEntradaSalida.imprimirMensajeSeparado("Jugador eliminado: " + jugadorEliminado);
-                
-                        }
+                        Jugador jugadorAEliminar = jugadores.get(numeroAEliminar - 1);
+                        equipo.eliminarJugador(jugadorAEliminar.getDorsal());
+                        gestorEntradaSalida.imprimirMensajeSeparado("Jugador eliminado con éxito.");
                     }
                     break;
-                
-
+    
                 case 3:
-
                     gestorEntradaSalida.imprimirMensaje("Nombre del equipo visitante: ");
                     String nombreVisitante = gestorEntradaSalida.leerLinea();
-
                     break;
-
-                case 4:
-                    break;
-
-                case 5:
-                    break;
-
-                case 6:
-                    break;
-
+    
+                // Otros casos...
                 case 7:
+                    salir = true;
+                    gestorEntradaSalida.imprimirMensajeSeparado("Saliendo..."); // Para salir del bucle
                     break;
+    
                 default:
+                    gestorEntradaSalida.imprimirMensaje("Opción no válida.");
                     break;
             }
-
         }
     }
+    
 }

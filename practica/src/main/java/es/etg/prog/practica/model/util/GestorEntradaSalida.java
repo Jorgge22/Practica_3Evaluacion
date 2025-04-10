@@ -13,6 +13,10 @@ public class GestorEntradaSalida {
         System.out.println(mensaje);
     }
 
+    public void imprimirMensajeSeparadoInt(int numero) {
+        System.out.println(numero);
+    }
+
     public void imprimirMensaje(String mensaje) {
         System.out.print(mensaje);
     }
@@ -22,14 +26,15 @@ public class GestorEntradaSalida {
     }
 
     public String leerLinea() {
-        return scanner.nextLine();
+        return scanner.nextLine().trim();
     }
 
     public int leerInt() {
-        int numero = scanner.nextInt();
-        scanner.nextLine(); // limpiar el \n
+        int numero = scanner.nextInt();  // Leer el número
+        scanner.nextLine();  // Limpiar el salto de línea residual
         return numero;
     }
+    
 
     public double leerDouble() {
         double numero = scanner.nextDouble();

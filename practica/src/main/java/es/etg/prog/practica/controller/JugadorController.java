@@ -9,16 +9,17 @@ import es.etg.prog.practica.model.excepciones.Excepciones.MaximoJugadoresPosicio
 import es.etg.prog.practica.model.excepciones.Excepciones.NumeroIncorrectoException;
 import es.etg.prog.practica.model.fichero.GestorArchivo;
 import es.etg.prog.practica.model.temporada.Equipo;
+import es.etg.prog.practica.model.temporada.jugador.Jugador;
 
 public class JugadorController {
-    private final GestorArchivo gestorArchivo;
+    /*private final GestorArchivo gestorArchivo;
 
     public JugadorController(GestorArchivo gestorArchivo) {
         this.gestorArchivo = gestorArchivo;
     }
 
-    public void anyadirJugador(Equipo equipo, String nombre, int dorsal, int altura, int habilidad) throws MaximoJugadoresException, MaximoJugadoresPosicionException {
-        equipo.agregarJugador(nombre, dorsal, altura, habilidad);
+    public void anyadirJugador(Jugador jugador) throws MaximoJugadoresException, MaximoJugadoresPosicionException {
+        equipo
     }
 
     public void eliminarJugador(Equipo equipo, int numeroJuagador) throws NumeroIncorrectoException {
@@ -31,7 +32,7 @@ public class JugadorController {
 
     public GestorArchivo getGestorArchivo() {
         return gestorArchivo;
-    }
+    }*/
 
     
 }

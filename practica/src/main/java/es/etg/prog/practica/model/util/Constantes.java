@@ -10,6 +10,7 @@ public class Constantes {
     public static final String RUTA_FICHEROS_EQUIPOS = "./src/main/resources/misFicheros/equipos.txt";
     public static final String RUTA_FICHEROS_JUGADORES = "practica\\src\\main\\resources\\misFicheros\\jugadores.txt";
     public static final String RUTA_FICHEROS_TEMPORADA = "./src/main/resources/misFicheros/temporada.txt";
+    public static final String RUTA_FICHEROS_JUGADORES_PRUEBA = "practica\\\\src\\\\main\\\\resources\\\\misFicheros\\\\jugadoresPrueba.txt";
 
     public static final String MSG_EXCEPCION_EXPULSION = "El jugador ha sido expulsado por acumulación de faltas.";
     public static final String MSG_EXCEPCION_MAXIMO_JUGADORES = "No se puede agregar más jugadores. El equipo ya está completo.";

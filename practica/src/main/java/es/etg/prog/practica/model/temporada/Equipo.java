@@ -1,95 +1,63 @@
 package es.etg.prog.practica.model.temporada;
 
-import java.util.*;
+import java.util.List;
 
-import es.etg.prog.practica.model.excepciones.Excepciones;
-import es.etg.prog.practica.model.excepciones.Excepciones.MaximoJugadoresPosicionException;
-import es.etg.prog.practica.model.excepciones.Excepciones.NumeroIncorrectoException;
 import es.etg.prog.practica.model.temporada.jugador.Jugador;
-import es.etg.prog.practica.model.temporada.jugador.JugadorFactory;
 import es.etg.prog.practica.model.util.Constantes;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+
 public class Equipo {
-    protected String nombre;
-    protected List<Jugador> jugadores; // Lista para almacenar los jugadores
-    protected Map<String, Integer> jugadoresPorPosicion; // Mapa para llevar el conteo de jugadores por posición
+    private List<Jugador> jugadores;
+    private String nombre;
 
     public Equipo(String nombre) {
         this.nombre = nombre;
         this.jugadores = new ArrayList<>();
-        this.jugadoresPorPosicion = new HashMap<>();
     }
 
-    public void agregarJugador(String nombre, int dorsal, int altura, int habilidad)
-            throws MaximoJugadoresPosicionException {
-        Jugador jugador = JugadorFactory.crearJugador(nombre, dorsal, altura, habilidad);
-
-        String tipoPosicion = jugador.getTipo();
-        int jugadoresEnPosicion = jugadoresPorPosicion.getOrDefault(tipoPosicion, 0);
-
-        System.out.println("Jugadores en la posición " + tipoPosicion + ": " + jugadoresEnPosicion);
-
-        if (jugadoresEnPosicion >= Constantes.MAX_JUGADORES_POSICION) {
-            throw new MaximoJugadoresPosicionException();
+    // Método para agregar un nuevo jugador
+    public boolean agregarJugador(Jugador jugador) {
+        if (jugadores.size() < 15) {
+            jugadores.add(jugador);
+            return true;
         }
-
-        jugadores.add(jugador);
-        jugadoresPorPosicion.put(tipoPosicion, jugadoresEnPosicion + 1);
-
-        System.out.println("Jugador agregado con éxito.");
+        return false;
     }
 
-    public Jugador eliminarJugador(int numeroJugador) throws NumeroIncorrectoException {
-        // Comprobar si la lista de jugadores está vacía
-        if (jugadores.isEmpty()) {
-            throw new Excepciones.NumeroIncorrectoException();
+    // Método para eliminar un jugador sin usar Iterator
+    public boolean eliminarJugador(int dorsal) {
+        for (int i = 0; i < jugadores.size(); i++) {
+            Jugador jugador = jugadores.get(i); // Obtener jugador por índice
+            if (jugador.getDorsal() == dorsal) {
+                jugadores.remove(i); // Eliminar el jugador por índice
+                actualizarArchivoJugadores(); // Actualizar archivo después de eliminar
+                return true; // Si se eliminó con éxito
+            }
         }
-    
-        // Verificar si el número de jugador es válido
-        if (numeroJugador < 0 || numeroJugador >= jugadores.size()) {
-            throw new Excepciones.NumeroIncorrectoException(); 
-        }
-    
-        // Eliminar al jugador usando el índice ajustado
-        Jugador jugadorEliminado = jugadores.get(numeroJugador); // El índice ya se ajusta en el controlador
-    
-        // Eliminar al jugador de la lista
-        jugadores.remove(jugadorEliminado);
-    
-        // Actualizar los jugadores por posición
-        String tipoPosicion = jugadorEliminado.getTipo();
-        int jugadoresEnPosicion = jugadoresPorPosicion.getOrDefault(tipoPosicion, 0);
-        if (jugadoresEnPosicion > 0) {
-            jugadoresPorPosicion.put(tipoPosicion, jugadoresEnPosicion - 1); // Reducir el contador de jugadores en esa posición
-        }
-    
-        return jugadorEliminado;
-    }
-    
-    
-
-    public String getNombre() {
-        return nombre;
+        return false; // Si no se encontró el jugador con el dorsal
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    // Método para actualizar el archivo de jugadores
+    private void actualizarArchivoJugadores() {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(Constantes.RUTA_FICHEROS_JUGADORES))) {
+            for (Jugador jugador : jugadores) {
+                writer.write(jugador.getNombre() + "," + jugador.getDorsal() + "," + jugador.getAltura() + "," + jugador.getHabilidad());
+                writer.newLine();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public List<Jugador> getJugadores() {
         return jugadores;
     }
 
-    public void setJugadores(List<Jugador> jugadores) {
-        this.jugadores = jugadores;
+    public String getNombre() {
+        return nombre;
     }
-
-    public Map<String, Integer> getJugadoresPorPosicion() {
-        return jugadoresPorPosicion;
-    }
-
-    public void setJugadoresPorPosicion(Map<String, Integer> jugadoresPorPosicion) {
-        this.jugadoresPorPosicion = jugadoresPorPosicion;
-    }
-
 }

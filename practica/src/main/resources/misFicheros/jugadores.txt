@@ -1,11 +1,2 @@
-jorge, dorsal:22, altura: 1, habilidad: 2
-jaja, dorsal:23, altura: 2, habilidad: 3
-pop, dorsal:77, altura: 2, habilidad: 5
-jorge, dorsal:33, altura: 1, habilidad: 4
-paco, dorsal:99, altura: 1, habilidad: 5
-paco, dorsal:22, altura: 1, habilidad: 5
-paco, dorsal:2, altura: 1, habilidad: 5
-paqiño, dorsal:45, altura: 3, habilidad: 3
-poopopopo, dorsal:90, altura: 5, habilidad: 3
-jaja, dorsal:56, altura: 5, habilidad: 4
-pacopacopaco, dorsal:66, altura: 5, habilidad: 5
+Jorge,22,1,3
+Adri,33,4,1

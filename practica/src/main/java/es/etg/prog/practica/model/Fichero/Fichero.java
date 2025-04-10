@@ -133,18 +133,46 @@ public class Fichero implements GestorArchivo {
 
     @Override
     public void guardarJugador(Jugador jugador) {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(Constantes.RUTA_FICHEROS_JUGADORES))) {
-            writer.write(jugador.getNombre() + ", dorsal:" + jugador.getDorsal() + ", altura: " + jugador.getAltura() + ", habilidad: " + jugador.getHabilidad());
-            writer.newLine(); // Nueva línea para cada jugador
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(Constantes.RUTA_FICHEROS_JUGADORES, true))) {
+            // Formato correcto para guardar el jugador
+            String linea = jugador.getNombre() + ", Dorsal: " + jugador.getDorsal() + ", Altura: " + jugador.getAltura() + ", Habilidad: " + jugador.getHabilidad();
+            writer.write(linea);
+            writer.newLine();  // Añadir un salto de línea
         } catch (IOException e) {
-            System.out.println("Error al guardar el jugador en el archivo: " + e.getMessage());
+            System.out.println("Error al guardar el jugador: " + e.getMessage());
+        }
+    }
+    
+
+    @Override
+    public void guardarJugadores(List<Jugador> jugadors) {
+        for (Jugador jugador : jugadors) {
+            guardarJugador(jugador);
         }
     }
 
     @Override
-    public void guardarJugadores(List<Jugador> jugadors){
-        for (Jugador jugador : jugadors) {
-            guardarJugador(jugador);
+    public void eliminarJugador(int dorsal) throws ArchivoNoEncontradoException {
+        // Leer todos los jugadores del archivo
+        List<Jugador> jugadores = leerJugadores();
+
+        // Buscar el jugador y eliminarlo de la lista
+        Jugador jugadorAEliminar = null;
+        for (Jugador jugador : jugadores) {
+            if (jugador.getDorsal() == dorsal) {
+                jugadorAEliminar = jugador;
+                break;
+            }
+        }
+
+        // Si el jugador existe, lo eliminamos
+        if (jugadorAEliminar != null) {
+            jugadores.remove(jugadorAEliminar);
+            // Reescribimos el archivo con la lista de jugadores actualizada
+            guardarJugadores(jugadores);
+            System.out.println("Jugador eliminado correctamente.");
+        } else {
+            System.out.println("No se encontró el jugador con dorsal: " + dorsal);
         }
     }
 
@@ -163,26 +191,36 @@ public class Fichero implements GestorArchivo {
     @Override
     public List<Jugador> leerJugadores() {
         List<Jugador> jugadores = new ArrayList<>();
-
+    
         try (BufferedReader reader = new BufferedReader(new FileReader(Constantes.RUTA_FICHEROS_JUGADORES))) {
             String linea;
             while ((linea = reader.readLine()) != null) {
                 if (!linea.trim().isEmpty()) {
-                    String[] partes = linea.split(",");
-                    String nombre = partes[0].trim();
-                    int dorsal = Integer.parseInt(partes[1].split(":")[1].trim());
-                    int altura = Integer.parseInt(partes[2].split(":")[1].trim());
-                    int habilidad = Integer.parseInt(partes[3].split(":")[1].trim());
-
-                    Jugador jugador = JugadorFactory.crearJugador(nombre, dorsal, altura, habilidad);
-                    jugadores.add(jugador);
+                    // El formato de la línea es ahora diferente, así que dividimos según las comas
+                    String[] partes = linea.split(", ");
+                    if (partes.length == 4) {
+                        try {
+                            String nombre = partes[0].trim();
+                            int dorsal = Integer.parseInt(partes[1].split(":")[1].trim());
+                            int altura = Integer.parseInt(partes[2].split(":")[1].trim());
+                            int habilidad = Integer.parseInt(partes[3].split(":")[1].trim());
+    
+                            Jugador jugador = JugadorFactory.crearJugador(nombre, dorsal, altura, habilidad);
+                            jugadores.add(jugador);
+                        } catch (Exception e) {
+                            System.out.println("Error al procesar la línea: " + linea + ". " + e.getMessage());
+                        }
+                    } else {
+                        System.out.println("Línea mal formateada: " + linea);
+                    }
                 }
             }
         } catch (IOException e) {
             System.out.println("Error al leer los jugadores: " + e.getMessage());
         }
-
+    
         return jugadores;
     }
+    
 
 }

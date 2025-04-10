@@ -1,0 +1,10 @@
+jaja,23,2,3
+pop,77,2,5
+jorge,33,1,4
+paco,99,1,5
+paco,22,1,5
+paco,2,1,5
+paqiño,45,3,3
+poopopopo,90,5,3
+jaja,56,5,4
+pacopacopaco,66,5,5
