@@ -26,11 +26,15 @@ public class GestorEntradaSalida {
     }
 
     public int leerInt() {
-        return scanner.nextInt();
+        int numero = scanner.nextInt();
+        scanner.nextLine(); // limpiar el \n
+        return numero;
     }
 
     public double leerDouble() {
-        return scanner.nextDouble();
+        double numero = scanner.nextDouble();
+        scanner.nextLine(); // limpiar el \n
+        return numero;
     }
 
     public void cerrarScanner() {

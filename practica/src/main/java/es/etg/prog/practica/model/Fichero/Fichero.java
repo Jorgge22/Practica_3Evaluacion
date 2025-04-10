@@ -133,12 +133,18 @@ public class Fichero implements GestorArchivo {
 
     @Override
     public void guardarJugador(Jugador jugador) {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(Constantes.RUTA_FICHEROS_JUGADORES, true))) {
-            writer.write(jugador.getNombre() + ", dorsal:" + jugador.getDorsal() + ", altura: " + jugador.getAltura()
-                    + ", habilidad: " + jugador.getHabilidad());
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(Constantes.RUTA_FICHEROS_JUGADORES))) {
+            writer.write(jugador.getNombre() + ", dorsal:" + jugador.getDorsal() + ", altura: " + jugador.getAltura() + ", habilidad: " + jugador.getHabilidad());
             writer.newLine(); // Nueva línea para cada jugador
         } catch (IOException e) {
             System.out.println("Error al guardar el jugador en el archivo: " + e.getMessage());
+        }
+    }
+
+    @Override
+    public void guardarJugadores(List<Jugador> jugadors){
+        for (Jugador jugador : jugadors) {
+            guardarJugador(jugador);
         }
     }
 
