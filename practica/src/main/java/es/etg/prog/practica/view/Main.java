@@ -15,7 +15,7 @@ public class Main {
         // Crear el objeto gestorEntradaSalida
         GestorEntradaSalida gestorEntradaSalida = new GestorEntradaSalida(scanner);
 
-        // Crear el controlador pasando el gestorEntradaSalida
+        // Crear el controlador pasando el gestorEntradaSalidaºº
         Controller controller = new Controller(gestorEntradaSalida);
 
         try {

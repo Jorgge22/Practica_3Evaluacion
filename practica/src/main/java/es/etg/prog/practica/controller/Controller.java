@@ -30,7 +30,7 @@ public class Controller {
 
         while (!salir) {
             if (equipo == null) {
-                gestorEntradaSalida.imprimirMensajeSeparado("Introduce el nombre del equipo: ");
+                gestorEntradaSalida.imprimirMensaje("Introduce el nombre del equipo: ");
                 String nombreEquipo = gestorEntradaSalida.leerLinea();
                 equipo = new Equipo(nombreEquipo);
 
@@ -89,14 +89,19 @@ public class Controller {
                         if (jugadores.isEmpty()) {
                             gestorEntradaSalida.imprimirMensajeSeparado("No hay jugadores en el archivo.");
                         } else {
-                            // Mostrar la lista de jugadores cargados
+                            gestorEntradaSalida.imprimirMensajeSeparado("Jugadores disponibles para eliminar:");
                             for (int i = 0; i < jugadores.size(); i++) {
                                 Jugador jugador = jugadores.get(i);
                                 gestorEntradaSalida.imprimirMensajeSeparado((i + 1) + ". " + jugador.toString());
                             }
                 
-                            gestorEntradaSalida.imprimirMensaje("Dime el numero del jugador que quieres eliminar: ");
+                            gestorEntradaSalida.imprimirMensaje("Introduce el número del jugador a eliminar (1-" + jugadores.size() + "): ");
                             int numeroJugador = gestorEntradaSalida.leerInt();
+                            
+                
+                            // Debug: Verificar el valor de numeroJugador y el tamaño de la lista
+                            gestorEntradaSalida.imprimirMensajeSeparado("Número del jugador: " + numeroJugador);
+                            gestorEntradaSalida.imprimirMensajeSeparado("Tamaño de la lista de jugadores: " + jugadores.size());
                 
                             // Validar que el número esté dentro del rango
                             if (numeroJugador < 1 || numeroJugador > jugadores.size()) {
@@ -104,7 +109,6 @@ public class Controller {
                             } else {
                                 // Llamar al método de eliminarJugador pasando el índice ajustado
                                 Jugador jugadorEliminado = equipo.eliminarJugador(numeroJugador - 1); // Restamos 1 para obtener el índice correcto
-                
                                 gestorEntradaSalida.imprimirMensajeSeparado("Jugador eliminado: " + jugadorEliminado);
                             }
                         }
@@ -112,7 +116,6 @@ public class Controller {
                         gestorEntradaSalida.imprimirMensajeSeparado("Número incorrecto.");
                     }
                     break;
-                              
 
                 case 3:
                     break;

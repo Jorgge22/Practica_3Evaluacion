@@ -66,6 +66,7 @@ public class Equipo {
         return jugadorEliminado;
     }
     
+    
 
     public String getNombre() {
         return nombre;

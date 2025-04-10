@@ -5,8 +5,5 @@ public class Escolta extends Jugador {
         super(nombre, "Escolta", dorsal, altura, habilidad);
     }
 
-    @Override
-    public String toString() {
-        return "Escolta []";
-    }
+
 }
