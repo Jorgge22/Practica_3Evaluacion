@@ -1,14 +1,11 @@
 package es.etg.prog.practica.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import es.etg.prog.practica.model.excepciones.Excepciones;
 import es.etg.prog.practica.model.excepciones.Excepciones.MaximoJugadoresException;
 import es.etg.prog.practica.model.excepciones.Excepciones.MaximoJugadoresPosicionException;
 import es.etg.prog.practica.model.excepciones.Excepciones.NumeroIncorrectoException;
 import es.etg.prog.practica.model.fichero.Fichero;
-import es.etg.prog.practica.model.temporada.Arbitro;
 import es.etg.prog.practica.model.temporada.Equipo;
 import es.etg.prog.practica.model.temporada.Temporada;
 import es.etg.prog.practica.model.temporada.jugador.Jugador;
@@ -111,7 +108,7 @@ public class Controller {
     
                 case 3:
                     gestorEntradaSalida.imprimirMensaje("Nombre del equipo visitante: ");
-                    String nombreVisitante = gestorEntradaSalida.leerLinea();
+                    //String nombreVisitante = gestorEntradaSalida.leerLinea();
                     break;
     
                 // Otros casos...

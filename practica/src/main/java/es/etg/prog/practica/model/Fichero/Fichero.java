@@ -221,6 +221,4 @@ public class Fichero implements GestorArchivo {
     
         return jugadores;
     }
-    
-
 }

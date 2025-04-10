@@ -1,8 +1,6 @@
 import es.etg.prog.practica.model.excepciones.Excepciones.ArchivoNoEncontradoException;
 import es.etg.prog.practica.model.temporada.Arbitro;
 import es.etg.prog.practica.model.temporada.Equipo;
-import es.etg.prog.practica.model.temporada.Temporada;
-import es.etg.prog.practica.model.temporada.partido.Partido;
 import es.etg.prog.practica.model.fichero.Fichero;
 import es.etg.prog.practica.model.util.Constantes;
 
@@ -14,8 +12,6 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.util.ArrayList;
 import java.util.List;
 
 public class FicheroTest {
