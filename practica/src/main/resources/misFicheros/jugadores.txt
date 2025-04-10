@@ -8,3 +8,4 @@ paco, dorsal:2, altura: 1, habilidad: 5
 paqiño, dorsal:45, altura: 3, habilidad: 3
 poopopopo, dorsal:90, altura: 5, habilidad: 3
 jaja, dorsal:56, altura: 5, habilidad: 4
+pacopacopaco, dorsal:66, altura: 5, habilidad: 5

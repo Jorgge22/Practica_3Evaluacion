@@ -20,4 +20,5 @@ public interface GestorArchivo {
     public void guardarHistoricoTemporada(Temporada temporada) throws ArchivoNoEncontradoException;
     public void guardarJugador(Jugador jugador);
     public void mostrarJugadores();
+    public List<Jugador> leerJugadores();
 }

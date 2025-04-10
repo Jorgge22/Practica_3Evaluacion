@@ -17,6 +17,7 @@ import es.etg.prog.practica.model.temporada.Arbitro;
 import es.etg.prog.practica.model.temporada.Equipo;
 import es.etg.prog.practica.model.temporada.Temporada;
 import es.etg.prog.practica.model.temporada.jugador.Jugador;
+import es.etg.prog.practica.model.temporada.jugador.JugadorFactory;
 import es.etg.prog.practica.model.temporada.partido.Partido;
 import es.etg.prog.practica.model.util.Constantes;
 
@@ -144,4 +145,30 @@ public class Fichero implements GestorArchivo {
             System.out.println("Error al leer el archivo: " + e.getMessage());
         }
     }
+
+    @Override
+    public List<Jugador> leerJugadores() {
+    List<Jugador> jugadores = new ArrayList<>();
+
+    try (BufferedReader reader = new BufferedReader(new FileReader(Constantes.RUTA_FICHEROS_JUGADORES))) {
+        String linea;
+        while ((linea = reader.readLine()) != null) {
+            if (!linea.trim().isEmpty()) {
+                String[] partes = linea.split(",");
+                String nombre = partes[0].trim();
+                int dorsal = Integer.parseInt(partes[1].split(":")[1].trim());
+                int altura = Integer.parseInt(partes[2].split(":")[1].trim());
+                int habilidad = Integer.parseInt(partes[3].split(":")[1].trim());
+
+                Jugador jugador = JugadorFactory.crearJugador(nombre, dorsal, altura, habilidad);
+                jugadores.add(jugador);
+            }
+        }
+    } catch (IOException e) {
+        System.out.println("Error al leer los jugadores: " + e.getMessage());
+    }
+
+    return jugadores;
+}
+
 }

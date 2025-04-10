@@ -1,11 +1,14 @@
 package es.etg.prog.practica.controller;
 
+import java.util.List;
+
 import es.etg.prog.practica.model.excepciones.Excepciones;
 import es.etg.prog.practica.model.excepciones.Excepciones.MaximoJugadoresException;
 import es.etg.prog.practica.model.excepciones.Excepciones.MaximoJugadoresPosicionException;
 import es.etg.prog.practica.model.excepciones.Excepciones.NumeroIncorrectoException;
 import es.etg.prog.practica.model.fichero.Fichero;
 import es.etg.prog.practica.model.temporada.Equipo;
+import es.etg.prog.practica.model.temporada.Temporada;
 import es.etg.prog.practica.model.temporada.jugador.Jugador;
 import es.etg.prog.practica.model.temporada.jugador.JugadorFactory;
 import es.etg.prog.practica.model.util.Constantes;
@@ -19,7 +22,6 @@ public class Controller {
     public Controller(GestorEntradaSalida gestorEntradaSalida) {
         this.gestorEntradaSalida = gestorEntradaSalida;
         this.fichero = new Fichero();
-        this.equipo = new Equipo("Equipo de Ejemplo");
     }
 
     public void menu() throws MaximoJugadoresException, MaximoJugadoresPosicionException, NumeroIncorrectoException {
@@ -28,11 +30,13 @@ public class Controller {
 
         while (!salir) {
             if (equipo == null) {
-                // Si el equipo no está creado, pedimos el nombre
-                gestorEntradaSalida.imprimirMensaje("Introduce el nombre del equipo: ");
+                gestorEntradaSalida.imprimirMensajeSeparado("Introduce el nombre del equipo: ");
                 String nombreEquipo = gestorEntradaSalida.leerLinea();
-                equipo = new Equipo(nombreEquipo); 
-                gestorEntradaSalida.imprimirMensaje("Equipo " + nombreEquipo + " creado con éxito.");
+                equipo = new Equipo(nombreEquipo);
+
+                Temporada.getInstancia().getEquipos().add(equipo);
+
+                gestorEntradaSalida.imprimirMensajeSeparado("Equipo " + nombreEquipo + " creado con éxito.");
             }
             gestorEntradaSalida.imprimirMensajeConFormato(Constantes.MSG_MENU);
             gestorEntradaSalida.imprimirMensajeConFormato(Constantes.MSG_OPCION);
@@ -68,24 +72,47 @@ public class Controller {
                         fichero.mostrarJugadores();
                     } catch (MaximoJugadoresPosicionException e) {
                         gestorEntradaSalida.imprimirMensajeSeparado("Error: Ya hay 3 jugadores en esta posición.");
-                    } /*catch (MaximoJugadoresException e) {
-                        gestorEntradaSalida.imprimirMensajeSeparado("Error: El equipo ya tiene el máximo de jugadores.");
-                    }*/
+                    } /*
+                       * catch (MaximoJugadoresException e) {
+                       * gestorEntradaSalida.
+                       * imprimirMensajeSeparado("Error: El equipo ya tiene el máximo de jugadores.");
+                       * }
+                       */
                     break;
 
-                case 2:
+                    case 2:
                     try {
-                        gestorEntradaSalida.imprimirMensaje("Dime el numero del jugador que quieres eliminar: ");
-                        int numeroJuagador = gestorEntradaSalida.leerInt();
-    
-                        gestorEntradaSalida.leerLinea();
-
-                        Jugador jugadorEliminado = equipo.eliminarJugador(numeroJuagador);
-                        gestorEntradaSalida.imprimirMensajeSeparado("Jugador eliminado: " + jugadorEliminado);
+                        gestorEntradaSalida.imprimirMensajeSeparado("Lista de jugadores:");
+                
+                        List<Jugador> jugadores = fichero.leerJugadores();
+                
+                        if (jugadores.isEmpty()) {
+                            gestorEntradaSalida.imprimirMensajeSeparado("No hay jugadores en el archivo.");
+                        } else {
+                            // Mostrar la lista de jugadores cargados
+                            for (int i = 0; i < jugadores.size(); i++) {
+                                Jugador jugador = jugadores.get(i);
+                                gestorEntradaSalida.imprimirMensajeSeparado((i + 1) + ". " + jugador.toString());
+                            }
+                
+                            gestorEntradaSalida.imprimirMensaje("Dime el numero del jugador que quieres eliminar: ");
+                            int numeroJugador = gestorEntradaSalida.leerInt();
+                
+                            // Validar que el número esté dentro del rango
+                            if (numeroJugador < 1 || numeroJugador > jugadores.size()) {
+                                gestorEntradaSalida.imprimirMensajeSeparado("Número incorrecto.");
+                            } else {
+                                // Llamar al método de eliminarJugador pasando el índice ajustado
+                                Jugador jugadorEliminado = equipo.eliminarJugador(numeroJugador - 1); // Restamos 1 para obtener el índice correcto
+                
+                                gestorEntradaSalida.imprimirMensajeSeparado("Jugador eliminado: " + jugadorEliminado);
+                            }
+                        }
                     } catch (Excepciones.NumeroIncorrectoException e) {
-                        gestorEntradaSalida.imprimirMensajeSeparado(e.getMessage());
+                        gestorEntradaSalida.imprimirMensajeSeparado("Número incorrecto.");
                     }
                     break;
+                              
 
                 case 3:
                     break;
