@@ -5,11 +5,11 @@ package es.etg.prog.practica.model.util;
  * @author Jorge
  */
 public class Constantes {
-    public static final String RUTA_FICHEROS_ARBITROS = "./src/main/resources/misFicheros/arbitros.txt";
-    public static final String RUTA_FICHEROS_PARTIDOS = "./src/main/resources/misFicheros/partido.txt";
-    public static final String RUTA_FICHEROS_EQUIPOS = "./src/main/resources/misFicheros/equipos.txt";
+    public static final String RUTA_FICHEROS_ARBITROS = "practica\\src\\main\\resources\\misFicheros\\arbitros.txt";
+    public static final String RUTA_FICHEROS_PARTIDOS = "practica\\src\\main\\resources\\misFicheros\\partido.txt";
+    public static final String RUTA_FICHEROS_EQUIPOS = "practica\\src\\main\\resources\\misFicheros\\equipos.txt";
     public static final String RUTA_FICHEROS_JUGADORES = "practica\\src\\main\\resources\\misFicheros\\jugadores.txt";
-    public static final String RUTA_FICHEROS_TEMPORADA = "./src/main/resources/misFicheros/temporada.txt";
+    public static final String RUTA_FICHEROS_TEMPORADA = "practica\\src\\main\\resources\\misFicheros\\temporada.txt";
     public static final String RUTA_FICHEROS_JUGADORES_PRUEBA = "practica\\\\src\\\\main\\\\resources\\\\misFicheros\\\\jugadoresPrueba.txt";
 
     public static final String MSG_EXCEPCION_EXPULSION = "El jugador ha sido expulsado por acumulación de faltas.";

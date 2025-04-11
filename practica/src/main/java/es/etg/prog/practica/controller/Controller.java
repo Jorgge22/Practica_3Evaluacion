@@ -2,14 +2,19 @@ package es.etg.prog.practica.controller;
 
 import java.util.List;
 
+import es.etg.prog.practica.model.excepciones.Excepciones;
+import es.etg.prog.practica.model.excepciones.Excepciones.ArbitrosNoDisponibles;
+import es.etg.prog.practica.model.excepciones.Excepciones.ArchivoNoEncontradoException;
 import es.etg.prog.practica.model.excepciones.Excepciones.MaximoJugadoresException;
 import es.etg.prog.practica.model.excepciones.Excepciones.MaximoJugadoresPosicionException;
 import es.etg.prog.practica.model.excepciones.Excepciones.NumeroIncorrectoException;
 import es.etg.prog.practica.model.fichero.Fichero;
+import es.etg.prog.practica.model.temporada.Arbitro;
 import es.etg.prog.practica.model.temporada.Equipo;
 import es.etg.prog.practica.model.temporada.Temporada;
 import es.etg.prog.practica.model.temporada.jugador.Jugador;
 import es.etg.prog.practica.model.temporada.jugador.JugadorFactory;
+import es.etg.prog.practica.model.temporada.partido.Partido;
 import es.etg.prog.practica.model.util.Constantes;
 import es.etg.prog.practica.model.util.GestorEntradaSalida;
 
@@ -23,15 +28,16 @@ public class Controller {
         this.fichero = new Fichero();
     }
 
-    public void menu() throws MaximoJugadoresException, MaximoJugadoresPosicionException, NumeroIncorrectoException {
+    public void menu() throws MaximoJugadoresException, MaximoJugadoresPosicionException, NumeroIncorrectoException, ArchivoNoEncontradoException, ArbitrosNoDisponibles {
+        String nombreEquipoLocal = "";
         int opcion;
         boolean salir = false;
     
         while (!salir) {
             if (equipo == null) {
                 gestorEntradaSalida.imprimirMensaje("Introduce el nombre del equipo: ");
-                String nombreEquipo = gestorEntradaSalida.leerLinea();
-                equipo = new Equipo(nombreEquipo);
+                nombreEquipoLocal = gestorEntradaSalida.leerLinea();
+                equipo = new Equipo(nombreEquipoLocal);
     
                 Temporada.getInstancia().getEquipos().add(equipo);
     
@@ -43,7 +49,7 @@ public class Controller {
                     equipo.getJugadores().addAll(jugadoresGuardados);
                 }
     
-                gestorEntradaSalida.imprimirMensajeSeparado("Equipo " + nombreEquipo + " creado con éxito.");
+                gestorEntradaSalida.imprimirMensajeSeparado("Equipo " + nombreEquipoLocal + " creado con éxito.");
             }
     
             gestorEntradaSalida.imprimirMensajeConFormato(Constantes.MSG_MENU);
@@ -65,9 +71,10 @@ public class Controller {
                     int habilidad = gestorEntradaSalida.leerInt();
         
                     Jugador jugador = JugadorFactory.crearJugador(nombre, dorsal, altura, habilidad);
-    
-                    // Guardar el jugador en el fichero
-                    fichero.guardarJugador(jugador);
+
+                    equipo.getJugadores().add(jugador);
+
+                    fichero.guardarJugador(equipo.getJugadores());
     
                     // Leer todos los jugadores del fichero tras guardar el nuevo
                     List<Jugador> jugadoresActualizados = fichero.leerJugadores();
@@ -90,8 +97,7 @@ public class Controller {
     
                     for (int i = 0; i < jugadores.size(); i++) {
                         Jugador jugador2 = jugadores.get(i);
-                        gestorEntradaSalida.imprimirMensajeSeparado(
-                                (i + 1) + ". " + jugador2.getNombre() + " (Dorsal: " + jugador2.getDorsal() + ")");
+                        gestorEntradaSalida.imprimirMensajeSeparado((i + 1) + ". " + jugador2.getNombre() + " (Dorsal: " + jugador2.getDorsal() + ")");
                     }
     
                     gestorEntradaSalida.imprimirMensaje("Seleccione el número del jugador a eliminar: ");
@@ -108,13 +114,52 @@ public class Controller {
     
                 case 3:
                     gestorEntradaSalida.imprimirMensaje("Nombre del equipo visitante: ");
-                    //String nombreVisitante = gestorEntradaSalida.leerLinea();
+                    String nombreVisitante = gestorEntradaSalida.leerLinea();
+
+                    List<Arbitro> arbitros = fichero.leerArbitros();
+                    Arbitro arbitro = null;
+                    try {
+                        arbitro = Arbitro.elegirArbitro();
+                        gestorEntradaSalida.imprimirMensajeSeparado("El árbitro seleccionado es: " + arbitro.getNombre());
+                    } catch (Excepciones.ArbitrosNoDisponibles e) {
+                        gestorEntradaSalida.imprimirMensajeSeparado(e.getMessage());
+                    }
+
+                    gestorEntradaSalida.imprimirMensaje("El partido es Oficial (O) o de Exibición (E): ");
+                    String respuesta = gestorEntradaSalida.leerLinea();
+
+                    boolean esOficial = false;
+                    if (respuesta.equalsIgnoreCase("O")) {
+                        esOficial = true;
+                    } else if (respuesta.equalsIgnoreCase("E")) {
+                        esOficial = false;
+                    } else {
+                        gestorEntradaSalida.imprimirMensajeSeparado("Opción no válida.");
+                    }
+
+                    Equipo equipoLocal = new Equipo(nombreEquipoLocal);
+                    Equipo equipoVisitante = new Equipo(nombreVisitante);
+
+                    if (!Temporada.getInstancia().verificarPartidoYaJugado(equipoLocal, equipoVisitante)) {
+                        Temporada.getInstancia().jugarPartido(equipoLocal, equipoVisitante, arbitro, esOficial);
+                        try {
+                            // Ejecutar el partido y obtener el resumen
+                            String resumen = Temporada.getInstancia().jugarPartido(equipoLocal, equipoVisitante, arbitro, esOficial);
+                            // Mostrar el resumen del partido
+                            gestorEntradaSalida.imprimirMensaje(resumen);
+                        } catch (IllegalStateException | ArchivoNoEncontradoException | ArbitrosNoDisponibles e) {
+                            gestorEntradaSalida.imprimirMensajeSeparado("Error al jugar el partido: " + e.getMessage());
+                        }
+
+                    } else {
+                        gestorEntradaSalida.imprimirMensajeSeparado("Ya se ha jugado 2 veces.");
+                    }
                     break;
     
-                // Otros casos...
+                
                 case 7:
                     salir = true;
-                    gestorEntradaSalida.imprimirMensajeSeparado("Saliendo..."); // Para salir del bucle
+                    gestorEntradaSalida.imprimirMensajeSeparado("Saliendo...");
                     break;
     
                 default:

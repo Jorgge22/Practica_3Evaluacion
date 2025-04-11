@@ -1,0 +1,18 @@
+Nombre: Atleti
+Resultado: 82 - 137
+Arbitro: Ana Gómez
+Tipo: Oficial
+Estadisticas: 
+---
+Nombre: Atleti
+Resultado: 118 - 91
+Arbitro: Carlos Martínez
+Tipo: Oficial
+Estadisticas: 
+---
+Nombre: Madrid
+Resultado: 69 - 80
+Arbitro: Luis Pérez
+Tipo: Oficial
+Estadisticas: 
+---

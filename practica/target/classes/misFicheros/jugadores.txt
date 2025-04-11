@@ -1,2 +1,6 @@
-Jorge,22,1,3
-Adri,33,4,1
+Jorge, Dorsal: 77, Altura: 5, Habilidad: 5
+A, Dorsal: 1, Altura: 5, Habilidad: 5
+B, Dorsal: 2, Altura: 5, Habilidad: 5
+P, Dorsal: 4, Altura: 5, Habilidad: 5
+Paco, Dorsal: 99, Altura: 5, Habilidad: 4
+a, Dorsal: 1, Altura: 1, Habilidad: 2

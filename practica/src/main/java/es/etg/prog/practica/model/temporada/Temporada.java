@@ -12,6 +12,7 @@ import es.etg.prog.practica.model.excepciones.Excepciones.ArbitrosNoDisponibles;
 import es.etg.prog.practica.model.excepciones.Excepciones.ArchivoNoEncontradoException;
 import es.etg.prog.practica.model.fichero.Fichero;
 import es.etg.prog.practica.model.fichero.GestorArchivo;
+import es.etg.prog.practica.model.temporada.jugador.Jugador;
 import es.etg.prog.practica.model.temporada.partido.Partido;
 import es.etg.prog.practica.model.temporada.partido.PartidoExibicion;
 import es.etg.prog.practica.model.temporada.partido.PartidoOficial;
@@ -54,12 +55,14 @@ public class Temporada {
      * @throws Excepciones.PartidoYaJugadoException Si el partido es oficial y ya se
      *                                              ha jugado previamente, se lanza
      *                                              esta excepción.
-     * @throws ArchivoNoEncontradoException 
-     * @throws ArbitrosNoDisponibles 
+     * @throws ArchivoNoEncontradoException
+     * @throws ArbitrosNoDisponibles
      */
-    public void jugarPartido(Equipo local, Equipo visitante, Arbitro arbitro, boolean esOficial) throws ArchivoNoEncontradoException, ArbitrosNoDisponibles {
-        Partido partido;
-        
+    public String jugarPartido(Equipo local, Equipo visitante, Arbitro arbitro, boolean esOficial)
+            throws ArchivoNoEncontradoException, ArbitrosNoDisponibles {
+        Partido partido = null;
+
+        // Crear el partido según sea oficial o exhibición
         if (esOficial) {
             partido = new PartidoOficial(local, visitante);
         } else {
@@ -69,15 +72,32 @@ public class Temporada {
         // Calcular el resultado del partido
         Equipo ganador = partido.calcularResultado();
 
-        // Crear el resumen del partido
+        // Generar el resumen con puntos y faltas
         StringBuilder resumen = new StringBuilder();
-        resumen.append("Resultado del partido: " + local.getNombre() + " " + partido.getResultadoLocal() + " - " + partido.getResultadoVisitante() + " " + visitante.getNombre() + "\n");
+        resumen.append("Resultado del partido: " + local.getNombre() + " " + partido.getResultadoLocal() + " - "
+                + partido.getResultadoVisitante() + " " + visitante.getNombre() + "\n");
         resumen.append("Árbitro: " + arbitro.getNombre() + "\n");
         resumen.append("El ganador es: " + ganador.getNombre() + "\n");
 
+        resumen.append("Estadísticas de los jugadores:\n");
+        // Mostrar estadísticas de los jugadores del equipo local
+        for (Jugador jugador : local.getJugadores()) {
+            resumen.append(jugador.getNombre() + " - Puntos: " + jugador.getPuntos() + ", Faltas: "
+                    + jugador.getFaltas() + "\n");
+        }
+        // Mostrar estadísticas de los jugadores del equipo visitante
+        for (Jugador jugador : visitante.getJugadores()) {
+            resumen.append(jugador.getNombre() + " - Puntos: " + jugador.getPuntos() + ", Faltas: "
+                    + jugador.getFaltas() + "\n");
+        }
+
         // Guardar el resumen en un archivo
         GestorArchivo gestorArchivo = new Fichero();
-        gestorArchivo.guardarResumen(ganador, partido);
+        gestorArchivo.guardarResumen(local, partido);
+        gestorArchivo.guardarResumen(visitante, partido);
+
+        // Retornar el resumen para que el controlador lo imprima
+        return resumen.toString();
     }
 
     /**
@@ -103,6 +123,13 @@ public class Temporada {
             }
         }
         return false;
+    }
+
+    public Partido getUltimoPartido() {
+        if (partidos.isEmpty()) {
+            return null; // Si no hay partidos jugados, retorna null.
+        }
+        return partidos.get(partidos.size() - 1); // Devuelve el último partido.
     }
 
     public List<Partido> getPartidos() {
