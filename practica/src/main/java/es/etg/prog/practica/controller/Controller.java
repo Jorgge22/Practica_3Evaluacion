@@ -28,19 +28,20 @@ public class Controller {
         this.fichero = new Fichero();
     }
 
-    public void menu() throws MaximoJugadoresException, MaximoJugadoresPosicionException, NumeroIncorrectoException, ArchivoNoEncontradoException, ArbitrosNoDisponibles {
+    public void menu() throws MaximoJugadoresException, MaximoJugadoresPosicionException, NumeroIncorrectoException,
+            ArchivoNoEncontradoException, ArbitrosNoDisponibles {
         String nombreEquipoLocal = "";
         int opcion;
         boolean salir = false;
-    
+
         while (!salir) {
             if (equipo == null) {
                 gestorEntradaSalida.imprimirMensaje("Introduce el nombre del equipo: ");
                 nombreEquipoLocal = gestorEntradaSalida.leerLinea();
                 equipo = new Equipo(nombreEquipoLocal);
-    
+
                 Temporada.getInstancia().getEquipos().add(equipo);
-    
+
                 List<Jugador> jugadoresGuardados = fichero.leerJugadores();
                 if (jugadoresGuardados.isEmpty()) {
                     System.out.println("No hay jugadores cargados.");
@@ -48,61 +49,61 @@ public class Controller {
                     equipo.getJugadores().clear();
                     equipo.getJugadores().addAll(jugadoresGuardados);
                 }
-    
+
                 gestorEntradaSalida.imprimirMensajeSeparado("Equipo " + nombreEquipoLocal + " creado con éxito.");
             }
-    
+
             gestorEntradaSalida.imprimirMensajeConFormato(Constantes.MSG_MENU);
             gestorEntradaSalida.imprimirMensajeConFormato(Constantes.MSG_OPCION);
-            opcion = gestorEntradaSalida.leerInt();  
-    
+            opcion = gestorEntradaSalida.leerInt();
+
             switch (opcion) {
                 case 1:
                     gestorEntradaSalida.imprimirMensaje("Nombre: ");
-                    String nombre = gestorEntradaSalida.leerLinea();  
-    
+                    String nombre = gestorEntradaSalida.leerLinea();
+
                     gestorEntradaSalida.imprimirMensaje("Dorsal: ");
-                    int dorsal = gestorEntradaSalida.leerInt();  
-        
+                    int dorsal = gestorEntradaSalida.leerInt();
+
                     gestorEntradaSalida.imprimirMensaje("Altura (1-5): ");
                     int altura = gestorEntradaSalida.leerInt();
-        
+
                     gestorEntradaSalida.imprimirMensaje("Habilidad (1-5): ");
                     int habilidad = gestorEntradaSalida.leerInt();
-        
+
                     Jugador jugador = JugadorFactory.crearJugador(nombre, dorsal, altura, habilidad);
 
                     equipo.getJugadores().add(jugador);
 
                     fichero.guardarJugador(equipo.getJugadores());
-    
+
                     // Leer todos los jugadores del fichero tras guardar el nuevo
                     List<Jugador> jugadoresActualizados = fichero.leerJugadores();
-    
+
                     // Actualizar el equipo con los jugadores leídos
                     equipo.getJugadores().clear();
                     equipo.getJugadores().addAll(jugadoresActualizados);
-    
+
                     gestorEntradaSalida.imprimirMensajeSeparado("Jugador agregado con éxito.");
                     fichero.mostrarJugadores();
                     break;
-    
+
                 case 2:
                     List<Jugador> jugadores = equipo.getJugadores();
-    
+
                     if (jugadores.isEmpty()) {
                         gestorEntradaSalida.imprimirMensajeSeparado("No hay jugadores para eliminar.");
                         break;
                     }
-    
+
                     for (int i = 0; i < jugadores.size(); i++) {
                         Jugador jugador2 = jugadores.get(i);
                         gestorEntradaSalida.imprimirMensajeSeparado((i + 1) + ". " + jugador2.getNombre() + " (Dorsal: " + jugador2.getDorsal() + ")");
                     }
-    
+
                     gestorEntradaSalida.imprimirMensaje("Seleccione el número del jugador a eliminar: ");
-                    int numeroAEliminar = gestorEntradaSalida.leerInt();  
-        
+                    int numeroAEliminar = gestorEntradaSalida.leerInt();
+
                     if (numeroAEliminar < 1 || numeroAEliminar > jugadores.size()) {
                         gestorEntradaSalida.imprimirMensajeSeparado("Error. Número fuera de rango.");
                     } else {
@@ -111,7 +112,7 @@ public class Controller {
                         gestorEntradaSalida.imprimirMensajeSeparado("Jugador eliminado con éxito.");
                     }
                     break;
-    
+
                 case 3:
                     gestorEntradaSalida.imprimirMensaje("Nombre del equipo visitante: ");
                     String nombreVisitante = gestorEntradaSalida.leerLinea();
@@ -137,15 +138,13 @@ public class Controller {
                         gestorEntradaSalida.imprimirMensajeSeparado("Opción no válida.");
                     }
 
-                    Equipo equipoLocal = new Equipo(nombreEquipoLocal);
-                    Equipo equipoVisitante = new Equipo(nombreVisitante);
+                    Equipo equipoLocal = Temporada.getInstancia().getEquipoPorNombre(nombreEquipoLocal);
+                    Equipo equipoVisitante = Temporada.getInstancia().getEquipoPorNombre(nombreVisitante);
 
                     if (!Temporada.getInstancia().verificarPartidoYaJugado(equipoLocal, equipoVisitante)) {
-                        Temporada.getInstancia().jugarPartido(equipoLocal, equipoVisitante, arbitro, esOficial);
                         try {
                             // Ejecutar el partido y obtener el resumen
                             String resumen = Temporada.getInstancia().jugarPartido(equipoLocal, equipoVisitante, arbitro, esOficial);
-                            // Mostrar el resumen del partido
                             gestorEntradaSalida.imprimirMensaje(resumen);
                         } catch (IllegalStateException | ArchivoNoEncontradoException | ArbitrosNoDisponibles e) {
                             gestorEntradaSalida.imprimirMensajeSeparado("Error al jugar el partido: " + e.getMessage());
@@ -155,18 +154,21 @@ public class Controller {
                         gestorEntradaSalida.imprimirMensajeSeparado("Ya se ha jugado 2 veces.");
                     }
                     break;
-    
-                
+
+                case 4:
+
+                    break;
+
                 case 7:
                     salir = true;
                     gestorEntradaSalida.imprimirMensajeSeparado("Saliendo...");
                     break;
-    
+
                 default:
                     gestorEntradaSalida.imprimirMensaje("Opción no válida.");
                     break;
             }
         }
     }
-    
+
 }

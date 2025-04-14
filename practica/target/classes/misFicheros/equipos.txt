@@ -16,3 +16,114 @@ Arbitro: Luis Pérez
 Tipo: Oficial
 Estadisticas: 
 ---
+Nombre: Warriors
+Resultado: 143 - 63
+Arbitro: Carlos Martínez
+Tipo: Oficial
+Estadisticas: 
+Nombre: Jorge, Puntos: 0, Faltas: 0
+Nombre: A, Puntos: 0, Faltas: 0
+Nombre: B, Puntos: 0, Faltas: 0
+Nombre: P, Puntos: 0, Faltas: 0
+Nombre: Paco, Puntos: 0, Faltas: 0
+Nombre: a, Puntos: 0, Faltas: 0
+Nombre: C, Puntos: 0, Faltas: 0
+---
+Nombre: Memphis
+Resultado: 143 - 63
+Arbitro: Carlos Martínez
+Tipo: Oficial
+Estadisticas: 
+---
+Nombre: Warriors
+Resultado: 117 - 0
+Arbitro: Juan Rodríguez
+Tipo: Oficial
+Estadisticas: 
+Nombre: Jorge, Puntos: 24, Faltas: 3
+Nombre: A, Puntos: 0, Faltas: 4
+Nombre: B, Puntos: 17, Faltas: 3
+Nombre: P, Puntos: 29, Faltas: 2
+Nombre: Paco, Puntos: 13, Faltas: 1
+Nombre: a, Puntos: 1, Faltas: 3
+Nombre: C, Puntos: 28, Faltas: 4
+---
+Nombre: Minesota
+Resultado: 117 - 0
+Arbitro: Juan Rodríguez
+Tipo: Oficial
+Estadisticas: 
+---
+Nombre: Atleti
+Resultado: 85 - 0
+Arbitro: María Sánchez
+Tipo: Oficial
+Estadisticas: 
+Nombre: Jorge, Puntos: 1, Faltas: 1
+Nombre: A, Puntos: 28, Faltas: 0
+Nombre: B, Puntos: 3, Faltas: 1
+Nombre: P, Puntos: 15, Faltas: 1
+Nombre: Paco, Puntos: 9, Faltas: 2
+Nombre: a, Puntos: 1, Faltas: 2
+Nombre: C, Puntos: 28, Faltas: 1
+---
+Nombre: Madrid
+Resultado: 85 - 0
+Arbitro: María Sánchez
+Tipo: Oficial
+Estadisticas: 
+---
+Nombre: Rarara
+Resultado: 126 - 0
+Arbitro: Carlos Martínez
+Tipo: Oficial
+Estadisticas: 
+Nombre: Jorge, Puntos: 2, Faltas: 2
+Nombre: A, Puntos: 16, Faltas: 0
+Nombre: B, Puntos: 26, Faltas: 1
+Nombre: P, Puntos: 29, Faltas: 0
+Nombre: Paco, Puntos: 16, Faltas: 2
+Nombre: a, Puntos: 23, Faltas: 1
+Nombre: C, Puntos: 9, Faltas: 3
+---
+Nombre: PARLA
+Resultado: 0 - 0
+Arbitro: Ana Gómez
+Tipo: Oficial
+Estadisticas: 
+Nombre: Jorge, Puntos: 0, Faltas: 0
+Nombre: A, Puntos: 0, Faltas: 0
+Nombre: B, Puntos: 0, Faltas: 0
+Nombre: P, Puntos: 0, Faltas: 0
+Nombre: Paco, Puntos: 0, Faltas: 0
+Nombre: a, Puntos: 0, Faltas: 0
+Nombre: C, Puntos: 0, Faltas: 0
+---
+Nombre: PARLA
+Resultado: 84 - 103
+Arbitro: Carlos Martínez
+Tipo: Oficial
+Estadisticas: 
+Nombre: Jorge, Puntos: 17, Faltas: 2
+Nombre: A, Puntos: 15, Faltas: 4
+Nombre: B, Puntos: 5, Faltas: 3
+Nombre: P, Puntos: 2, Faltas: 1
+Nombre: Paco, Puntos: 12, Faltas: 0
+Nombre: a, Puntos: 13, Faltas: 3
+Nombre: C, Puntos: 15, Faltas: 4
+---
+
+Nombre: PARLA
+Resultado: 74 - 114
+Arbitro: Juan Rodríguez
+Ganador: RAYO
+Tipo: Oficial
+Estadisticas: 
+Nombre: Jorge, Puntos: 11, Faltas: 1
+Nombre: A, Puntos: 8, Faltas: 0
+Nombre: B, Puntos: 13, Faltas: 3
+Nombre: P, Puntos: 12, Faltas: 3
+Nombre: Paco, Puntos: 10, Faltas: 3
+Nombre: a, Puntos: 2, Faltas: 0
+Nombre: C, Puntos: 13, Faltas: 3
+---

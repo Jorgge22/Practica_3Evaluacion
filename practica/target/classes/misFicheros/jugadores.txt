@@ -4,3 +4,4 @@ B, Dorsal: 2, Altura: 5, Habilidad: 5
 P, Dorsal: 4, Altura: 5, Habilidad: 5
 Paco, Dorsal: 99, Altura: 5, Habilidad: 4
 a, Dorsal: 1, Altura: 1, Habilidad: 2
+C, Dorsal: 22, Altura: 3, Habilidad: 3

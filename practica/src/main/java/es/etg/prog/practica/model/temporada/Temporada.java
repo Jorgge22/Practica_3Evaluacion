@@ -74,31 +74,33 @@ public class Temporada {
 
         // Generar el resumen con puntos y faltas
         StringBuilder resumen = new StringBuilder();
-        resumen.append("Resultado del partido: " + local.getNombre() + " " + partido.getResultadoLocal() + " - "
-                + partido.getResultadoVisitante() + " " + visitante.getNombre() + "\n");
+        resumen.append("Resultado del partido: " + local.getNombre() + " " + partido.getResultadoLocal() + " - "+ partido.getResultadoVisitante() + " " + visitante.getNombre() + "\n");
         resumen.append("Árbitro: " + arbitro.getNombre() + "\n");
         resumen.append("El ganador es: " + ganador.getNombre() + "\n");
 
         resumen.append("Estadísticas de los jugadores:\n");
         // Mostrar estadísticas de los jugadores del equipo local
         for (Jugador jugador : local.getJugadores()) {
-            resumen.append(jugador.getNombre() + " - Puntos: " + jugador.getPuntos() + ", Faltas: "
-                    + jugador.getFaltas() + "\n");
-        }
-        // Mostrar estadísticas de los jugadores del equipo visitante
-        for (Jugador jugador : visitante.getJugadores()) {
-            resumen.append(jugador.getNombre() + " - Puntos: " + jugador.getPuntos() + ", Faltas: "
-                    + jugador.getFaltas() + "\n");
+            resumen.append(jugador.getNombre() + " - Puntos: " + jugador.getPuntos() + ", Faltas: " + jugador.getFaltas() + "\n");
         }
 
         // Guardar el resumen en un archivo
         GestorArchivo gestorArchivo = new Fichero();
         gestorArchivo.guardarResumen(local, partido);
-        gestorArchivo.guardarResumen(visitante, partido);
 
         // Retornar el resumen para que el controlador lo imprima
         return resumen.toString();
     }
+
+    public Equipo getEquipoPorNombre(String nombre) {
+        for (Equipo e : equipos) {
+            if (e.getNombre().equalsIgnoreCase(nombre)) {
+                return e;
+            }
+        }
+        return new Equipo(nombre); // En caso de no encontrar, se crea uno vacío (pero idealmente deberías avisar al usuario)
+    }
+    
 
     /**
      * Método que verifica si un partido oficial entre el equipo actual y un equipo

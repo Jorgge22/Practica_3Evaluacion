@@ -4,6 +4,7 @@ import java.util.Random;
 
 import es.etg.prog.practica.model.temporada.Arbitro;
 import es.etg.prog.practica.model.temporada.Equipo;
+import es.etg.prog.practica.model.temporada.jugador.Jugador;
 import es.etg.prog.practica.model.excepciones.Excepciones.ArbitrosNoDisponibles;
 
 public class Partido {
@@ -23,7 +24,7 @@ public class Partido {
         this.ganador = null; // El ganador se asignará después
         this.equipoLocal = equipoLocal;
         this.equipoVisitante = equipoVisitante;
-        this.arbitro = Arbitro.elegirArbitro(); 
+        this.arbitro = Arbitro.elegirArbitro();
     }
 
     /**
@@ -35,20 +36,33 @@ public class Partido {
     public Equipo calcularResultado() {
         Random random = new Random();
 
-        this.resultadoLocal = random.nextInt(MAX_PUNTOS - MIN_PUNTOS + 1) + MIN_PUNTOS;
-        this.resultadoVisitante = random.nextInt(MAX_PUNTOS - MIN_PUNTOS + 1) + MIN_PUNTOS;
+        int totalLocal = 0;
 
-        if (random.nextDouble() < 0.6) {
-            this.resultadoLocal += 5; // El equipo local recibe una bonificación del 5%
+        // Asignar estadísticas a los jugadores del equipo local
+        for (Jugador jugador : equipoLocal.getJugadores()) {
+            int puntos = random.nextInt(30); // por ejemplo, entre 0 y 29
+            int faltas = random.nextInt(5); // entre 0 y 4
+
+            jugador.setPuntos(puntos);
+            jugador.setFaltas(faltas);
+
+            totalLocal += puntos;
         }
 
-        // Determinar el ganador basado en los resultados
+        // Asignar estadísticas a los jugadores del equipo visitante
+        this.resultadoVisitante = random.nextInt(MAX_PUNTOS - MIN_PUNTOS + 1) + MIN_PUNTOS;
+
+        this.resultadoLocal = totalLocal;
+
+        if (random.nextDouble() < 0.6) {
+            this.resultadoLocal += 5; // Bonus para el local
+        }
+
         if (resultadoLocal > resultadoVisitante) {
             this.ganador = equipoLocal;
         } else if (resultadoLocal < resultadoVisitante) {
             this.ganador = equipoVisitante;
         } else {
-            // Si el resultado es empate, se decide un ganador aleatorio
             this.ganador = random.nextBoolean() ? equipoLocal : equipoVisitante;
         }
 
