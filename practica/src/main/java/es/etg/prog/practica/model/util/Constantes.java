@@ -37,6 +37,7 @@ public class Constantes {
     public static final String PIVOT = "Pivot";
 
     public static final int MAX_JUGADORES_POSICION = 3;
+    public static final int MAX_JUGADORES = 15;
 
     public static final String MSG_MENU = """
             1. AÑADIR JUGADOR
@@ -49,5 +50,4 @@ public class Constantes {
             """;
     public static final String MSG_OPCION = "Elige una opción: ";
 
-    public static final int MAX_JUGADORES = 15;
 }

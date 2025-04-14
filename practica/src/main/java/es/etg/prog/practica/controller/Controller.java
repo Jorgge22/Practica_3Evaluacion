@@ -73,7 +73,11 @@ public class Controller {
 
                     Jugador jugador = JugadorFactory.crearJugador(nombre, dorsal, altura, habilidad);
 
-                    equipo.getJugadores().add(jugador);
+                    if (equipo.agregarJugador(jugador)) {
+                        gestorEntradaSalida.imprimirMensajeSeparado("Jugador creado con exito.");
+                    } else {
+                        gestorEntradaSalida.imprimirMensajeSeparado("No creado, ya hay 3 jugadores en esa posicion.");
+                    }
 
                     fichero.guardarJugador(equipo.getJugadores());
 
@@ -84,7 +88,7 @@ public class Controller {
                     equipo.getJugadores().clear();
                     equipo.getJugadores().addAll(jugadoresActualizados);
 
-                    gestorEntradaSalida.imprimirMensajeSeparado("Jugador agregado con éxito.");
+                    //gestorEntradaSalida.imprimirMensajeSeparado("Jugador agregado con éxito.");
                     fichero.mostrarJugadores();
                     break;
 
@@ -140,11 +144,14 @@ public class Controller {
 
                     Equipo equipoLocal = Temporada.getInstancia().getEquipoPorNombre(nombreEquipoLocal);
                     Equipo equipoVisitante = Temporada.getInstancia().getEquipoPorNombre(nombreVisitante);
+                    Partido partido = new Partido(equipoLocal, equipoVisitante);
 
                     if (!Temporada.getInstancia().verificarPartidoYaJugado(equipoLocal, equipoVisitante)) {
                         try {
                             // Ejecutar el partido y obtener el resumen
                             String resumen = Temporada.getInstancia().jugarPartido(equipoLocal, equipoVisitante, arbitro, esOficial);
+                            fichero.guardarResumenUltimoPartido(equipoLocal, partido);
+                            fichero.guardarHistoricoTemporada();
                             gestorEntradaSalida.imprimirMensaje(resumen);
                         } catch (IllegalStateException | ArchivoNoEncontradoException | ArbitrosNoDisponibles e) {
                             gestorEntradaSalida.imprimirMensajeSeparado("Error al jugar el partido: " + e.getMessage());
@@ -158,6 +165,15 @@ public class Controller {
                 case 4:
                     String resumen = fichero.leerUltimoPartido();
                     gestorEntradaSalida.imprimirMensaje(resumen);
+                    break;
+
+                case 5:
+                    String resumenTemporada = fichero.leerHistoricoTemporada();
+                    gestorEntradaSalida.imprimirMensajeSeparado(resumenTemporada);
+                    break;
+
+                case 6:
+
                     break;
 
                 case 7:

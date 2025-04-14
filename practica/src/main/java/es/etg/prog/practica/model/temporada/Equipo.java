@@ -7,6 +7,7 @@ import es.etg.prog.practica.model.temporada.jugador.Alero;
 import es.etg.prog.practica.model.temporada.jugador.Base;
 import es.etg.prog.practica.model.temporada.jugador.Escolta;
 import es.etg.prog.practica.model.temporada.jugador.Jugador;
+import es.etg.prog.practica.model.temporada.jugador.JugadorFactory;
 import es.etg.prog.practica.model.temporada.jugador.Pivot;
 import es.etg.prog.practica.model.util.Constantes;
 
@@ -41,13 +42,13 @@ public class Equipo {
         contarJugadoresPosicion();
         if (jugador instanceof Base && contadorBases >= 3) {
             return false;
-        } else if (jugador instanceof Escolta) {
+        } else if (jugador instanceof Escolta && contadorEscolta >= 3) {
             return false;
-        } else if (jugador instanceof Alero) {
+        } else if (jugador instanceof Alero && contadorAlero >= 3) {
             return false;
-        } else if (jugador instanceof AlaPivot) {
+        } else if (jugador instanceof AlaPivot && contadorAlaPivot >= 3) {
             return false;
-        } else if (jugador instanceof Pivot) {
+        } else if (jugador instanceof Pivot && contadorPivot >= 3) {
             return false;
         }
 
@@ -87,7 +88,8 @@ public class Equipo {
     private void actualizarArchivoJugadores() {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(Constantes.RUTA_FICHEROS_JUGADORES))) {
             for (Jugador jugador : jugadores) {
-                writer.write(jugador.getNombre() + "," + jugador.getDorsal() + "," + jugador.getAltura() + "," + jugador.getHabilidad());
+                String linea = jugador.getNombre() + ", Dorsal: " + jugador.getDorsal() + ", Altura: "+ jugador.getAltura() + ", Habilidad: " + jugador.getHabilidad();
+                writer.write(linea);
                 writer.newLine();
             }
         } catch (IOException e) {
@@ -96,6 +98,11 @@ public class Equipo {
     }
 
     public void contarJugadoresPosicion(){
+        contadorBases = 0;
+        contadorEscolta = 0;
+        contadorAlero = 0;
+        contadorAlaPivot = 0;
+        contadorPivot = 0;
         for (Jugador jugador : jugadores) {
             if (jugador instanceof Base) {
                 contadorBases++;

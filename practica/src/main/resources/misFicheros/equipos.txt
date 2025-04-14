@@ -1,14 +1,14 @@
-Nombre: PARLA
-Resultado: 97 - 83
+Nombre: WARRIORS
+Resultado: 115 - 44
 Arbitro: Ana Gómez
-Ganador: PARLA
-Tipo: Exhibición
+Ganador: WARRIORS
+Tipo: Oficial
 Estadisticas: 
-Nombre: Jorge, Puntos: 26, Faltas: 1
-Nombre: A, Puntos: 10, Faltas: 2
-Nombre: B, Puntos: 2, Faltas: 4
-Nombre: P, Puntos: 15, Faltas: 3
-Nombre: Paco, Puntos: 1, Faltas: 2
-Nombre: a, Puntos: 15, Faltas: 1
-Nombre: C, Puntos: 28, Faltas: 1
+Nombre: JORGE, Puntos: 25, Faltas: 3
+Nombre: ALEX, Puntos: 26, Faltas: 0
+Nombre: ADRI, Puntos: 24, Faltas: 4
+Nombre: PACO, Puntos: 1, Faltas: 2
+Nombre: DANI, Puntos: 10, Faltas: 3
+Nombre: LAUREN, Puntos: 23, Faltas: 0
+Nombre: ANDRES, Puntos: 6, Faltas: 0
 ---

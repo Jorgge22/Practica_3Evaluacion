@@ -108,7 +108,7 @@ public class Fichero implements GestorArchivo {
     }
 
     @Override
-    public String leerUltimoPartido(){
+    public String leerUltimoPartido() throws ArchivoNoEncontradoException{
         StringBuilder resumen = new StringBuilder();
         try (BufferedReader br = new BufferedReader(new FileReader(Constantes.RUTA_FICHEROS_RESUMEN_ULTIMO_PARTIDO))) {
             String linea;
@@ -116,7 +116,7 @@ public class Fichero implements GestorArchivo {
                 resumen.append(linea).append(Constantes.MSG_BARRA_N);
             }
         } catch (IOException e) {
-            // TODO: handle exception
+            throw new Excepciones.ArchivoNoEncontradoException();
         }
 
         return resumen.toString();
@@ -143,15 +143,20 @@ public class Fichero implements GestorArchivo {
     }
 
     @Override
-    public void guardarHistoricoTemporada(Temporada temporada) throws ArchivoNoEncontradoException {
+    public void guardarHistoricoTemporada() throws ArchivoNoEncontradoException {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(Constantes.RUTA_FICHEROS_TEMPORADA, true))) {
+            Temporada temporada = Temporada.getInstancia();
             StringBuilder stringBuilder = new StringBuilder();
 
             for (Partido partido : temporada.getPartidos()) {
+                Equipo ganador = partido.calcularResultado();
+
                 stringBuilder.append(Constantes.MSG_EQUIPO_LOCAL).append(partido.getEquipoLocal().getNombre()).append(Constantes.MSG_BARRA_N);
                 stringBuilder.append(Constantes.MSG_EQUIPO_VISITANTE).append(partido.getEquipoVisitante().getNombre()).append(Constantes.MSG_BARRA_N);
                 stringBuilder.append(Constantes.MSG_RESULTADO).append(partido.getResultadoLocal()).append(" - ").append(partido.getResultadoVisitante()).append(Constantes.MSG_BARRA_N);
                 stringBuilder.append(Constantes.MSG_ARBITRO).append(partido.getArbitro().getNombre()).append(Constantes.MSG_BARRA_N);
+                stringBuilder.append("Ganador: ").append(ganador.getNombre()).append(Constantes.MSG_BARRA_N);
+                stringBuilder.append("Tipo: ").append(partido instanceof PartidoOficial ? "Oficial" : "Exhibición").append(Constantes.MSG_BARRA_N);
                 stringBuilder.append("---\n");
             }
 
@@ -160,6 +165,20 @@ public class Fichero implements GestorArchivo {
         } catch (IOException e) {
             throw new Excepciones.ArchivoNoEncontradoException();
         }
+    }
+
+    @Override
+    public String leerHistoricoTemporada() throws ArchivoNoEncontradoException{
+        StringBuilder resumen = new StringBuilder();
+        try (BufferedReader br = new BufferedReader(new FileReader(Constantes.RUTA_FICHEROS_TEMPORADA))) {
+            String linea;
+            while ((linea = br.readLine()) != null) {
+                resumen.append(linea).append(Constantes.MSG_BARRA_N);
+            }
+        } catch (IOException e) {
+            throw new Excepciones.ArchivoNoEncontradoException();
+        }
+        return resumen.toString();
     }
 
     @Override

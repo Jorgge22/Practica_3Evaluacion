@@ -8,7 +8,6 @@ import java.util.List;
 import es.etg.prog.practica.model.excepciones.Excepciones.ArchivoNoEncontradoException;
 import es.etg.prog.practica.model.temporada.Arbitro;
 import es.etg.prog.practica.model.temporada.Equipo;
-import es.etg.prog.practica.model.temporada.Temporada;
 import es.etg.prog.practica.model.temporada.jugador.Jugador;
 import es.etg.prog.practica.model.temporada.partido.Partido;
 
@@ -17,9 +16,10 @@ public interface GestorArchivo {
     public List<Arbitro> leerArbitros() throws ArchivoNoEncontradoException;
     public void guardarResumen(Equipo equipo, Partido partido) throws ArchivoNoEncontradoException;
     public void guardarResumenUltimoPartido(Equipo equipo, Partido partido) throws ArchivoNoEncontradoException;
-    public String leerUltimoPartido();
+    public String leerUltimoPartido() throws ArchivoNoEncontradoException;
     public void guardarResumenJugador(Equipo equipo) throws ArchivoNoEncontradoException;
-    public void guardarHistoricoTemporada(Temporada temporada) throws ArchivoNoEncontradoException;
+    public void guardarHistoricoTemporada() throws ArchivoNoEncontradoException;
+    public String leerHistoricoTemporada() throws ArchivoNoEncontradoException;
     public void guardarJugador(List<Jugador> jugadores);
     public void eliminarJugador(int dorsal) throws ArchivoNoEncontradoException;
     public void mostrarJugadores();
