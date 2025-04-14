@@ -98,7 +98,7 @@ public class Temporada {
                 return e;
             }
         }
-        return new Equipo(nombre); // En caso de no encontrar, se crea uno vacío (pero idealmente deberías avisar al usuario)
+        return new Equipo(nombre); 
     }
     
 

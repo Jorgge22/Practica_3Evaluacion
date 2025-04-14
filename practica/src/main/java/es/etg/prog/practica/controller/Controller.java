@@ -156,7 +156,8 @@ public class Controller {
                     break;
 
                 case 4:
-
+                    String resumen = fichero.leerUltimoPartido();
+                    gestorEntradaSalida.imprimirMensaje(resumen);
                     break;
 
                 case 7:
