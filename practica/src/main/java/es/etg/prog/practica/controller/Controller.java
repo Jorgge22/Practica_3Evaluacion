@@ -144,14 +144,17 @@ public class Controller {
 
                     Equipo equipoLocal = Temporada.getInstancia().getEquipoPorNombre(nombreEquipoLocal);
                     Equipo equipoVisitante = Temporada.getInstancia().getEquipoPorNombre(nombreVisitante);
-                    Partido partido = new Partido(equipoLocal, equipoVisitante);
 
                     if (!Temporada.getInstancia().verificarPartidoYaJugado(equipoLocal, equipoVisitante)) {
                         try {
                             // Ejecutar el partido y obtener el resumen
-                            String resumen = Temporada.getInstancia().jugarPartido(equipoLocal, equipoVisitante, arbitro, esOficial);
-                            fichero.guardarResumenUltimoPartido(equipoLocal, partido);
+                            Partido partido = Temporada.getInstancia().jugarPartido(equipoLocal, equipoVisitante, arbitro, esOficial);
+
+                            fichero.guardarResumen(partido.getEquipoLocal(), partido);
+                            fichero.guardarResumenUltimoPartido(partido.getEquipoLocal(), partido);
                             fichero.guardarHistoricoTemporada();
+
+                            String resumen = Temporada.getInstancia().generarResumenPartido(partido);
                             gestorEntradaSalida.imprimirMensaje(resumen);
                         } catch (IllegalStateException | ArchivoNoEncontradoException | ArbitrosNoDisponibles e) {
                             gestorEntradaSalida.imprimirMensajeSeparado("Error al jugar el partido: " + e.getMessage());
@@ -173,7 +176,7 @@ public class Controller {
                     break;
 
                 case 6:
-
+                    
                     break;
 
                 case 7:

@@ -58,9 +58,9 @@ public class Temporada {
      * @throws ArchivoNoEncontradoException
      * @throws ArbitrosNoDisponibles
      */
-    public String jugarPartido(Equipo local, Equipo visitante, Arbitro arbitro, boolean esOficial)
+    public Partido jugarPartido(Equipo local, Equipo visitante, Arbitro arbitro, boolean esOficial)
             throws ArchivoNoEncontradoException, ArbitrosNoDisponibles {
-        Partido partido = null;
+        Partido partido;
 
         // Crear el partido según sea oficial o exhibición
         if (esOficial) {
@@ -70,27 +70,33 @@ public class Temporada {
         }
 
         // Calcular el resultado del partido
-        Equipo ganador = partido.calcularResultado();
+        partido.setArbitro(arbitro);
+        partido.calcularResultado();
 
-        // Generar el resumen con puntos y faltas
-        StringBuilder resumen = new StringBuilder();
-        resumen.append("Resultado del partido: " + local.getNombre() + " " + partido.getResultadoLocal() + " - "+ partido.getResultadoVisitante() + " " + visitante.getNombre() + "\n");
-        resumen.append("Árbitro: " + arbitro.getNombre() + "\n");
-        resumen.append("El ganador es: " + ganador.getNombre() + "\n");
+        registrarPartidoJugado(partido);
 
-        resumen.append("Estadísticas de los jugadores:\n");
-        // Mostrar estadísticas de los jugadores del equipo local
-        for (Jugador jugador : local.getJugadores()) {
-            resumen.append(jugador.getNombre() + " - Puntos: " + jugador.getPuntos() + ", Faltas: " + jugador.getFaltas() + "\n");
-        }
-
-        // Guardar el resumen en un archivo
+        String resumen = Temporada.getInstancia().generarResumenPartido(partido);
         GestorArchivo gestorArchivo = new Fichero();
         gestorArchivo.guardarResumen(local, partido);
 
         // Retornar el resumen para que el controlador lo imprima
+        return partido;
+    }
+
+    public String generarResumenPartido(Partido partido) {
+        StringBuilder resumen = new StringBuilder();
+        resumen.append("Resultado del partido: " + partido.getEquipoLocal().getNombre() + " " + partido.getResultadoLocal() + " - " + partido.getResultadoVisitante() + " " + partido.getEquipoVisitante().getNombre() + "\n");
+        resumen.append("Árbitro: " + partido.getArbitro().getNombre() + "\n");
+        resumen.append("El ganador es: " + partido.getGanador().getNombre() + "\n");
+        resumen.append("Estadísticas de los jugadores:\n");
+    
+        for (Jugador jugador : partido.getEquipoLocal().getJugadores()) {
+            resumen.append(jugador.getNombre() + " - Puntos: " + jugador.getPuntos() + ", Faltas: " + jugador.getFaltas() + "\n");
+        }
+    
         return resumen.toString();
     }
+    
 
     public Equipo getEquipoPorNombre(String nombre) {
         for (Equipo e : equipos) {
@@ -98,9 +104,8 @@ public class Temporada {
                 return e;
             }
         }
-        return new Equipo(nombre); 
+        return new Equipo(nombre);
     }
-    
 
     /**
      * Método que verifica si un partido oficial entre el equipo actual y un equipo
@@ -118,18 +123,20 @@ public class Temporada {
      */
 
     public boolean verificarPartidoYaJugado(Equipo equipo1, Equipo equipo2) {
+        int contador = 0;
         for (Partido partido : partidos) {
             if ((partido.getEquipoLocal().equals(equipo1) && partido.getEquipoVisitante().equals(equipo2)) ||
-                    (partido.getEquipoVisitante().equals(equipo1) && partido.getEquipoLocal().equals(equipo2))) {
-                return true;
+                (partido.getEquipoVisitante().equals(equipo1) && partido.getEquipoLocal().equals(equipo2))) {
+                contador++;
             }
         }
-        return false;
+        return contador >= 2;
     }
+    
 
     public Partido getUltimoPartido() {
         if (partidos.isEmpty()) {
-            return null; // Si no hay partidos jugados, retorna null.
+            return null;
         }
         return partidos.get(partidos.size() - 1); // Devuelve el último partido.
     }

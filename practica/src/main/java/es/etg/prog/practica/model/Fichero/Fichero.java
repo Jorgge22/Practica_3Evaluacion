@@ -65,14 +65,18 @@ public class Fichero implements GestorArchivo {
     public void guardarResumen(Equipo equipo, Partido partido) throws ArchivoNoEncontradoException {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(Constantes.RUTA_FICHEROS_EQUIPOS))) {
             StringBuilder stringBuilder = new StringBuilder();
-            Equipo ganador = partido.calcularResultado();
+
+            //Equipo ganador = partido.getGanador();
 
             stringBuilder.append(Constantes.MSG_NOMBRE).append(equipo.getNombre()).append(Constantes.MSG_BARRA_N);
-            stringBuilder.append(Constantes.MSG_RESULTADO).append(partido.getResultadoLocal()).append(" - ").append(partido.getResultadoVisitante()).append(Constantes.MSG_BARRA_N);
-            stringBuilder.append(Constantes.MSG_ARBITRO).append(partido.getArbitro().getNombre()).append(Constantes.MSG_BARRA_N);
-            stringBuilder.append("Ganador: ").append(ganador.getNombre()).append(Constantes.MSG_BARRA_N);
-            stringBuilder.append("Tipo: ").append(partido instanceof PartidoOficial ? "Oficial" : "Exhibición").append(Constantes.MSG_BARRA_N);
-                    
+            stringBuilder.append(Constantes.MSG_RESULTADO).append(partido.getResultadoLocal()).append(" - ")
+                    .append(partido.getResultadoVisitante()).append(Constantes.MSG_BARRA_N);
+            stringBuilder.append(Constantes.MSG_ARBITRO).append(partido.getArbitro().getNombre())
+                    .append(Constantes.MSG_BARRA_N);
+            //stringBuilder.append("Ganador: ").append(ganador.getNombre()).append(Constantes.MSG_BARRA_N);
+            stringBuilder.append("Tipo: ").append(partido instanceof PartidoOficial ? "Oficial" : "Exhibición")
+                    .append(Constantes.MSG_BARRA_N);
+
             stringBuilder.append(Constantes.MSG_ESTADISTICAS + Constantes.MSG_BARRA_N);
             for (Jugador jugador : equipo.getJugadores()) {
                 stringBuilder.append(Constantes.MSG_NOMBRE).append(jugador.getNombre());
@@ -89,16 +93,19 @@ public class Fichero implements GestorArchivo {
     }
 
     @Override
-    public void guardarResumenUltimoPartido(Equipo equipo, Partido partido) throws ArchivoNoEncontradoException{
+    public void guardarResumenUltimoPartido(Equipo equipo, Partido partido) throws ArchivoNoEncontradoException {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(Constantes.RUTA_FICHEROS_RESUMEN_ULTIMO_PARTIDO))) {
             StringBuilder stringBuilder = new StringBuilder();
             Equipo ganador = partido.calcularResultado();
 
             stringBuilder.append(Constantes.MSG_NOMBRE).append(equipo.getNombre()).append(Constantes.MSG_BARRA_N);
-            stringBuilder.append(Constantes.MSG_RESULTADO).append(partido.getResultadoLocal()).append(" - ").append(partido.getResultadoVisitante()).append(Constantes.MSG_BARRA_N);
-            stringBuilder.append(Constantes.MSG_ARBITRO).append(partido.getArbitro().getNombre()).append(Constantes.MSG_BARRA_N);
+            stringBuilder.append(Constantes.MSG_RESULTADO).append(partido.getEquipoLocal().getNombre()).append(" " + partido.getResultadoLocal()).append(" - ")
+                    .append(partido.getResultadoVisitante()).append(" " + partido.getEquipoVisitante().getNombre()).append(Constantes.MSG_BARRA_N);
+            stringBuilder.append(Constantes.MSG_ARBITRO).append(partido.getArbitro().getNombre())
+                    .append(Constantes.MSG_BARRA_N);
             stringBuilder.append("Ganador: ").append(ganador.getNombre()).append(Constantes.MSG_BARRA_N);
-            stringBuilder.append("Tipo: ").append(partido instanceof PartidoOficial ? "Oficial" : "Exhibición").append(Constantes.MSG_BARRA_N);
+            stringBuilder.append("Tipo: ").append(partido instanceof PartidoOficial ? "Oficial" : "Exhibición")
+                    .append(Constantes.MSG_BARRA_N);
 
             bw.write(stringBuilder.toString());
             bw.write("---\n");
@@ -108,7 +115,7 @@ public class Fichero implements GestorArchivo {
     }
 
     @Override
-    public String leerUltimoPartido() throws ArchivoNoEncontradoException{
+    public String leerUltimoPartido() throws ArchivoNoEncontradoException {
         StringBuilder resumen = new StringBuilder();
         try (BufferedReader br = new BufferedReader(new FileReader(Constantes.RUTA_FICHEROS_RESUMEN_ULTIMO_PARTIDO))) {
             String linea;
@@ -130,6 +137,7 @@ public class Fichero implements GestorArchivo {
             stringBuilder.append(Constantes.MSG_ESTADISTICAS + Constantes.MSG_BARRA_N);
             for (Jugador jugador : equipo.getJugadores()) {
                 stringBuilder.append(Constantes.MSG_NOMBRE).append(jugador.getNombre());
+                stringBuilder.append(", " + "Tipo: ").append(jugador.getTipo());
                 stringBuilder.append(", " + Constantes.MSG_PUNTOS).append(jugador.getPuntos());
                 stringBuilder.append(", " + Constantes.MSG_FALTAS).append(jugador.getFaltas());
                 stringBuilder.append(Constantes.MSG_BARRA_N);
@@ -149,26 +157,35 @@ public class Fichero implements GestorArchivo {
             StringBuilder stringBuilder = new StringBuilder();
 
             for (Partido partido : temporada.getPartidos()) {
-                Equipo ganador = partido.calcularResultado();
+                Equipo ganador = partido.getGanador();
 
-                stringBuilder.append(Constantes.MSG_EQUIPO_LOCAL).append(partido.getEquipoLocal().getNombre()).append(Constantes.MSG_BARRA_N);
-                stringBuilder.append(Constantes.MSG_EQUIPO_VISITANTE).append(partido.getEquipoVisitante().getNombre()).append(Constantes.MSG_BARRA_N);
-                stringBuilder.append(Constantes.MSG_RESULTADO).append(partido.getResultadoLocal()).append(" - ").append(partido.getResultadoVisitante()).append(Constantes.MSG_BARRA_N);
-                stringBuilder.append(Constantes.MSG_ARBITRO).append(partido.getArbitro().getNombre()).append(Constantes.MSG_BARRA_N);
+                stringBuilder.append(Constantes.MSG_EQUIPO_LOCAL).append(partido.getEquipoLocal().getNombre())
+                        .append(Constantes.MSG_BARRA_N);
+                stringBuilder.append(Constantes.MSG_EQUIPO_VISITANTE).append(partido.getEquipoVisitante().getNombre())
+                        .append(Constantes.MSG_BARRA_N);
+                stringBuilder.append(Constantes.MSG_RESULTADO).append(partido.getResultadoLocal()).append(" - ")
+                        .append(partido.getResultadoVisitante()).append(Constantes.MSG_BARRA_N);
+                stringBuilder.append(Constantes.MSG_ARBITRO).append(partido.getArbitro().getNombre())
+                        .append(Constantes.MSG_BARRA_N);
                 stringBuilder.append("Ganador: ").append(ganador.getNombre()).append(Constantes.MSG_BARRA_N);
-                stringBuilder.append("Tipo: ").append(partido instanceof PartidoOficial ? "Oficial" : "Exhibición").append(Constantes.MSG_BARRA_N);
+                stringBuilder.append("Tipo: ").append(partido instanceof PartidoOficial ? "Oficial" : "Exhibición")
+                        .append(Constantes.MSG_BARRA_N);
                 stringBuilder.append("---\n");
             }
 
+            // Justo antes de escribir en el archivo
+            System.out.println("Contenido a escribir: " + stringBuilder.toString());
+
             bw.write(stringBuilder.toString());
-            bw.write("---\n");
+            bw.flush();
+            // bw.write("---\n");
         } catch (IOException e) {
             throw new Excepciones.ArchivoNoEncontradoException();
         }
     }
 
     @Override
-    public String leerHistoricoTemporada() throws ArchivoNoEncontradoException{
+    public String leerHistoricoTemporada() throws ArchivoNoEncontradoException {
         StringBuilder resumen = new StringBuilder();
         try (BufferedReader br = new BufferedReader(new FileReader(Constantes.RUTA_FICHEROS_TEMPORADA))) {
             String linea;
@@ -183,10 +200,10 @@ public class Fichero implements GestorArchivo {
 
     @Override
     public void guardarJugador(List<Jugador> jugadores) {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(Constantes.RUTA_FICHEROS_JUGADORES, false))) {
-            // false -> sobreescribir el archivo
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(Constantes.RUTA_FICHEROS_JUGADORES))) {
             for (Jugador jugador : jugadores) {
-                String linea = jugador.getNombre() + ", Dorsal: " + jugador.getDorsal() + ", Altura: "+ jugador.getAltura() + ", Habilidad: " + jugador.getHabilidad();
+                String linea = jugador.getNombre() + ", Dorsal: " + jugador.getDorsal() + ", Altura: "
+                        + jugador.getAltura() + ", Habilidad: " + jugador.getHabilidad();
                 writer.write(linea);
                 writer.newLine();
             }
@@ -242,9 +259,19 @@ public class Fichero implements GestorArchivo {
                 if (!linea.trim().isEmpty()) {
                     // El formato de la línea es ahora diferente, así que dividimos según las comas
                     String[] partes = linea.split(", ");
-                    if (partes.length == 4) {try {    String nombre = partes[0].trim();    int dorsal = Integer.parseInt(partes[1].split(":")[1].trim());    int altura = Integer.parseInt(partes[2].split(":")[1].trim());    int habilidad = Integer.parseInt(partes[3].split(":")[1].trim());
-    Jugador jugador = JugadorFactory.crearJugador(nombre, dorsal, altura, habilidad);    jugadores.add(jugador);} catch (Exception e) {    System.out.println("Error al procesar la línea: " + linea + ". " + e.getMessage());}
-                    } else {System.out.println("Línea mal formateada: " + linea);
+                    if (partes.length == 4) {
+                        try {
+                            String nombre = partes[0].trim();
+                            int dorsal = Integer.parseInt(partes[1].split(":")[1].trim());
+                            int altura = Integer.parseInt(partes[2].split(":")[1].trim());
+                            int habilidad = Integer.parseInt(partes[3].split(":")[1].trim());
+                            Jugador jugador = JugadorFactory.crearJugador(nombre, dorsal, altura, habilidad);
+                            jugadores.add(jugador);
+                        } catch (Exception e) {
+                            System.out.println("Error al procesar la línea: " + linea + ". " + e.getMessage());
+                        }
+                    } else {
+                        System.out.println("Línea mal formateada: " + linea);
                     }
                 }
             }

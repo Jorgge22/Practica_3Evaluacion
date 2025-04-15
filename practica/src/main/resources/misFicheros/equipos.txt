@@ -1,14 +1,14 @@
-Nombre: WARRIORS
-Resultado: 115 - 44
-Arbitro: Ana Gómez
-Ganador: WARRIORS
+Nombre: MOSCARDO
+Resultado: 85 - 132
+Arbitro: Carlos Martínez
 Tipo: Oficial
 Estadisticas: 
-Nombre: JORGE, Puntos: 25, Faltas: 3
-Nombre: ALEX, Puntos: 26, Faltas: 0
-Nombre: ADRI, Puntos: 24, Faltas: 4
-Nombre: PACO, Puntos: 1, Faltas: 2
-Nombre: DANI, Puntos: 10, Faltas: 3
-Nombre: LAUREN, Puntos: 23, Faltas: 0
-Nombre: ANDRES, Puntos: 6, Faltas: 0
+Nombre: JORGE, Puntos: 6, Faltas: 0
+Nombre: ALEX, Puntos: 9, Faltas: 2
+Nombre: ADRI, Puntos: 11, Faltas: 4
+Nombre: PACO, Puntos: 11, Faltas: 1
+Nombre: DANI, Puntos: 3, Faltas: 1
+Nombre: LAUREN, Puntos: 29, Faltas: 1
+Nombre: ANDRES, Puntos: 7, Faltas: 2
+Nombre: ABDU, Puntos: 9, Faltas: 2
 ---

@@ -5,3 +5,4 @@ PACO, Dorsal: 32, Altura: 4, Habilidad: 2
 DANI, Dorsal: 63, Altura: 5, Habilidad: 3
 LAUREN, Dorsal: 21, Altura: 1, Habilidad: 4
 ANDRES, Dorsal: 98, Altura: 1, Habilidad: 5
+ABDU, Dorsal: 9, Altura: 4, Habilidad: 4

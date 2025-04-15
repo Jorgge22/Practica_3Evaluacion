@@ -1,6 +1,6 @@
-Nombre: WARRIORS
-Resultado: 93 - 141
-Arbitro: Ana Gómez
-Ganador: LAKERS
-Tipo: Exhibición
+Nombre: MOSCARDO
+Resultado: MOSCARDO 132 - 109 PARLA
+Arbitro: Carlos Martínez
+Ganador: MOSCARDO
+Tipo: Oficial
 ---
