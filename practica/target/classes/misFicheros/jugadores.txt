@@ -1,8 +1,14 @@
-JORGE, Dorsal: 22, Altura: 1, Habilidad: 4
-ALEX, Dorsal: 2, Altura: 2, Habilidad: 1
 ADRI, Dorsal: 43, Altura: 3, Habilidad: 1
 PACO, Dorsal: 32, Altura: 4, Habilidad: 2
 DANI, Dorsal: 63, Altura: 5, Habilidad: 3
 LAUREN, Dorsal: 21, Altura: 1, Habilidad: 4
 ANDRES, Dorsal: 98, Altura: 1, Habilidad: 5
 ABDU, Dorsal: 9, Altura: 4, Habilidad: 4
+MARIO, Dorsal: 10, Altura: 2, Habilidad: 3
+JUAN, Dorsal: 18, Altura: 2, Habilidad: 5
+CARLOS, Dorsal: 29, Altura: 3, Habilidad: 2
+FERNANDO, Dorsal: 56, Altura: 3, Habilidad: 4
+LUIS, Dorsal: 77, Altura: 4, Habilidad: 1
+MARTIN, Dorsal: 15, Altura: 5, Habilidad: 4
+JORGE, Dorsal: 22, Altura: 1, Habilidad: 4
+ALEX, Dorsal: 2, Altura: 2, Habilidad: 1

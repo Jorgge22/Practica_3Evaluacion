@@ -61,3 +61,17 @@ Arbitro: Carlos Martínez
 Ganador: MOSCARDO
 Tipo: Oficial
 ---
+Equipo Local: PARLA
+Equipo Visitante: CARA
+Resultado: 103 - 134
+Arbitro: Carlos Martínez
+Ganador: CARA
+Tipo: Oficial
+---
+Equipo Local: CARA
+Equipo Visitante: PARLA
+Resultado: 184 - 83
+Arbitro: Carlos Martínez
+Ganador: CARA
+Tipo: Oficial
+---

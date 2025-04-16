@@ -9,6 +9,7 @@ public class Constantes {
     public static final String RUTA_FICHEROS_PARTIDOS = "practica\\src\\main\\resources\\misFicheros\\partido.txt";
     public static final String RUTA_FICHEROS_EQUIPOS = "practica\\src\\main\\resources\\misFicheros\\equipos.txt";
     public static final String RUTA_FICHEROS_JUGADORES = "practica\\src\\main\\resources\\misFicheros\\jugadores.txt";
+    public static final String RUTA_FICHEROS_RESUMEN_JUGADORES = "practica\\src\\main\\resources\\misFicheros\\resumenJugadores.txt";
     public static final String RUTA_FICHEROS_TEMPORADA = "practica\\src\\main\\resources\\misFicheros\\temporada.txt";
     public static final String RUTA_FICHEROS_RESUMEN_ULTIMO_PARTIDO = "practica\\\\src\\\\main\\\\resources\\\\misFicheros\\\\resumenUltimoPartido.txt";
 
@@ -24,6 +25,7 @@ public class Constantes {
     public static final String MSG_NOMBRE = "Nombre: ";
     public static final String MSG_PUNTOS = "Puntos: ";
     public static final String MSG_FALTAS = "Faltas: ";
+    public static final String MSG_DORSAL = "Dorsal: ";
     public static final String MSG_BARRA_N = "\n";
     public static final String MSG_EQUIPO_LOCAL = "Equipo Local: ";
     public static final String MSG_EQUIPO_VISITANTE = "Equipo Visitante: ";
@@ -49,5 +51,14 @@ public class Constantes {
             7. SALIR
             """;
     public static final String MSG_OPCION = "Elige una opción: ";
+    public static final String MSG_NOMBRE_EQUIPO = "Introduce el nombre del equipo: ";
+    public static final String MSG_JUGADORES_NO_CARGADOS = "No hay jugadores cargados.";
+    public static final String MSG_ALTURA = "Altura (1-5): ";
+    public static final String MSG_HABILIDAD = "Habilidad (1-5): ";
+    public static final String MSG_JUGADOR_CREADO = "Jugador creado con exito.";
+    public static final String MSG_JUGADOR__NO_CREADO = "No creado, ya hay 3 jugadores en esa posicion.";
+    public static final String MSG_JUGADORES_VACIO = "No hay jugadores para eliminar.";
+    public static final String MSG_JUGADOR_ELIMINAR = "Seleccione el número del jugador a eliminar: ";
+    public static final String MSG_FUERA_RANGO = "Error. Número fuera de rango.";
 
 }

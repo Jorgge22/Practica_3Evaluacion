@@ -93,7 +93,7 @@ public abstract class Jugador implements Comparable<Jugador> {
 
     @Override
     public int compareTo(Jugador otro) {
-        return Integer.compare(this.habilidad, otro.habilidad);
+        return Integer.compare(this.altura, otro.altura);
     }
 
     @Override

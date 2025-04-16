@@ -17,7 +17,7 @@ public interface GestorArchivo {
     public void guardarResumen(Equipo equipo, Partido partido) throws ArchivoNoEncontradoException;
     public void guardarResumenUltimoPartido(Equipo equipo, Partido partido) throws ArchivoNoEncontradoException;
     public String leerUltimoPartido() throws ArchivoNoEncontradoException;
-    public void guardarResumenJugador(Equipo equipo) throws ArchivoNoEncontradoException;
+    public void guardarResumenJugador(Equipo equipo, String tipo) throws ArchivoNoEncontradoException;
     public void guardarHistoricoTemporada() throws ArchivoNoEncontradoException;
     public String leerHistoricoTemporada() throws ArchivoNoEncontradoException;
     public void guardarJugador(List<Jugador> jugadores);

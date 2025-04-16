@@ -1,14 +1,20 @@
-Nombre: MOSCARDO
-Resultado: 85 - 132
+Nombre: CARA
+Resultado: 223 - 59
 Arbitro: Carlos Martínez
 Tipo: Oficial
 Estadisticas: 
-Nombre: JORGE, Puntos: 6, Faltas: 0
-Nombre: ALEX, Puntos: 9, Faltas: 2
-Nombre: ADRI, Puntos: 11, Faltas: 4
-Nombre: PACO, Puntos: 11, Faltas: 1
-Nombre: DANI, Puntos: 3, Faltas: 1
-Nombre: LAUREN, Puntos: 29, Faltas: 1
-Nombre: ANDRES, Puntos: 7, Faltas: 2
-Nombre: ABDU, Puntos: 9, Faltas: 2
+Nombre: ADRI, Puntos: 19, Faltas: 1
+Nombre: PACO, Puntos: 29, Faltas: 4
+Nombre: DANI, Puntos: 13, Faltas: 3
+Nombre: LAUREN, Puntos: 0, Faltas: 3
+Nombre: ANDRES, Puntos: 2, Faltas: 1
+Nombre: ABDU, Puntos: 25, Faltas: 1
+Nombre: MARIO, Puntos: 9, Faltas: 1
+Nombre: JUAN, Puntos: 13, Faltas: 1
+Nombre: CARLOS, Puntos: 15, Faltas: 3
+Nombre: FERNANDO, Puntos: 21, Faltas: 3
+Nombre: LUIS, Puntos: 12, Faltas: 2
+Nombre: MARTIN, Puntos: 28, Faltas: 3
+Nombre: JORGE, Puntos: 14, Faltas: 1
+Nombre: ALEX, Puntos: 18, Faltas: 4
 ---

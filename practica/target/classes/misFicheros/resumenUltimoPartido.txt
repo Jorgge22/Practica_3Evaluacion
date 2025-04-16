@@ -1,6 +1,6 @@
-Nombre: MOSCARDO
-Resultado: MOSCARDO 132 - 109 PARLA
+Nombre: CARA
+Resultado: CARA 184 - 83 PARLA
 Arbitro: Carlos Martínez
-Ganador: MOSCARDO
+Ganador: CARA
 Tipo: Oficial
 ---

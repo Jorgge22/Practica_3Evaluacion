@@ -36,7 +36,7 @@ public class Controller {
 
         while (!salir) {
             if (equipo == null) {
-                gestorEntradaSalida.imprimirMensaje("Introduce el nombre del equipo: ");
+                gestorEntradaSalida.imprimirMensaje(Constantes.MSG_NOMBRE_EQUIPO);
                 nombreEquipoLocal = gestorEntradaSalida.leerLinea();
                 equipo = new Equipo(nombreEquipoLocal);
 
@@ -44,7 +44,7 @@ public class Controller {
 
                 List<Jugador> jugadoresGuardados = fichero.leerJugadores();
                 if (jugadoresGuardados.isEmpty()) {
-                    System.out.println("No hay jugadores cargados.");
+                    System.out.println(Constantes.MSG_JUGADORES_NO_CARGADOS);
                 } else {
                     equipo.getJugadores().clear();
                     equipo.getJugadores().addAll(jugadoresGuardados);
@@ -59,24 +59,24 @@ public class Controller {
 
             switch (opcion) {
                 case 1:
-                    gestorEntradaSalida.imprimirMensaje("Nombre: ");
+                    gestorEntradaSalida.imprimirMensaje(Constantes.MSG_NOMBRE);
                     String nombre = gestorEntradaSalida.leerLinea();
 
-                    gestorEntradaSalida.imprimirMensaje("Dorsal: ");
+                    gestorEntradaSalida.imprimirMensaje(Constantes.MSG_DORSAL);
                     int dorsal = gestorEntradaSalida.leerInt();
 
-                    gestorEntradaSalida.imprimirMensaje("Altura (1-5): ");
+                    gestorEntradaSalida.imprimirMensaje(Constantes.MSG_ALTURA);
                     int altura = gestorEntradaSalida.leerInt();
 
-                    gestorEntradaSalida.imprimirMensaje("Habilidad (1-5): ");
+                    gestorEntradaSalida.imprimirMensaje(Constantes.MSG_HABILIDAD);
                     int habilidad = gestorEntradaSalida.leerInt();
 
                     Jugador jugador = JugadorFactory.crearJugador(nombre, dorsal, altura, habilidad);
 
                     if (equipo.agregarJugador(jugador)) {
-                        gestorEntradaSalida.imprimirMensajeSeparado("Jugador creado con exito.");
+                        gestorEntradaSalida.imprimirMensajeSeparado(Constantes.MSG_JUGADOR_CREADO);
                     } else {
-                        gestorEntradaSalida.imprimirMensajeSeparado("No creado, ya hay 3 jugadores en esa posicion.");
+                        gestorEntradaSalida.imprimirMensajeSeparado(Constantes.MSG_JUGADOR__NO_CREADO);
                     }
 
                     fichero.guardarJugador(equipo.getJugadores());
@@ -88,7 +88,7 @@ public class Controller {
                     equipo.getJugadores().clear();
                     equipo.getJugadores().addAll(jugadoresActualizados);
 
-                    //gestorEntradaSalida.imprimirMensajeSeparado("Jugador agregado con éxito.");
+                    // gestorEntradaSalida.imprimirMensajeSeparado("Jugador agregado con éxito.");
                     fichero.mostrarJugadores();
                     break;
 
@@ -96,7 +96,7 @@ public class Controller {
                     List<Jugador> jugadores = equipo.getJugadores();
 
                     if (jugadores.isEmpty()) {
-                        gestorEntradaSalida.imprimirMensajeSeparado("No hay jugadores para eliminar.");
+                        gestorEntradaSalida.imprimirMensajeSeparado(Constantes.MSG_JUGADORES_VACIO);
                         break;
                     }
 
@@ -105,15 +105,15 @@ public class Controller {
                         gestorEntradaSalida.imprimirMensajeSeparado((i + 1) + ". " + jugador2.getNombre() + " (Dorsal: " + jugador2.getDorsal() + ")");
                     }
 
-                    gestorEntradaSalida.imprimirMensaje("Seleccione el número del jugador a eliminar: ");
+                    gestorEntradaSalida.imprimirMensaje(Constantes.MSG_JUGADOR_ELIMINAR);
                     int numeroAEliminar = gestorEntradaSalida.leerInt();
 
                     if (numeroAEliminar < 1 || numeroAEliminar > jugadores.size()) {
-                        gestorEntradaSalida.imprimirMensajeSeparado("Error. Número fuera de rango.");
+                        gestorEntradaSalida.imprimirMensajeSeparado(Constantes.MSG_FUERA_RANGO);
                     } else {
                         Jugador jugadorAEliminar = jugadores.get(numeroAEliminar - 1);
                         equipo.eliminarJugador(jugadorAEliminar.getDorsal());
-                        gestorEntradaSalida.imprimirMensajeSeparado("Jugador eliminado con éxito.");
+                        gestorEntradaSalida.imprimirMensajeSeparado(Constantes.MSG_JUGADOR_ELIMINADO);
                     }
                     break;
 
@@ -121,7 +121,6 @@ public class Controller {
                     gestorEntradaSalida.imprimirMensaje("Nombre del equipo visitante: ");
                     String nombreVisitante = gestorEntradaSalida.leerLinea();
 
-                    List<Arbitro> arbitros = fichero.leerArbitros();
                     Arbitro arbitro = null;
                     try {
                         arbitro = Arbitro.elegirArbitro();
@@ -176,7 +175,25 @@ public class Controller {
                     break;
 
                 case 6:
-                    
+                    boolean existeTipo = false;
+
+                    List<Jugador> jugadoresAMostrar = equipo.getJugadores();
+
+                    gestorEntradaSalida.imprimirMensaje("Qué posición quieres ver: ");
+                    String tipoBuscado = gestorEntradaSalida.leerLinea();
+
+                    for (Jugador jugadorBuscado : jugadoresAMostrar) {
+                        if (jugadorBuscado.getTipo().equalsIgnoreCase(tipoBuscado)) {
+                            existeTipo = true;
+                            break;
+                        }
+                    }
+
+                    if (existeTipo) {
+                        fichero.guardarResumenJugador(equipo, tipoBuscado);
+                    } else {
+                        gestorEntradaSalida.imprimirMensajeSeparado("No hay jugadores del tipo: " + tipoBuscado);
+                    }
                     break;
 
                 case 7:
