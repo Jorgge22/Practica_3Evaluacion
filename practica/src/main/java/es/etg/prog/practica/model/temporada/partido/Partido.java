@@ -1,5 +1,6 @@
 package es.etg.prog.practica.model.temporada.partido;
 
+import java.util.List;
 import java.util.Random;
 
 import es.etg.prog.practica.model.temporada.Arbitro;
@@ -33,41 +34,79 @@ public class Partido {
      * 
      * @return El equipo ganador.
      */
-    public Equipo calcularResultado() {
-        Random random = new Random();
+public Equipo calcularResultado() {
+    Random random = new Random();
 
-        int totalLocal = 0;
+    // 1) Generar puntuación "base" para visitante y local
+    int puntuacionVisitante = generarPuntuacion(random);
+    int puntuacionLocal    = generarPuntuacion(random);
 
-        // Asignar estadísticas a los jugadores del equipo local
-        for (Jugador jugador : equipoLocal.getJugadores()) {
-            int puntos = random.nextInt(30); // por ejemplo, entre 0 y 29
-            int faltas = random.nextInt(5); // entre 0 y 4
-
-            jugador.setPuntos(puntos);
-            jugador.setFaltas(faltas);
-
-            totalLocal += puntos;
-        }
-
-        // Asignar estadísticas a los jugadores del equipo visitante
-        this.resultadoVisitante = random.nextInt(MAX_PUNTOS - MIN_PUNTOS + 1) + MIN_PUNTOS;
-
-        this.resultadoLocal = totalLocal;
-
-        if (random.nextDouble() < 0.6) {
-            this.resultadoLocal += 5; // Bonus para el local
-        }
-
-        if (resultadoLocal > resultadoVisitante) {
-            this.ganador = equipoLocal;
-        } else if (resultadoLocal < resultadoVisitante) {
-            this.ganador = equipoVisitante;
-        } else {
-            this.ganador = random.nextBoolean() ? equipoLocal : equipoVisitante;
-        }
-
-        return ganador;
+    // 2) Ventaja de local: +0–5 puntos con un 55% de probabilidad
+    if (random.nextDouble() < 0.55) {
+        puntuacionLocal += random.nextInt(6);
     }
+
+    // 3) Clamp a los límites 35–150
+    puntuacionLocal    = Math.min(150, Math.max(35, puntuacionLocal));
+    puntuacionVisitante = Math.min(150, Math.max(35, puntuacionVisitante));
+
+    this.resultadoLocal     = puntuacionLocal;
+    this.resultadoVisitante = puntuacionVisitante;
+
+    // 4) Repartir puntos entre los jugadores del equipo local
+    List<Jugador> lista = equipoLocal.getJugadores();
+    int restante = puntuacionLocal;
+    for (int i = 0; i < lista.size(); i++) {
+        Jugador j = lista.get(i);
+        int asignados;
+        if (i < lista.size() - 1) {
+            // media de lo que queda, con ±2 de variación
+            int media = restante / (lista.size() - i);
+            asignados = Math.max(0, media + random.nextInt(5) - 2);
+        } else {
+            // al último, le damos todo lo que quede
+            asignados = restante;
+        }
+        j.setPuntos(asignados);
+        j.setFaltas(random.nextInt(5)); // faltas 0–4
+        restante -= asignados;
+    }
+
+    // 5) Determinar ganador
+    if (resultadoLocal > resultadoVisitante) {
+        ganador = equipoLocal;
+    } else if (resultadoVisitante > resultadoLocal) {
+        ganador = equipoVisitante;
+    } else {
+        ganador = random.nextBoolean() ? equipoLocal : equipoVisitante;
+    }
+
+    return ganador;
+}
+
+/**
+ * Genera un total sesgado hacia valores "comunes" (60–90),
+ * pero permitiendo extremos dentro de 35–150.
+ */
+private int generarPuntuacion(Random random) {
+    double p = random.nextDouble();
+    if (p < 0.10) {
+        // 10% de probabilidad para muy bajo: 35–59
+        return random.nextInt(25) + 35;
+    } else if (p < 0.80) {
+        // 70% para rango común: 60–90
+        return random.nextInt(31) + 60;
+    } else if (p < 0.95) {
+        // 15% para alto moderado: 91–110
+        return random.nextInt(20) + 91;
+    } else {
+        // 5% para extremos altos: 111–150
+        return random.nextInt(40) + 111;
+    }
+}
+
+    
+    
 
     public int getResultadoLocal() {
         return resultadoLocal;

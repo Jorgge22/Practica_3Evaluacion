@@ -1,6 +1,6 @@
-Nombre: CARA
-Resultado: CARA 184 - 83 PARLA
-Arbitro: Carlos Martínez
-Ganador: CARA
+Nombre: PARLA
+Resultado: PARLA 96 - 90 Joventut Badalona
+Arbitro: Juan Rodríguez
+Ganador: PARLA
 Tipo: Oficial
 ---

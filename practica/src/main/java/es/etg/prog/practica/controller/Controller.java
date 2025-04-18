@@ -1,7 +1,6 @@
 package es.etg.prog.practica.controller;
 
 import java.util.List;
-
 import es.etg.prog.practica.model.excepciones.Excepciones;
 import es.etg.prog.practica.model.excepciones.Excepciones.ArbitrosNoDisponibles;
 import es.etg.prog.practica.model.excepciones.Excepciones.ArchivoNoEncontradoException;
@@ -36,6 +35,11 @@ public class Controller {
 
         while (!salir) {
             if (equipo == null) {
+                List<Equipo> todosLosEquipos = fichero.leerEquipos();
+                Temporada.getInstancia().setEquipos(todosLosEquipos);
+
+                fichero.leerArbitros();
+
                 gestorEntradaSalida.imprimirMensaje(Constantes.MSG_NOMBRE_EQUIPO);
                 nombreEquipoLocal = gestorEntradaSalida.leerLinea();
                 equipo = new Equipo(nombreEquipoLocal);
@@ -118,20 +122,42 @@ public class Controller {
                     break;
 
                 case 3:
-                    gestorEntradaSalida.imprimirMensaje("Nombre del equipo visitante: ");
-                    String nombreVisitante = gestorEntradaSalida.leerLinea();
-
+                    Equipo equipoLocal = Temporada.getInstancia().getEquipoPorNombre(nombreEquipoLocal);
+                
+                    List<Equipo> rivalesDisponibles = Temporada.getInstancia().mostrarEquiposDisponibles(equipoLocal);
+                
+                    if (rivalesDisponibles.isEmpty()) {
+                        gestorEntradaSalida.imprimirMensajeSeparado("Ya has jugado contra todos los equipos. ¡Temporada terminada!");
+                        break;
+                    }
+                
+                    gestorEntradaSalida.imprimirMensajeSeparado("Equipos disponibles para enfrentarse:");
+                    for (int i = 0; i < rivalesDisponibles.size(); i++) {
+                        gestorEntradaSalida.imprimirMensajeSeparado((i + 1) + ". " + rivalesDisponibles.get(i).getNombre());
+                    }
+                
+                    gestorEntradaSalida.imprimirMensaje("Selecciona el número del equipo rival: ");
+                    int numeroEquipoRival = Integer.parseInt(gestorEntradaSalida.leerLinea());
+                
+                    if (numeroEquipoRival < 1 || numeroEquipoRival > rivalesDisponibles.size()) {
+                        gestorEntradaSalida.imprimirMensajeSeparado("Opción inválida.");
+                        break;
+                    }
+                
+                    Equipo equipoVisitante = rivalesDisponibles.get(numeroEquipoRival - 1);
+                
                     Arbitro arbitro = null;
                     try {
                         arbitro = Arbitro.elegirArbitro();
                         gestorEntradaSalida.imprimirMensajeSeparado("El árbitro seleccionado es: " + arbitro.getNombre());
                     } catch (Excepciones.ArbitrosNoDisponibles e) {
                         gestorEntradaSalida.imprimirMensajeSeparado(e.getMessage());
+                        break;
                     }
-
-                    gestorEntradaSalida.imprimirMensaje("El partido es Oficial (O) o de Exibición (E): ");
+                
+                    gestorEntradaSalida.imprimirMensaje("El partido es Oficial (O) o de Exhibición (E): ");
                     String respuesta = gestorEntradaSalida.leerLinea();
-
+                
                     boolean esOficial = false;
                     if (respuesta.equalsIgnoreCase("O")) {
                         esOficial = true;
@@ -139,30 +165,32 @@ public class Controller {
                         esOficial = false;
                     } else {
                         gestorEntradaSalida.imprimirMensajeSeparado("Opción no válida.");
+                        break;
                     }
-
-                    Equipo equipoLocal = Temporada.getInstancia().getEquipoPorNombre(nombreEquipoLocal);
-                    Equipo equipoVisitante = Temporada.getInstancia().getEquipoPorNombre(nombreVisitante);
-
+                
                     if (!Temporada.getInstancia().verificarPartidoYaJugado(equipoLocal, equipoVisitante)) {
                         try {
-                            // Ejecutar el partido y obtener el resumen
                             Partido partido = Temporada.getInstancia().jugarPartido(equipoLocal, equipoVisitante, arbitro, esOficial);
-
+                
                             fichero.guardarResumen(partido.getEquipoLocal(), partido);
                             fichero.guardarResumenUltimoPartido(partido.getEquipoLocal(), partido);
                             fichero.guardarHistoricoTemporada();
-
-                            String resumen = Temporada.getInstancia().generarResumenPartido(partido);
-                            gestorEntradaSalida.imprimirMensaje(resumen);
-                        } catch (IllegalStateException | ArchivoNoEncontradoException | ArbitrosNoDisponibles e) {
+                
+                            //String resumen = Temporada.getInstancia().generarResumenPartido(partido);
+                            //gestorEntradaSalida.imprimirMensaje(resumen);
+                
+                            // Verifica si ya se ha jugado contra todos (solo cuenta oficiales)
+                            if (esOficial && Temporada.getInstancia().verificarFinTemporada(equipoLocal)) {
+                                gestorEntradaSalida.imprimirMensajeSeparado("¡Has jugado contra todos los equipos! La temporada ha terminado.");
+                            }
+                
+                        } catch (Exception e) {
                             gestorEntradaSalida.imprimirMensajeSeparado("Error al jugar el partido: " + e.getMessage());
                         }
-
                     } else {
-                        gestorEntradaSalida.imprimirMensajeSeparado("Ya se ha jugado 2 veces.");
+                        gestorEntradaSalida.imprimirMensajeSeparado("Ya se ha jugado 2 veces este partido.");
                     }
-                    break;
+                    break;                
 
                 case 4:
                     String resumen = fichero.leerUltimoPartido();

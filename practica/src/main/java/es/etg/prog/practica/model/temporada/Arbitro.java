@@ -19,7 +19,7 @@ public class Arbitro {
         this.nombre = nombre;
 
         Random random = new Random();
-        this.enfermo = random.nextBoolean();
+        this.enfermo = random.nextInt(5) == 0; 
         arbitros.add(this);
     }
 
@@ -39,12 +39,20 @@ public class Arbitro {
      * @return un árbitro que no esté enfermo
      */
     public static Arbitro elegirArbitro() throws ArbitrosNoDisponibles {
+        List<Arbitro> arbitrosDisponibles = new ArrayList<>();
         for (Arbitro arbitro : arbitros) {
-            if (!arbitro.estaEnfermo()) { 
-                return arbitro;
+            if (!arbitro.estaEnfermo()) {
+                arbitrosDisponibles.add(arbitro);
             }
         }
-        throw new ArbitrosNoDisponibles(); 
+
+        if (arbitrosDisponibles.isEmpty()) {
+            throw new ArbitrosNoDisponibles(); 
+        }
+
+        Random random = new Random();
+        int indice = random.nextInt(arbitrosDisponibles.size());
+        return arbitrosDisponibles.get(indice);
     }
 
     public String getNombre() {

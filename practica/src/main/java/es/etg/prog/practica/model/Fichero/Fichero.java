@@ -63,7 +63,7 @@ public class Fichero implements GestorArchivo {
 
     @Override
     public void guardarResumen(Equipo equipo, Partido partido) throws ArchivoNoEncontradoException {
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter(Constantes.RUTA_FICHEROS_EQUIPOS))) {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(Constantes.RUTA_FICHEROS_RESUMEN_PARTIDO))) {
             StringBuilder stringBuilder = new StringBuilder();
 
             // Equipo ganador = partido.getGanador();
@@ -97,7 +97,7 @@ public class Fichero implements GestorArchivo {
     public void guardarResumenUltimoPartido(Equipo equipo, Partido partido) throws ArchivoNoEncontradoException {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(Constantes.RUTA_FICHEROS_RESUMEN_ULTIMO_PARTIDO))) {
             StringBuilder stringBuilder = new StringBuilder();
-            Equipo ganador = partido.calcularResultado();
+            Equipo ganador = partido.getGanador(); //TODO
 
             stringBuilder.append(Constantes.MSG_NOMBRE).append(equipo.getNombre()).append(Constantes.MSG_BARRA_N);
             stringBuilder.append(Constantes.MSG_RESULTADO).append(partido.getEquipoLocal().getNombre())
@@ -157,37 +157,28 @@ public class Fichero implements GestorArchivo {
 
     @Override
     public void guardarHistoricoTemporada() throws ArchivoNoEncontradoException {
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter(Constantes.RUTA_FICHEROS_TEMPORADA, true))) {
+        try (BufferedWriter bw = new BufferedWriter(
+                new FileWriter(Constantes.RUTA_FICHEROS_TEMPORADA /* no append */))) {
             Temporada temporada = Temporada.getInstancia();
-            StringBuilder stringBuilder = new StringBuilder();
-
             for (Partido partido : temporada.getPartidos()) {
-                Equipo ganador = partido.getGanador();
-
-                stringBuilder.append(Constantes.MSG_EQUIPO_LOCAL).append(partido.getEquipoLocal().getNombre())
-                        .append(Constantes.MSG_BARRA_N);
-                stringBuilder.append(Constantes.MSG_EQUIPO_VISITANTE).append(partido.getEquipoVisitante().getNombre())
-                        .append(Constantes.MSG_BARRA_N);
-                stringBuilder.append(Constantes.MSG_RESULTADO).append(partido.getResultadoLocal()).append(" - ")
-                        .append(partido.getResultadoVisitante()).append(Constantes.MSG_BARRA_N);
-                stringBuilder.append(Constantes.MSG_ARBITRO).append(partido.getArbitro().getNombre())
-                        .append(Constantes.MSG_BARRA_N);
-                stringBuilder.append("Ganador: ").append(ganador.getNombre()).append(Constantes.MSG_BARRA_N);
-                stringBuilder.append("Tipo: ").append(partido instanceof PartidoOficial ? "Oficial" : "Exhibición")
-                        .append(Constantes.MSG_BARRA_N);
-                stringBuilder.append("---\n");
+                escribirPartido(bw, partido);
             }
-
-            // Justo antes de escribir en el archivo
-            System.out.println("Contenido a escribir: " + stringBuilder.toString());
-
-            bw.write(stringBuilder.toString());
             bw.flush();
-            // bw.write("---\n");
         } catch (IOException e) {
             throw new Excepciones.ArchivoNoEncontradoException();
         }
     }
+    
+    private void escribirPartido(BufferedWriter bw, Partido partido) throws IOException {
+        bw.write(Constantes.MSG_EQUIPO_LOCAL + partido.getEquipoLocal().getNombre() + Constantes.MSG_BARRA_N);
+        bw.write(Constantes.MSG_EQUIPO_VISITANTE + partido.getEquipoVisitante().getNombre() + Constantes.MSG_BARRA_N);
+        bw.write(Constantes.MSG_RESULTADO + partido.getResultadoLocal() + " - " + partido.getResultadoVisitante() + Constantes.MSG_BARRA_N);
+        bw.write(Constantes.MSG_ARBITRO + partido.getArbitro().getNombre() + Constantes.MSG_BARRA_N);
+        bw.write("Ganador: " + partido.getGanador().getNombre() + Constantes.MSG_BARRA_N);
+        bw.write("Tipo: " + (partido instanceof PartidoOficial ? "Oficial" : "Exhibición") + Constantes.MSG_BARRA_N);
+        bw.write("---\n");
+    }
+    
 
     @Override
     public String leerHistoricoTemporada() throws ArchivoNoEncontradoException {

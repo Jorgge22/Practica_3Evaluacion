@@ -21,10 +21,12 @@ public class Temporada {
     private static Temporada instancia;
     private List<Partido> partidos;
     private List<Equipo> equipos;
+    private List<String> equiposJugados;
 
     public Temporada() {
         partidos = new ArrayList<>();
         equipos = new ArrayList<>();
+        equiposJugados = new ArrayList<>();
     }
 
     public static Temporada getInstancia() {
@@ -37,6 +39,22 @@ public class Temporada {
     // Método para registrar un partido jugado
     public void registrarPartidoJugado(Partido partido) {
         partidos.add(partido);
+
+        if (partido instanceof PartidoOficial) {
+            equiposJugados.add(partido.getEquipoVisitante().getNombre());
+        }
+    }
+
+    public boolean verificarFinTemporada(Equipo equipo) {
+        for (Equipo e : equipos) {
+            // Ignorar al propio equipo
+            if (!e.equals(equipo)) {
+                if (!equiposJugados.contains(e.getNombre())) {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
     /**
@@ -74,29 +92,10 @@ public class Temporada {
         partido.calcularResultado();
 
         registrarPartidoJugado(partido);
-
-        String resumen = Temporada.getInstancia().generarResumenPartido(partido);
-        GestorArchivo gestorArchivo = new Fichero();
-        gestorArchivo.guardarResumen(local, partido);
-
+        
         // Retornar el resumen para que el controlador lo imprima
         return partido;
     }
-
-    public String generarResumenPartido(Partido partido) {
-        StringBuilder resumen = new StringBuilder();
-        resumen.append("Resultado del partido: " + partido.getEquipoLocal().getNombre() + " " + partido.getResultadoLocal() + " - " + partido.getResultadoVisitante() + " " + partido.getEquipoVisitante().getNombre() + "\n");
-        resumen.append("Árbitro: " + partido.getArbitro().getNombre() + "\n");
-        resumen.append("El ganador es: " + partido.getGanador().getNombre() + "\n");
-        resumen.append("Estadísticas de los jugadores:\n");
-    
-        for (Jugador jugador : partido.getEquipoLocal().getJugadores()) {
-            resumen.append(jugador.getNombre() + " - Puntos: " + jugador.getPuntos() + ", Faltas: " + jugador.getFaltas() + "\n");
-        }
-    
-        return resumen.toString();
-    }
-    
 
     public Equipo getEquipoPorNombre(String nombre) {
         for (Equipo e : equipos) {
@@ -126,13 +125,46 @@ public class Temporada {
         int contador = 0;
         for (Partido partido : partidos) {
             if ((partido.getEquipoLocal().equals(equipo1) && partido.getEquipoVisitante().equals(equipo2)) ||
-                (partido.getEquipoVisitante().equals(equipo1) && partido.getEquipoLocal().equals(equipo2))) {
+                    (partido.getEquipoVisitante().equals(equipo1) && partido.getEquipoLocal().equals(equipo2))) {
                 contador++;
             }
         }
+
         return contador >= 2;
     }
-    
+
+    /**
+     * Devuelve la lista de equipos contra los que aún NO se ha jugado ningún partido OFICIAL.
+     */
+    public List<Equipo> mostrarEquiposDisponibles(Equipo local) {
+        List<Equipo> disponibles = new ArrayList<>();
+
+        for (Equipo e : equipos) {
+            // No considerar el propio equipo
+            if (e.equals(local))
+                continue;
+
+            boolean yaJugado = false;
+
+            // Verificar si ya se ha jugado contra el equipo en un partido oficial
+            for (Partido p : partidos) {
+                if (p instanceof PartidoOficial) {
+                    if ((p.getEquipoLocal().equals(local) && p.getEquipoVisitante().equals(e)) ||
+                            (p.getEquipoLocal().equals(e) && p.getEquipoVisitante().equals(local))) {
+                        yaJugado = true;
+                        break; // Ya se ha jugado, no hace falta seguir buscando
+                    }
+                }
+            }
+
+            // Si no se ha jugado, lo agregamos a la lista de disponibles
+            if (!yaJugado) {
+                disponibles.add(e);
+            }
+        }
+
+        return disponibles;
+    }
 
     public Partido getUltimoPartido() {
         if (partidos.isEmpty()) {
