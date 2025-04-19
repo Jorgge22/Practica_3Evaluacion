@@ -1,115 +1,113 @@
 @startuml basket
 top to bottom direction
 
-package Model{
+package Model {
     class Equipo {
-        -String: nombre
-        -int: numJugadores
-        -Jugador jugadores[15]
-        +boolean agregarJugador(Jugador j)
-        +boolean eliminarJugador(Jugador j)
+        -nombre: String
+        -contadorBases: int
+        -contadorEscolta: int
+        -contadorAlero: int
+        -contadorAlaPivot: int
+        -contadorPivot: int
+        -jugadores: List<Jugador>
+        +agregarJugador(jugador: Jugador): boolean
+        +eliminarJugador(dorsal: int): boolean
+        +actualizarArchivoJugadores(): void
+        +contarJugadoresPosicion(): void
     }
 
     abstract class Jugador {
-        -String: nombre
-        -int: dorsal
-        -int: altura
-        -int: habilidad
-        -int: puntos
-        -int: faltas
-        +anotarPuntos(int puntos)
-        +hacerFalta()
+        -nombre: String
+        -tipo: String
+        -dorsal: int
+        -altura: int
+        -habilidad: int
+        -puntos: int
+        -faltas: int
+        +anotarPuntos(puntos: int): void
+        +hacerFalta(): void
     }
 
-    class Base {
-    }
+    class Base
+    class Escolta
+    class Alero
+    class AlaPivot
+    class Pivot
 
-    class Escolta {
-    }
-
-    class Alero {
-    }
-
-    class AlaPivot {
-    }
-
-    class Pivot {
-    }
-
-    class Partido {
-        #int: MAX_PUNTOS = 150
-        #int: MIN_PUNTOS = 35
-        #Arbitro: arbitro
-        #int: resultadoLocal
-        #int: resultadoVisitante
-        #Equipo: ganador
-        #Equipo: equipoLocal
-        #Equipo: equipoVisitante
+    abstract class Partido {
+        #MAX_PUNTOS: int = 150
+        #MIN_PUNTOS: int = 35
+        #arbitro: Arbitro
+        #resultadoLocal: int
+        #resultadoVisitante: int
+        #ganador: Equipo
+        #equipoLocal: Equipo
+        #equipoVisitante: Equipo
         +calcularResultado(): Equipo
+        +generarPuntuacion(random: Random): int
     }
 
-    class PartidoExibicion {
-    }
-
+    class PartidoExhibicion
     class PartidoOficial {
-        +verificarPartido(Equipo rival): boolean
-    }
-
-    class Local {
-        // más porcentaje de ganar
-    }
-
-    class Visitante {
-        // menos porcentaje de ganar
+        +verificarPartido(rival: Equipo): boolean
     }
 
     class Arbitro {
-        -String: nombre
-        -boolean: enfermo
+        -nombre: String
+        -enfermo: boolean
+        -arbitros: List<Arbitro>
         +estarEnfermo(): boolean
+        +elegirArbitro(): Arbitro
     }
 
     interface GestorArchivo {
         +leerEquipos(): List<Equipo>
         +leerArbitros(): List<Arbitro>
-        +guardarResumen(Equipo equipo, String resumen)
+        +leerJugadores(): List<Jugador>
+        +leerUltimoPartido(): String
+        +leerHistoricoTemporada(): String
+        +guardarResumen(equipo: Equipo, partido: Partido): void
+        +guardarResumenUltimoPartido(equipo: Equipo, partido: Partido): void
+        +guardarResumenJugador(equipo: Equipo, tipo: String): void
+        +guardarHistoricoTemporada(): void
+        +guardarJugador(jugadores: List<Jugador>): void
+        +eliminarJugador(dorsal: int): void
+        +mostrarJugadores(): void
     }
+
+    class Fichero
 
     class Temporada {
-        -static Temporada instancia
-        +static getInstancia(): Temporada
-        +registrarPartidoJugado()
-        +jugarPartido(Equipo equipo1, Equipo equipo2, boolean esOficial)
-    }
-
-    class Excepciones{
+        -instancia: static Temporada
+        -partidos: List<Partido>
+        -equipos: List<Equipo>
+        -equiposJugados: List<Equipo>
+        +getInstancia(): Temporada
+        +registrarPartidoJugado(partido: Partido): void
+        +verificarFinTemporada(equipo: Equipo): boolean
+        +jugarPartido(local: Equipo, visitante: Equipo, arbitro: Arbitro, esOficial: boolean): Partido
+        +getEquipoPorNombre(nombre: String): Equipo
+        +verificarPartidoYaJugado(equipo1: Equipo, equipo2: Equipo): boolean
+        +mostrarEquiposDisponibles(local: Equipo): List<Equipo>
+        +getUltimoPartido(): Partido
     }
 }
 
-package View{
-    class Main{}
+package View {
+    class Main
 }
 
-package Controller{
-    class JugadorController{
-        +añadirJugador(Equipo equipo, Jugador juagdor)
-        +eliminarJugador(Equipo equipo, Jugador jugador)
-        +mostrarResumenJugador()
-    }
-
-    class EquipoController{
-        +jugarPartido(Equipo local, Equipo visitante, Arbitro arbitro, boolean esOficial)
-        +mostrarResumenPartido()
-    }
-
-    class TemporadaController{
-        +mostrarResumenHistorico()
+package Controller {
+    class Controller {
+        -gestorEntradaSalida: GestorEntradaSalida
+        -fichero: Fichero
+        -equipo: Equipo
+        +menu(): void
     }
 }
 
 Temporada *-- Partido
 Temporada *-- Equipo
-
 Equipo *-- Jugador
 Equipo *-- Partido
 
@@ -121,16 +119,10 @@ Jugador <|-- Pivot
 
 Partido *-- Arbitro
 Partido <|-- PartidoOficial
-Partido <|-- PartidoExibicion
-
-PartidoOficial *-- Local
-PartidoOficial *-- Visitante
-PartidoOficial -- Equipo : local
-PartidoOficial -- Equipo : visitante
+Partido <|-- PartidoExhibicion
 
 GestorArchivo <|.. Fichero
 
 View --> Controller
 Controller --> Model
-
 @enduml

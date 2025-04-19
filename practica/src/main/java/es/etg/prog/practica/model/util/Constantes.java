@@ -19,6 +19,11 @@ public class Constantes {
     public static final String MSG_EXCEPCION_MAXIMO_JUGADORES = "No se puede agregar más jugadores. El equipo ya está completo.";
     public static final String MSG_EXCEPCION_MAXIMO_JUGADORES_POSICION = "No se puede agregar más jugadores a esta posición.";
     public static final String MSG_EXCEPCION_PARTIDO = "Este partido ya se ha jugado en la temporada.";
+    public static final String MSG_EXCEPCION_JUGADORES = "Error al guardar los jugadores.";
+    public static final String MSG_EXCEPCION_LEER_JUGADORES = "Error al leer los jugadores.";
+    public static final String MSG_EXCEPCION_JUGADORES_DORSAL = "No se encontró ningún jugador con ese dorsal.";
+    public static final String MSG_EXCEPCION_ARCHIVO = "Error al leer el archivo.";
+    public static final String MSG_EXCEPCION_LINEA = "Error al leer la línea.";
 
     public static final String MSG_ARBITROS_NO_DISPONIBLES = "Árbitros no disponibles.";
     public static final String MSG_ARCHIVO_NO_LEIDO = "No se pudo leer el archivo de equipos";
@@ -63,14 +68,25 @@ public class Constantes {
     public static final String MSG_JUGADOR_ELIMINAR = "Seleccione el número del jugador a eliminar: ";
     public static final String MSG_JUGADOR_ELIMINADO = "Jugador eliminado con éxito.";
     public static final String MSG_FUERA_RANGO = "Error. Número fuera de rango.";
-    public static final String MSG_NOMBRE_VISITANTE = "Nombre del equipo visitante: ";
+    public static final String MSG_EQUIPOS_DISPONIBLES = "Equipos disponibles para enfrentarse:";
+    public static final String MSG_NOMBRE_VISITANTE = "Selecciona el número del equipo rival: ";
     public static final String MSG_NOMBRE_ARBITRO = "El árbitro seleccionado es: ";
     public static final String MSG_TIPO_PARTIDO = "El partido es Oficial (O) o de Exibición (E): ";
     public static final String MSG_OPCION_INVALIDA = "Opción no válida.";
+    public static final String MSG_FINAL_TEMPORADA = "¡Has jugado contra todos los equipos! La temporada ha terminado.";
     public static final String MSG_ERROR_JUGAR = "Error al jugar el partido: ";
     public static final String MSG_PARTIDO_REPETIDO = "Ya se ha jugado 2 veces.";
     public static final String MSG_POSICION = "Qué posición quieres ver: ";
     public static final String MSG_ERROR_JUGADORES = "No hay jugadores del tipo: ";
     public static final String MSG_SALIR = "Saliendo...";
+
+    public static final String MSG_FICHERO_TIPO = "Tipo: ";
+    public static final String MSG_FICHERO_GANADOR = "Ganador: ";
+    public static final String MSG_FICHERO_PARTIDO_OFICIAL = "Oficial";
+    public static final String MSG_FICHERO_PARTIDO_EXHIBICION = "Exhibición";
+    public static final String MSG_FICHERO_ALTURA = ", Altura: ";
+    public static final String MSG_FICHERO_HABILIDAD = ", Habilidad: ";
+    public static final String MSG_FICHERO_DORSAL = ", Dorsal: ";
+    public static final String MSG_FICHERO_COMA = ", ";
 
 }

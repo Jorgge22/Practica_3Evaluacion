@@ -1,5 +1,8 @@
 package es.etg.prog.practica.model.excepciones;
-
+/**
+ * 
+ * @author Jorge
+ */
 import es.etg.prog.practica.model.util.Constantes;
 
 public class Excepciones extends Exception {
@@ -42,6 +45,36 @@ public class Excepciones extends Exception {
     public static class NumeroIncorrectoException extends Exception {
         public NumeroIncorrectoException() {
             super(Constantes.MSG_NUMERO_INCORRECTO);
+        }
+    }
+
+    public static class ErrorJugadoresException extends Exception {
+        public ErrorJugadoresException() {
+            super(Constantes.MSG_EXCEPCION_JUGADORES);
+        }
+    }
+
+    public static class ErrorJugadorDorsalException extends Exception {
+        public ErrorJugadorDorsalException() {
+            super(Constantes.MSG_EXCEPCION_JUGADORES_DORSAL);
+        }
+    }
+
+    public static class ErrorArchivoException extends Exception {
+        public ErrorArchivoException() {
+            super(Constantes.MSG_EXCEPCION_ARCHIVO);
+        }
+    }
+
+    public static class ErrorLineaException extends Exception {
+        public ErrorLineaException() {
+            super(Constantes.MSG_EXCEPCION_LINEA);
+        }
+    }
+
+    public static class ErrorLeerJugadoresException extends Exception{
+        public ErrorLeerJugadoresException(){
+            super(Constantes.MSG_EXCEPCION_LEER_JUGADORES);
         }
     }
 }

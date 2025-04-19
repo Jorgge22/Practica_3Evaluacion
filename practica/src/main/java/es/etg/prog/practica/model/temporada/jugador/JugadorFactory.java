@@ -1,5 +1,8 @@
 package es.etg.prog.practica.model.temporada.jugador;
-
+/**
+ * 
+ * @author Jorge
+ */
 public class JugadorFactory {
 
     public static Jugador crearJugador(String nombre, int dorsal, int altura, int habilidad) {

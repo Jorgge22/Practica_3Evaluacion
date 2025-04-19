@@ -1,9 +1,17 @@
 package es.etg.prog.practica.controller;
-
+/**
+ * 
+ * @author Jorge
+ */
+import java.io.IOException;
 import java.util.List;
 import es.etg.prog.practica.model.excepciones.Excepciones;
 import es.etg.prog.practica.model.excepciones.Excepciones.ArbitrosNoDisponibles;
 import es.etg.prog.practica.model.excepciones.Excepciones.ArchivoNoEncontradoException;
+import es.etg.prog.practica.model.excepciones.Excepciones.ErrorArchivoException;
+import es.etg.prog.practica.model.excepciones.Excepciones.ErrorJugadoresException;
+import es.etg.prog.practica.model.excepciones.Excepciones.ErrorLeerJugadoresException;
+import es.etg.prog.practica.model.excepciones.Excepciones.ErrorLineaException;
 import es.etg.prog.practica.model.excepciones.Excepciones.MaximoJugadoresException;
 import es.etg.prog.practica.model.excepciones.Excepciones.MaximoJugadoresPosicionException;
 import es.etg.prog.practica.model.excepciones.Excepciones.NumeroIncorrectoException;
@@ -28,7 +36,7 @@ public class Controller {
     }
 
     public void menu() throws MaximoJugadoresException, MaximoJugadoresPosicionException, NumeroIncorrectoException,
-            ArchivoNoEncontradoException, ArbitrosNoDisponibles {
+            ArchivoNoEncontradoException, ArbitrosNoDisponibles, ErrorJugadoresException, ErrorArchivoException, ErrorLineaException, IOException, ErrorLeerJugadoresException {
         String nombreEquipoLocal = "";
         int opcion;
         boolean salir = false;
@@ -127,20 +135,20 @@ public class Controller {
                     List<Equipo> rivalesDisponibles = Temporada.getInstancia().mostrarEquiposDisponibles(equipoLocal);
                 
                     if (rivalesDisponibles.isEmpty()) {
-                        gestorEntradaSalida.imprimirMensajeSeparado("Ya has jugado contra todos los equipos. ¡Temporada terminada!");
+                        gestorEntradaSalida.imprimirMensajeSeparado(Constantes.MSG_FINAL_TEMPORADA);
                         break;
                     }
                 
-                    gestorEntradaSalida.imprimirMensajeSeparado("Equipos disponibles para enfrentarse:");
+                    gestorEntradaSalida.imprimirMensajeSeparado(Constantes.MSG_EQUIPOS_DISPONIBLES);
                     for (int i = 0; i < rivalesDisponibles.size(); i++) {
                         gestorEntradaSalida.imprimirMensajeSeparado((i + 1) + ". " + rivalesDisponibles.get(i).getNombre());
                     }
                 
-                    gestorEntradaSalida.imprimirMensaje("Selecciona el número del equipo rival: ");
+                    gestorEntradaSalida.imprimirMensaje(Constantes.MSG_NOMBRE_VISITANTE);
                     int numeroEquipoRival = Integer.parseInt(gestorEntradaSalida.leerLinea());
                 
                     if (numeroEquipoRival < 1 || numeroEquipoRival > rivalesDisponibles.size()) {
-                        gestorEntradaSalida.imprimirMensajeSeparado("Opción inválida.");
+                        gestorEntradaSalida.imprimirMensajeSeparado(Constantes.MSG_OPCION_INVALIDA);
                         break;
                     }
                 
@@ -149,13 +157,13 @@ public class Controller {
                     Arbitro arbitro = null;
                     try {
                         arbitro = Arbitro.elegirArbitro();
-                        gestorEntradaSalida.imprimirMensajeSeparado("El árbitro seleccionado es: " + arbitro.getNombre());
+                        gestorEntradaSalida.imprimirMensajeSeparado(Constantes.MSG_NOMBRE_ARBITRO + arbitro.getNombre());
                     } catch (Excepciones.ArbitrosNoDisponibles e) {
                         gestorEntradaSalida.imprimirMensajeSeparado(e.getMessage());
                         break;
                     }
                 
-                    gestorEntradaSalida.imprimirMensaje("El partido es Oficial (O) o de Exhibición (E): ");
+                    gestorEntradaSalida.imprimirMensaje(Constantes.MSG_TIPO_PARTIDO);
                     String respuesta = gestorEntradaSalida.leerLinea();
                 
                     boolean esOficial = false;
@@ -164,7 +172,7 @@ public class Controller {
                     } else if (respuesta.equalsIgnoreCase("E")) {
                         esOficial = false;
                     } else {
-                        gestorEntradaSalida.imprimirMensajeSeparado("Opción no válida.");
+                        gestorEntradaSalida.imprimirMensajeSeparado(Constantes.MSG_OPCION_INVALIDA);
                         break;
                     }
                 
@@ -181,14 +189,14 @@ public class Controller {
                 
                             // Verifica si ya se ha jugado contra todos (solo cuenta oficiales)
                             if (esOficial && Temporada.getInstancia().verificarFinTemporada(equipoLocal)) {
-                                gestorEntradaSalida.imprimirMensajeSeparado("¡Has jugado contra todos los equipos! La temporada ha terminado.");
+                                gestorEntradaSalida.imprimirMensajeSeparado(Constantes.MSG_FINAL_TEMPORADA);
                             }
                 
                         } catch (Exception e) {
-                            gestorEntradaSalida.imprimirMensajeSeparado("Error al jugar el partido: " + e.getMessage());
+                            gestorEntradaSalida.imprimirMensajeSeparado(Constantes.MSG_ERROR_JUGAR + e.getMessage());
                         }
                     } else {
-                        gestorEntradaSalida.imprimirMensajeSeparado("Ya se ha jugado 2 veces este partido.");
+                        gestorEntradaSalida.imprimirMensajeSeparado(Constantes.MSG_PARTIDO_REPETIDO);
                     }
                     break;                
 
@@ -207,7 +215,7 @@ public class Controller {
 
                     List<Jugador> jugadoresAMostrar = equipo.getJugadores();
 
-                    gestorEntradaSalida.imprimirMensaje("Qué posición quieres ver: ");
+                    gestorEntradaSalida.imprimirMensaje(Constantes.MSG_POSICION);
                     String tipoBuscado = gestorEntradaSalida.leerLinea();
 
                     for (Jugador jugadorBuscado : jugadoresAMostrar) {
@@ -220,17 +228,17 @@ public class Controller {
                     if (existeTipo) {
                         fichero.guardarResumenJugador(equipo, tipoBuscado);
                     } else {
-                        gestorEntradaSalida.imprimirMensajeSeparado("No hay jugadores del tipo: " + tipoBuscado);
+                        gestorEntradaSalida.imprimirMensajeSeparado(Constantes.MSG_ERROR_JUGADORES + tipoBuscado);
                     }
                     break;
 
                 case 7:
                     salir = true;
-                    gestorEntradaSalida.imprimirMensajeSeparado("Saliendo...");
+                    gestorEntradaSalida.imprimirMensajeSeparado(Constantes.MSG_SALIR);
                     break;
 
                 default:
-                    gestorEntradaSalida.imprimirMensaje("Opción no válida.");
+                    gestorEntradaSalida.imprimirMensaje(Constantes.MSG_OPCION_INVALIDA);
                     break;
             }
         }

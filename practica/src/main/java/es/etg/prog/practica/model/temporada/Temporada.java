@@ -10,9 +10,6 @@ import java.util.List;
 import es.etg.prog.practica.model.excepciones.Excepciones;
 import es.etg.prog.practica.model.excepciones.Excepciones.ArbitrosNoDisponibles;
 import es.etg.prog.practica.model.excepciones.Excepciones.ArchivoNoEncontradoException;
-import es.etg.prog.practica.model.fichero.Fichero;
-import es.etg.prog.practica.model.fichero.GestorArchivo;
-import es.etg.prog.practica.model.temporada.jugador.Jugador;
 import es.etg.prog.practica.model.temporada.partido.Partido;
 import es.etg.prog.practica.model.temporada.partido.PartidoExibicion;
 import es.etg.prog.practica.model.temporada.partido.PartidoOficial;
@@ -36,7 +33,6 @@ public class Temporada {
         return instancia;
     }
 
-    // Método para registrar un partido jugado
     public void registrarPartidoJugado(Partido partido) {
         partidos.add(partido);
 
@@ -58,26 +54,20 @@ public class Temporada {
     }
 
     /**
-     * Método que simula la jugada de un partido entre dos equipos.
-     * Dependiendo de si el partido es oficial o no, se realiza la comprobación de
-     * si ya se ha jugado el partido
-     * en la temporada. Si el partido es oficial y ya se jugó, se lanza una
-     * excepción. Si no es oficial, no se realiza
-     * ninguna comprobación y el partido se juega de inmediato.
+     * Simula la disputa de un partido entre dos equipos, ya sea oficial o de exhibición.
      * 
-     * @param equipoLocal     El equipo que juega como local en el partido.
-     * @param equipoVisitante El equipo que juega como visitante en el partido.
-     * @param esOficial       Booleano que indica si el partido es oficial o no. Si
-     *                        es oficial, se realiza la verificación de si el
-     *                        partido ya fue jugado.
-     * @throws Excepciones.PartidoYaJugadoException Si el partido es oficial y ya se
-     *                                              ha jugado previamente, se lanza
-     *                                              esta excepción.
-     * @throws ArchivoNoEncontradoException
-     * @throws ArbitrosNoDisponibles
+     * Se crea el tipo de partido correspondiente, se asigna el árbitro, se calcula 
+     * el resultado y se registra el partido como jugado.
+     * 
+     * @param local El equipo que juega como local.
+     * @param visitante El equipo que juega como visitante.
+     * @param arbitro Árbitro asignado al partido.
+     * @param esOficial Indica si el partido es oficial (true) o de exhibición (false).
+     * @throws ArchivoNoEncontradoException Si ocurre un error al acceder a archivos necesarios.
+     * @throws ArbitrosNoDisponibles Si no hay árbitros disponibles para el partido.
+     * @return El objeto Partido jugado con su resultado calculado.
      */
-    public Partido jugarPartido(Equipo local, Equipo visitante, Arbitro arbitro, boolean esOficial)
-            throws ArchivoNoEncontradoException, ArbitrosNoDisponibles {
+    public Partido jugarPartido(Equipo local, Equipo visitante, Arbitro arbitro, boolean esOficial) throws ArchivoNoEncontradoException, ArbitrosNoDisponibles {
         Partido partido;
 
         // Crear el partido según sea oficial o exhibición
@@ -120,7 +110,6 @@ public class Temporada {
      * @throws Excepciones.PartidoYaJugadoException Si el partido ya ha sido jugado
      *                                              previamente.
      */
-
     public boolean verificarPartidoYaJugado(Equipo equipo1, Equipo equipo2) {
         int contador = 0;
         for (Partido partido : partidos) {

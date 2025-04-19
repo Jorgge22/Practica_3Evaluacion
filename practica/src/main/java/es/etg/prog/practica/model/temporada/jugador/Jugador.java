@@ -1,5 +1,8 @@
 package es.etg.prog.practica.model.temporada.jugador;
-
+/**
+ * 
+ * @author Jorge
+ */
 import es.etg.prog.practica.model.excepciones.Excepciones;
 import es.etg.prog.practica.model.excepciones.Excepciones.ExpulsionJugadorException;
 

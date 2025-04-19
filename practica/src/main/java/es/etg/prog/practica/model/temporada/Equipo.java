@@ -1,5 +1,8 @@
 package es.etg.prog.practica.model.temporada;
-
+/**
+ * 
+ * @author Jorge
+ */
 import java.util.List;
 
 import es.etg.prog.practica.model.temporada.jugador.AlaPivot;
@@ -7,7 +10,6 @@ import es.etg.prog.practica.model.temporada.jugador.Alero;
 import es.etg.prog.practica.model.temporada.jugador.Base;
 import es.etg.prog.practica.model.temporada.jugador.Escolta;
 import es.etg.prog.practica.model.temporada.jugador.Jugador;
-import es.etg.prog.practica.model.temporada.jugador.JugadorFactory;
 import es.etg.prog.practica.model.temporada.jugador.Pivot;
 import es.etg.prog.practica.model.util.Constantes;
 
@@ -88,7 +90,7 @@ public class Equipo {
     private void actualizarArchivoJugadores() {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(Constantes.RUTA_FICHEROS_JUGADORES))) {
             for (Jugador jugador : jugadores) {
-                String linea = jugador.getNombre() + ", Dorsal: " + jugador.getDorsal() + ", Altura: "+ jugador.getAltura() + ", Habilidad: " + jugador.getHabilidad();
+                String linea = jugador.getNombre() + Constantes.MSG_FICHERO_DORSAL + jugador.getDorsal() + Constantes.MSG_FICHERO_ALTURA+ jugador.getAltura() + Constantes.MSG_FICHERO_HABILIDAD + jugador.getHabilidad();
                 writer.write(linea);
                 writer.newLine();
             }

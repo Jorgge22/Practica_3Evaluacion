@@ -1,5 +1,8 @@
 package es.etg.prog.practica.model.util;
-
+/**
+ * 
+ * @author Jorge
+ */
 import java.util.Scanner;
 
 public class GestorEntradaSalida {
@@ -38,7 +41,7 @@ public class GestorEntradaSalida {
 
     public double leerDouble() {
         double numero = scanner.nextDouble();
-        scanner.nextLine(); // limpiar el \n
+        scanner.nextLine(); 
         return numero;
     }
 
