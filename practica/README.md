@@ -1,54 +1,120 @@
-# Proyecto de Gestión de Equipo de Basket
+# 🏀 Proyecto Java: Simulador de Temporada de Baloncesto
 
-Este proyecto en Java gestiona un equipo de baloncesto, incluyendo jugadores, partidos y árbitros. Permite registrar partidos, controlar el rendimiento de los jugadores y guardar los resúmenes de los partidos en archivos.
+Este proyecto es una aplicación orientada a objetos desarrollada en **Java** que simula una temporada de baloncesto. Utiliza un modelo completo basado en el patrón **MVC** y emplea **Singleton**, **Herencia**, **Polimorfismo** y gestión de archivos para registrar estadísticas de jugadores y equipos.
 
-## Estructura del Proyecto
+## 🎯 Objetivo
 
-- **Equipo**: Representa un equipo con hasta 15 jugadores. Puede agregar jugadores y verificar si ha jugado contra otro equipo.
-  
-- **Jugador**: Representa a un jugador con nombre, altura, habilidad y métodos para anotar puntos y hacer faltas.
+El objetivo principal del proyecto es permitir la gestión de equipos, simulación de partidos (oficiales y de exhibición), registro de estadísticas y control de una temporada completa de forma estructurada.
 
-- **Partido**: Representa un partido entre dos equipos. Los resultados se generan aleatoriamente dentro de un rango de puntos (35 a 150), con preferencia por resultados cercanos a 70-100.
+---
 
-- **Arbitro**: Representa al árbitro de un partido. Puede estar enfermo, lo que impide que arbitre un partido.
+## 🧱 Estructura del Proyecto
 
-- **GestorArchivo**: Interfaz para leer equipos desde un archivo y guardar resúmenes de partidos.
+### 📁 Modelo (`Model`)
+Contiene las clases lógicas del dominio:
 
-## Lógica Utilizada
+#### 🔹 `Equipo`
+- Gestiona los jugadores de un equipo.
+- Limita el número máximo por posición (Base, Escolta, etc).
+- Permite añadir y eliminar jugadores.
+- Actualiza los datos del equipo en los archivos.
 
-### 1. **Gestión de Equipos y Jugadores**:
-   - Los equipos tienen un **máximo de 15 jugadores**. Se dividen en 5 tipos de posiciones: base, escolta, alero, ala-pívot y pívot, con **3 jugadores por cada tipo**.
-   - **Asignación de posiciones**: La posición de cada jugador depende de su **altura** y **habilidad**. Los jugadores más bajos con mayor habilidad ocupan posiciones como base o escolta, mientras que los más altos con menos habilidad juegan como pívot.
-   
-### 2. **Generación de Resultados de Partidos**:
-   - Los partidos pueden ser de **exhibición** o **oficiales**. Los oficiales no se pueden jugar contra equipos con los que ya se haya jugado antes.
-   - **Resultados aleatorios**: Los puntos de los partidos se generan de forma aleatoria entre **35 y 150 puntos**, con una mayor probabilidad de obtener resultados cercanos a **70-100 puntos** (valores más comunes en partidos históricos de la ACB).
-   - **Equipo local vs visitante**: El equipo local tiene un **porcentaje mayor de ganar** debido a la ventaja de jugar en casa.
+#### 🔹 `Jugador` (clase abstracta) y sus subclases
+- Define atributos como nombre, tipo, dorsal, habilidad, puntos, faltas.
+- Las subclases (`Base`, `Escolta`, etc.) permiten la especialización por posición.
 
-### 3. **Árbitros**:
-   - Los árbitros pueden estar **enfermos**, lo que impide que sean seleccionados para arbitrar un partido. Esto se gestiona con una propiedad booleana `enfermo` en la clase **Arbitro**.
+#### 🔹 `Partido` (abstracta)
+- Define la lógica para simular un partido.
+- Gestiona el arbitraje, puntos y determina el ganador.
+- Subclases:
+  - `PartidoOficial`: valida que un equipo no juegue más de dos veces contra otro.
+  - `PartidoExhibicion`: sin restricciones de partidos jugados.
 
-### 4. **Manejo de Archivos**:
-   - Al inicio de la aplicación, los **equipos** se leen desde el archivo `equipos.txt`.
-   - Después de cada partido, el resumen de los **resultados** y el **rendimiento de los jugadores** se guarda en el archivo `historicoEquipo.txt` para futuras consultas.
-   - La interfaz **GestorArchivo** facilita la lectura y escritura de archivos, separando las operaciones de archivos de la lógica del negocio.
+#### 🔹 `Arbitro`
+- Gestiona los árbitros disponibles.
+- Simula si un árbitro puede estar enfermo y elige uno aleatorio.
 
-## Flujo de la Aplicación
+#### 🔹 `Temporada` (Singleton)
+- Contiene la lógica principal de control.
+- Gestiona los partidos jugados, verifica cuándo termina la temporada y evita duplicados.
+- Permite acceder a equipos y obtener información clave como el último partido.
 
-1. **Lectura de Equipos**: Se leen los equipos desde el archivo `equipos.txt`.
-2. **Asignación de Jugadores**: Los jugadores se asignan a sus posiciones según su altura y habilidad.
-3. **Selección de Árbitros**: Los árbitros son seleccionados aleatoriamente, teniendo en cuenta si están enfermos.
-4. **Generación de Partido**: El partido se genera aleatoriamente con un resultado dentro del rango permitido, y se determina si es exhibición o oficial.
-5. **Guardado de Resúmenes**: Después de cada partido, se guarda el resumen de los resultados en `historicoEquipo.txt`.
+#### 🔹 `GestorArchivo` (interfaz) & `Fichero` (implementación)
+- Gestionan la lectura/escritura de datos.
+- Permiten guardar jugadores, históricos, partidos y resúmenes.
 
-Elección de Map para la gestión de jugadores por posición
+---
 
-La decisión de usar un Map<String, Integer> para gestionar los jugadores por posición se toma en base a las siguientes razones:
+### 📁 Vista (`View`)
+- `Main`: punto de entrada del programa. Llama al controlador y muestra menús.
 
-    Eficiencia en la búsqueda: Utilizando un Map, podemos verificar rápidamente cuántos jugadores hay en una posición dada. Los Map permiten búsquedas, inserciones y actualizaciones en tiempo constante (O(1)).
+---
 
-    Claridad y organización: Al usar un Map, la relación entre las posiciones y los jugadores se expresa de forma clara y estructurada. Cada clave en el Map (el tipo de jugador, como "Base", "Escolta", etc.) está asociada a un valor que representa la cantidad de jugadores en esa posición.
+### 📁 Controlador (`Controller`)
+- `Controller`: gestiona la lógica del programa y las acciones del usuario.
+- Comunica la vista con el modelo.
+- Controla el menú, acciones como jugar partido, mostrar estadísticas o gestionar jugadores.
 
-    Escalabilidad: Si en el futuro se desea cambiar el número máximo de jugadores por posición o agregar nuevas posiciones, modificar el Map es sencillo y no requiere cambios complejos en el código.
+---
 
-    Flexibilidad: Esta estructura permite un control eficiente sobre el número de jugadores por posición, garantizando que no se pueda exceder el límite preestablecido, lo que facilita la gestión del equipo sin necesidad de recorrer listas enteras para verificar cuántos jugadores hay en cada posición.
+## ⚙️ Lógica Principal del Proyecto
+
+### 🔸 Jugar un Partido
+1. Se seleccionan los equipos y el árbitro.
+2. Se decide si es oficial o de exhibición.
+3. Se simula el partido con puntuaciones aleatorias y se elige un ganador.
+4. Se registran estadísticas del partido y jugadores.
+5. Si es oficial, se verifica que no se hayan jugado más de 2 veces entre los mismos equipos.
+
+### 🔸 Gestión de Jugadores
+- Cada equipo puede tener un máximo de 15 jugadores.
+- Solo se permiten hasta 3 jugadores por posición.
+- Se pueden añadir o eliminar jugadores y ver su rendimiento.
+
+### 🔸 Archivos y Persistencia
+- El sistema guarda:
+  - Último partido jugado.
+  - Historial de temporada completo.
+  - Estadísticas individuales por tipo de jugador.
+  - Jugadores de cada equipo.
+- Todo esto se guarda con el sistema de archivos de Java y se lee al iniciar.
+
+---
+
+## 🧠 Patrón Singleton en Temporada
+
+La clase `Temporada` utiliza el patrón Singleton para asegurar que solo exista una instancia durante toda la ejecución del programa. Esto permite un control centralizado de la lógica de temporada, partidos y equipos.
+
+```java
+private static Temporada instancia;
+
+public static Temporada getInstancia() {
+    if (instancia == null) {
+        instancia = new Temporada();
+    }
+    return instancia;
+}
+
+📊 Diagrama de Clases
+
+El diseño de clases se encuentra en la carpeta disenyo.
+
+✅ Funcionalidades Finales
+
+    Simulación de partidos oficiales y de exhibición.
+
+    Gestión completa de equipos y jugadores.
+
+    Registro y visualización de estadísticas de partidos y temporada.
+
+    Sistema de árbitros con posibilidad de estar enfermos.
+
+    Interfaz por consola limpia y sencilla.
+
+📌 Notas
+
+   Te dejo el codigo en github por si lo quieres ver ya que en todo momento he usado git: https://github.com/Jorgge22/Practica_3Evaluacion.git
+
+📬 Autor
+
+Desarrollado por Jorge Barrera García-RIvera, estudiante de 1ºDAW.
