@@ -1,7 +1,21 @@
 Equipo Local: PARLA
-Equipo Visitante: Joventut Badalona
-Resultado: 96 - 90
-Arbitro: Juan Rodríguez
+Equipo Visitante: Real Madrid Baloncesto
+Resultado: 82 - 81
+Arbitro: Ana Gómez
 Ganador: PARLA
 Tipo: Oficial
+---
+Equipo Local: PARLA
+Equipo Visitante: Real Madrid Baloncesto
+Resultado: 82 - 81
+Arbitro: Ana Gómez
+Ganador: PARLA
+Tipo: Oficial
+---
+Equipo Local: PARLA
+Equipo Visitante: Real Madrid Baloncesto
+Resultado: 101 - 85
+Arbitro: Carlos Martínez
+Ganador: PARLA
+Tipo: Exhibición
 ---

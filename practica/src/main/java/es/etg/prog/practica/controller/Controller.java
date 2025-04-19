@@ -1,9 +1,11 @@
 package es.etg.prog.practica.controller;
+
 /**
  * 
  * @author Jorge
  */
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import es.etg.prog.practica.model.excepciones.Excepciones;
 import es.etg.prog.practica.model.excepciones.Excepciones.ArbitrosNoDisponibles;
@@ -35,8 +37,7 @@ public class Controller {
         this.fichero = new Fichero();
     }
 
-    public void menu() throws MaximoJugadoresException, MaximoJugadoresPosicionException, NumeroIncorrectoException,
-            ArchivoNoEncontradoException, ArbitrosNoDisponibles, ErrorJugadoresException, ErrorArchivoException, ErrorLineaException, IOException, ErrorLeerJugadoresException {
+    public void menu() throws MaximoJugadoresException, MaximoJugadoresPosicionException, NumeroIncorrectoException, ArchivoNoEncontradoException, ArbitrosNoDisponibles, ErrorJugadoresException, ErrorArchivoException, ErrorLineaException, IOException, ErrorLeerJugadoresException {
         String nombreEquipoLocal = "";
         int opcion;
         boolean salir = false;
@@ -100,7 +101,6 @@ public class Controller {
                     equipo.getJugadores().clear();
                     equipo.getJugadores().addAll(jugadoresActualizados);
 
-                    // gestorEntradaSalida.imprimirMensajeSeparado("Jugador agregado con éxito.");
                     fichero.mostrarJugadores();
                     break;
 
@@ -114,7 +114,7 @@ public class Controller {
 
                     for (int i = 0; i < jugadores.size(); i++) {
                         Jugador jugador2 = jugadores.get(i);
-                        gestorEntradaSalida.imprimirMensajeSeparado((i + 1) + ". " + jugador2.getNombre() + " (Dorsal: " + jugador2.getDorsal() + ")");
+                        gestorEntradaSalida.imprimirMensajeSeparado((i + 1) + ". " + jugador2.getNombre() + Constantes.MSG_DORSAL_MENU + jugador2.getDorsal() + ")");
                     }
 
                     gestorEntradaSalida.imprimirMensaje(Constantes.MSG_JUGADOR_ELIMINAR);
@@ -131,74 +131,78 @@ public class Controller {
 
                 case 3:
                     Equipo equipoLocal = Temporada.getInstancia().getEquipoPorNombre(nombreEquipoLocal);
-                
-                    List<Equipo> rivalesDisponibles = Temporada.getInstancia().mostrarEquiposDisponibles(equipoLocal);
-                
-                    if (rivalesDisponibles.isEmpty()) {
-                        gestorEntradaSalida.imprimirMensajeSeparado(Constantes.MSG_FINAL_TEMPORADA);
+
+                    // Preparamos la lista de todos los rivales posibles
+                    List<Equipo> todosRivales = new ArrayList<>(Temporada.getInstancia().getEquipos());
+                    todosRivales.remove(equipoLocal);
+
+                    Equipo equipoVisitante = null;
+                    boolean esOficial = false;
+
+                    while (true) {
+                        // Mostrar lista numerada de rivales
+                        gestorEntradaSalida.imprimirMensajeSeparado(Constantes.MSG_EQUIPOS_DISPONIBLES);
+                        for (int i = 0; i < todosRivales.size(); i++) {
+                            gestorEntradaSalida.imprimirMensajeSeparado((i + 1) + ". " + todosRivales.get(i).getNombre());
+                        }
+
+                        gestorEntradaSalida.imprimirMensaje(Constantes.MSG_NOMBRE_VISITANTE);
+                        int numeroRival = gestorEntradaSalida.leerInt();
+
+                        if (numeroRival < 1 || numeroRival > todosRivales.size()) {
+                            gestorEntradaSalida.imprimirMensajeSeparado(Constantes.MSG_OPCION_INVALIDA);
+                            continue;
+                        }
+                        equipoVisitante = todosRivales.get(numeroRival - 1);
+
+                        // Pedir tipo de partido
+                        gestorEntradaSalida.imprimirMensaje(Constantes.MSG_TIPO_PARTIDO);
+                        String tipo = gestorEntradaSalida.leerLinea().trim().toUpperCase();
+                        if (tipo.equals("O")) {
+                            esOficial = true;
+                            // Si ya jugaste oficial contra este rival, error y repite
+                            if (Temporada.getInstancia().verificarPartidoYaJugado(equipoLocal, equipoVisitante)) {
+                                gestorEntradaSalida.imprimirMensajeSeparado(Constantes.MSG_FINAL_TEMPORADA + equipoVisitante.getNombre() + Constantes.MSG_OTRO_RIVAL);
+                                continue;
+                            }
+                        } else if (tipo.equals("E")) {
+                            esOficial = false;
+                        } else {
+                            gestorEntradaSalida.imprimirMensajeSeparado(Constantes.MSG_OPCION_INVALIDA);
+                            continue;
+                        }
+
                         break;
                     }
-                
-                    gestorEntradaSalida.imprimirMensajeSeparado(Constantes.MSG_EQUIPOS_DISPONIBLES);
-                    for (int i = 0; i < rivalesDisponibles.size(); i++) {
-                        gestorEntradaSalida.imprimirMensajeSeparado((i + 1) + ". " + rivalesDisponibles.get(i).getNombre());
-                    }
-                
-                    gestorEntradaSalida.imprimirMensaje(Constantes.MSG_NOMBRE_VISITANTE);
-                    int numeroEquipoRival = Integer.parseInt(gestorEntradaSalida.leerLinea());
-                
-                    if (numeroEquipoRival < 1 || numeroEquipoRival > rivalesDisponibles.size()) {
-                        gestorEntradaSalida.imprimirMensajeSeparado(Constantes.MSG_OPCION_INVALIDA);
-                        break;
-                    }
-                
-                    Equipo equipoVisitante = rivalesDisponibles.get(numeroEquipoRival - 1);
-                
-                    Arbitro arbitro = null;
+
+                    // Elegir árbitro
+                    Arbitro arbitro;
                     try {
                         arbitro = Arbitro.elegirArbitro();
-                        gestorEntradaSalida.imprimirMensajeSeparado(Constantes.MSG_NOMBRE_ARBITRO + arbitro.getNombre());
+                        gestorEntradaSalida.imprimirMensajeSeparado(Constantes.MSG_ARBITRO + arbitro.getNombre());
                     } catch (Excepciones.ArbitrosNoDisponibles e) {
-                        gestorEntradaSalida.imprimirMensajeSeparado(e.getMessage());
-                        break;
+                        throw new Excepciones.ArbitrosNoDisponibles();
                     }
-                
-                    gestorEntradaSalida.imprimirMensaje(Constantes.MSG_TIPO_PARTIDO);
-                    String respuesta = gestorEntradaSalida.leerLinea();
-                
-                    boolean esOficial = false;
-                    if (respuesta.equalsIgnoreCase("O")) {
-                        esOficial = true;
-                    } else if (respuesta.equalsIgnoreCase("E")) {
-                        esOficial = false;
-                    } else {
-                        gestorEntradaSalida.imprimirMensajeSeparado(Constantes.MSG_OPCION_INVALIDA);
-                        break;
-                    }
-                
-                    if (!Temporada.getInstancia().verificarPartidoYaJugado(equipoLocal, equipoVisitante)) {
-                        try {
-                            Partido partido = Temporada.getInstancia().jugarPartido(equipoLocal, equipoVisitante, arbitro, esOficial);
-                
-                            fichero.guardarResumen(partido.getEquipoLocal(), partido);
-                            fichero.guardarResumenUltimoPartido(partido.getEquipoLocal(), partido);
-                            fichero.guardarHistoricoTemporada();
-                
-                            //String resumen = Temporada.getInstancia().generarResumenPartido(partido);
-                            //gestorEntradaSalida.imprimirMensaje(resumen);
-                
-                            // Verifica si ya se ha jugado contra todos (solo cuenta oficiales)
-                            if (esOficial && Temporada.getInstancia().verificarFinTemporada(equipoLocal)) {
+
+                    // Jugar el partido
+                    try {
+                        Partido partido = Temporada.getInstancia().jugarPartido(equipoLocal, equipoVisitante, arbitro, esOficial);
+
+                        fichero.guardarResumen(partido.getEquipoLocal(), partido);
+                        fichero.guardarResumenUltimoPartido(partido.getEquipoLocal(), partido);
+                        fichero.guardarHistoricoTemporada();
+
+                        // Si era oficial registrar para bloquearlo en el futuro
+                        if (esOficial) {
+                            Temporada.getInstancia().registrarPartidoJugado(partido);
+                            if (Temporada.getInstancia().verificarFinTemporada(equipoLocal)) {
                                 gestorEntradaSalida.imprimirMensajeSeparado(Constantes.MSG_FINAL_TEMPORADA);
                             }
-                
-                        } catch (Exception e) {
-                            gestorEntradaSalida.imprimirMensajeSeparado(Constantes.MSG_ERROR_JUGAR + e.getMessage());
                         }
-                    } else {
-                        gestorEntradaSalida.imprimirMensajeSeparado(Constantes.MSG_PARTIDO_REPETIDO);
+                    } catch (Exception e) {
+                        gestorEntradaSalida.imprimirMensajeSeparado("Error al jugar: " + e.getMessage());
                     }
-                    break;                
+                    break;
 
                 case 4:
                     String resumen = fichero.leerUltimoPartido();

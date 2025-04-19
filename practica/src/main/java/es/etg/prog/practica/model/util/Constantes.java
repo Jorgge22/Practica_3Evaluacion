@@ -74,11 +74,13 @@ public class Constantes {
     public static final String MSG_TIPO_PARTIDO = "El partido es Oficial (O) o de Exibición (E): ";
     public static final String MSG_OPCION_INVALIDA = "Opción no válida.";
     public static final String MSG_FINAL_TEMPORADA = "¡Has jugado contra todos los equipos! La temporada ha terminado.";
+    public static final String MSG_OTRO_RIVAL = "! Elige otro rival o tipo Exhibición.";
     public static final String MSG_ERROR_JUGAR = "Error al jugar el partido: ";
     public static final String MSG_PARTIDO_REPETIDO = "Ya se ha jugado 2 veces.";
     public static final String MSG_POSICION = "Qué posición quieres ver: ";
     public static final String MSG_ERROR_JUGADORES = "No hay jugadores del tipo: ";
     public static final String MSG_SALIR = "Saliendo...";
+    public static final String MSG_DORSAL_MENU = " (Dorsal: ";
 
     public static final String MSG_FICHERO_TIPO = "Tipo: ";
     public static final String MSG_FICHERO_GANADOR = "Ganador: ";

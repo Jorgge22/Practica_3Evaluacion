@@ -1,5 +1,5 @@
 Estadisticas: 
-Nombre: ADRI, Tipo: Alero, Puntos: 25, Faltas: 0
-Nombre: CARLOS, Tipo: Alero, Puntos: 17, Faltas: 0
-Nombre: FERNANDO, Tipo: Alero, Puntos: 2, Faltas: 1
+Nombre: LAUREN, Tipo: Base, Puntos: 5, Faltas: 0
+Nombre: ANDRES, Tipo: Base, Puntos: 4, Faltas: 2
+Nombre: JORGE, Tipo: Base, Puntos: 4, Faltas: 3
 ---

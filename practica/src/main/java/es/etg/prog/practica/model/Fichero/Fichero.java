@@ -220,7 +220,7 @@ public class Fichero implements GestorArchivo {
 
     @Override
     public void guardarJugador(List<Jugador> jugadores) throws ErrorJugadoresException {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(Constantes.RUTA_FICHEROS_JUGADORES, true))) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(Constantes.RUTA_FICHEROS_JUGADORES))) {
             for (Jugador jugador : jugadores) {
                 String linea = jugador.getNombre() + Constantes.MSG_FICHERO_DORSAL + jugador.getDorsal() + Constantes.MSG_FICHERO_ALTURA + jugador.getAltura() + Constantes.MSG_FICHERO_HABILIDAD + jugador.getHabilidad();
 

@@ -1,18 +1,18 @@
 Nombre: PARLA
-Resultado: 96 - 90
-Arbitro: Juan Rodríguez
-Tipo: Oficial
+Resultado: 101 - 85
+Arbitro: Carlos Martínez
+Tipo: Exhibición
 Estadisticas: 
-Nombre: ADRI, Puntos: 10, Faltas: 4
-Nombre: PACO, Puntos: 5, Faltas: 2
-Nombre: DANI, Puntos: 9, Faltas: 1
-Nombre: LAUREN, Puntos: 6, Faltas: 2
-Nombre: ANDRES, Puntos: 8, Faltas: 2
-Nombre: ABDU, Puntos: 10, Faltas: 4
-Nombre: MARIO, Puntos: 10, Faltas: 4
-Nombre: JUAN, Puntos: 5, Faltas: 4
-Nombre: CARLOS, Puntos: 7, Faltas: 0
-Nombre: FERNANDO, Puntos: 8, Faltas: 2
-Nombre: LUIS, Puntos: 8, Faltas: 4
-Nombre: JORGE, Puntos: 10, Faltas: 4
+Nombre: ADRI, Puntos: 6, Faltas: 1
+Nombre: PACO, Puntos: 9, Faltas: 2
+Nombre: DANI, Puntos: 7, Faltas: 1
+Nombre: LAUREN, Puntos: 6, Faltas: 1
+Nombre: ANDRES, Puntos: 10, Faltas: 3
+Nombre: ABDU, Puntos: 7, Faltas: 0
+Nombre: MARIO, Puntos: 7, Faltas: 3
+Nombre: JUAN, Puntos: 8, Faltas: 0
+Nombre: CARLOS, Puntos: 9, Faltas: 0
+Nombre: FERNANDO, Puntos: 9, Faltas: 1
+Nombre: LUIS, Puntos: 13, Faltas: 2
+Nombre: JORGE, Puntos: 10, Faltas: 2
 ---

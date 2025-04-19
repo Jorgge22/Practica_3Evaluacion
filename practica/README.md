@@ -11,19 +11,23 @@ El objetivo principal del proyecto es permitir la gestión de equipos, simulaci�
 ## 🧱 Estructura del Proyecto
 
 ### 📁 Modelo (`Model`)
+
 Contiene las clases lógicas del dominio:
 
 #### 🔹 `Equipo`
+
 - Gestiona los jugadores de un equipo.
 - Limita el número máximo por posición (Base, Escolta, etc).
 - Permite añadir y eliminar jugadores.
 - Actualiza los datos del equipo en los archivos.
 
 #### 🔹 `Jugador` (clase abstracta) y sus subclases
+
 - Define atributos como nombre, tipo, dorsal, habilidad, puntos, faltas.
 - Las subclases (`Base`, `Escolta`, etc.) permiten la especialización por posición.
 
 #### 🔹 `Partido` (abstracta)
+
 - Define la lógica para simular un partido.
 - Gestiona el arbitraje, puntos y determina el ganador.
 - Subclases:
@@ -31,26 +35,31 @@ Contiene las clases lógicas del dominio:
   - `PartidoExhibicion`: sin restricciones de partidos jugados.
 
 #### 🔹 `Arbitro`
+
 - Gestiona los árbitros disponibles.
 - Simula si un árbitro puede estar enfermo y elige uno aleatorio.
 
 #### 🔹 `Temporada` (Singleton)
+
 - Contiene la lógica principal de control.
 - Gestiona los partidos jugados, verifica cuándo termina la temporada y evita duplicados.
 - Permite acceder a equipos y obtener información clave como el último partido.
 
 #### 🔹 `GestorArchivo` (interfaz) & `Fichero` (implementación)
+
 - Gestionan la lectura/escritura de datos.
 - Permiten guardar jugadores, históricos, partidos y resúmenes.
 
 ---
 
 ### 📁 Vista (`View`)
+
 - `Main`: punto de entrada del programa. Llama al controlador y muestra menús.
 
 ---
 
 ### 📁 Controlador (`Controller`)
+
 - `Controller`: gestiona la lógica del programa y las acciones del usuario.
 - Comunica la vista con el modelo.
 - Controla el menú, acciones como jugar partido, mostrar estadísticas o gestionar jugadores.
@@ -60,18 +69,24 @@ Contiene las clases lógicas del dominio:
 ## ⚙️ Lógica Principal del Proyecto
 
 ### 🔸 Jugar un Partido
+
 1. Se seleccionan los equipos y el árbitro.
 2. Se decide si es oficial o de exhibición.
 3. Se simula el partido con puntuaciones aleatorias y se elige un ganador.
 4. Se registran estadísticas del partido y jugadores.
 5. Si es oficial, se verifica que no se hayan jugado más de 2 veces entre los mismos equipos.
+  
+- *Cuando seleccionas las opciones 4 y 5 se muestra por consola el resultado pero si quieres verlo mejor, en la carpeta `misFicheros` encontrarás los .txt `resumenUltimoPartido` en el que se encuentra el resumen del último partido y `temporada` donde se encuentra el resumen de todos los partidos de la temporada*
 
 ### 🔸 Gestión de Jugadores
+
 - Cada equipo puede tener un máximo de 15 jugadores.
 - Solo se permiten hasta 3 jugadores por posición.
 - Se pueden añadir o eliminar jugadores y ver su rendimiento.
+- Cuando seleccionas la opción 6 y eliges la posición que quieres ver las estadisticas debes irte al fichero de la carpeta `misFicheros` y en e fichero `resumenJugadores` lo encontrarás.
 
 ### 🔸 Archivos y Persistencia
+
 - El sistema guarda:
   - Último partido jugado.
   - Historial de temporada completo.
@@ -94,10 +109,10 @@ public static Temporada getInstancia() {
     }
     return instancia;
 }
-
+````
 📊 Diagrama de Clases
 
-El diseño de clases se encuentra en la carpeta disenyo.
+El diseño de clases se encuentra en la carpeta `disenyo`.
 
 ✅ Funcionalidades Finales
 

@@ -1,6 +1,6 @@
 Nombre: PARLA
-Resultado: PARLA 96 - 90 Joventut Badalona
-Arbitro: Juan Rodríguez
+Resultado: PARLA 101 - 85 Real Madrid Baloncesto
+Arbitro: Carlos Martínez
 Ganador: PARLA
-Tipo: Oficial
+Tipo: Exhibición
 ---
