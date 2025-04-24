@@ -27,8 +27,6 @@ public class Equipo {
     int contadorAlaPivot;
     int contadorPivot;
 
-    
-
     public Equipo(String nombre) {
         this.jugadores = new ArrayList<>();
         this.nombre = nombre;
